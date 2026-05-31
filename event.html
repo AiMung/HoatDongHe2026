@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch hoạt động 12 tuần - Cổng Thông Tin Sinh Hoạt Hè 2026</title>
+  <meta name="description" content="Lịch trình chi tiết 12 tuần sinh hoạt hè và kế hoạch tổng thể từ tháng 6 đến tháng 8.">
+
+  <script>
+    (function () {
+      const user = localStorage.getItem("summer_user");
+      if (!user) { window.location.href = "login.html"; }
+      const currentTheme = localStorage.getItem("theme");
+      if (currentTheme === "dark") { document.documentElement.classList.add("dark-theme"); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* =====================================================
+       TIMELINE SECTION — FIXED & POLISHED
+       ===================================================== */
+
+    .tl-section {
+      margin-bottom: 48px;
+    }
+
+    .tl-section-header {
+      margin-bottom: 24px;
+    }
+
+    .tl-section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tl-section-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Progress bar */
+    .tl-progress-track {
+      height: 4px;
+      background: var(--border-color);
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: visible;
+    }
+
+    .tl-progress-fill {
+      height: 100%;
+      width: 58%;
+      background: linear-gradient(90deg, #1D9E75, #e8009a, #EF9F27);
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .tl-progress-fill::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4737f2;
+      border: 2px solid var(--bg-card);
+      box-shadow: 0 0 0 3px rgba(127,119,221,0.25);
+    }
+
+    /* Grid — KEY FIX: padding-top to allow nodes to overflow */
+    .tl-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      padding-top: 26px; /* space for the floating node */
+    }
+
+    @media (max-width: 900px) {
+      .tl-grid { grid-template-columns: 1fr; padding-top: 16px; }
+    }
+
+    /* Card */
+    .tl-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      overflow: visible; /* allow node to stick out */
+    }
+
+    .tl-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .tl-card.done {
+      border-color: #5DCAA5;
+    }
+
+    .tl-card.active {
+      border-color: #7F77DD;
+      border-width: 1.5px;
+      background: linear-gradient(135deg, var(--bg-card), rgba(127,119,221,0.04));
+    }
+
+    .tl-card.upcoming {
+      border-color: var(--border-color);
+    }
+
+    /* Floating node icon — KEY FIX: position & border */
+    .tl-node {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #fff;
+      border: 2.5px solid var(--bg-main); /* separates node from card */
+      z-index: 2;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .tl-card:hover .tl-node {
+      transform: translateX(-50%) scale(1.15);
+    }
+
+    .tl-node.done {
+      background: #1D9E75;
+      box-shadow: 0 4px 10px rgba(29,158,117,0.35);
+    }
+
+    .tl-node.active {
+      background: #7F77DD;
+      box-shadow: 0 4px 10px rgba(127,119,221,0.45);
+      animation: tl-pulse 2s infinite;
+    }
+
+    .tl-node.upcoming {
+      background: #f8df1f;
+      box-shadow: 0 4px 10px rgba(136,135,128,0.25);
+    }
+
+    @keyframes tl-pulse {
+      0%   { box-shadow: 0 0 0 0   rgba(127,119,221,0.55); }
+      70%  { box-shadow: 0 0 0 10px rgba(127,119,221,0);   }
+      100% { box-shadow: 0 0 0 0   rgba(127,119,221,0);   }
+    }
+
+    /* Card top row */
+    .tl-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px; /* push below the node */
+    }
+
+    .tl-month {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .tl-card.active .tl-month { color: #534AB7; }
+
+    /* Status tags */
+    .tl-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tl-tag.done     { background: #E1F5EE; color: #0F6E56; }
+    .tl-tag.active   { background: #EEEDFE; color: #534AB7; }
+    .tl-tag.upcoming { background: var(--border-color); color: var(--text-muted); }
+
+    /* Title & desc */
+    .tl-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .tl-card.active .tl-title { color: #3C3489; }
+
+    .tl-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    /* Week badges grid */
+    .tl-weeks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+
+    .tl-week-btn {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 7px 8px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      background: var(--bg-main);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .tl-week-btn:hover {
+      background: #7F77DD;
+      color: #fff;
+      border-color: #7F77DD;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(127,119,221,0.3);
+    }
+
+    .tl-card.done .tl-week-btn:hover {
+      background: #1D9E75;
+      border-color: #1D9E75;
+      box-shadow: 0 4px 10px rgba(29,158,117,0.3);
+    }
+
+    /* Dark mode adjustments */
+    body.dark-theme .tl-node {
+      border-color: var(--bg-main);
+    }
+
+    body.dark-theme .tl-progress-fill::after {
+      border-color: var(--bg-main);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <div class="mobile-logo-area">
+      <img src="image/logo_DTN.webp" alt="Logo" class="mobile-logo-img">
+      <span class="mobile-brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+    </div>
+    <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Left Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
+      <div class="brand-info">
+        <span class="brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+        <span class="brand-subtitle">Chiến Dịch Hè 2026</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-link" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Trang chủ</a>
+      <a href="event.html" class="sidebar-link active" id="link-event"><i class="fa-solid fa-calendar-days"></i> Kế hoạch & Lịch trình</a>
+      <a href="sudden_events.html" class="sidebar-link" id="link-sudden-events"><i class="fa-solid fa-bolt"></i> Hoạt động đột xuất</a>
+      <a href="attendance.html" class="sidebar-link" id="link-attendance"><i class="fa-solid fa-clipboard-user"></i> Điểm danh chuyên cần</a>
+      <a href="gallery.html" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i> Thư viện hình ảnh</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-theme-area">
+        <span>Chế độ tối</span>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+      <div class="sidebar-profile">
+        <div class="profile-avatar">BTC</div>
+        <div class="profile-info">
+          <span class="profile-name">Ban Chỉ Đạo Hè</span>
+          <span class="profile-role">Người điều hành</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <h2 class="topbar-title">Lịch hoạt động 12 tuần chi tiết</h2>
+      <div class="topbar-meta">
+        <span><i class="fa-solid fa-map-location-dot"></i> Địa điểm: Nhà Văn Hóa Phường</span>
+        <span><i class="fa-regular fa-clock"></i> Cập nhật: 2026-05-25</span>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+
+      <!-- Hero -->
+      <section class="page-hero glass-card">
+        <div>
+          <span class="badge"><i class="fa-solid fa-calendar-day"></i> Lịch hoạt động</span>
+          <h1>Phối hợp hành trình hoạt động hè chuyên nghiệp, trực quan.</h1>
+          <p>Nhấp chọn nhãn để lọc nhanh chủ điểm hoạt động hè. Giao diện được thiết kế để người quản lý dễ dàng theo dõi tiến độ, điều phối sự kiện và chuẩn hóa quy trình điểm danh.</p>
+          <div class="hero-summary">
+            <p class="section-subtitle">Bảng điều khiển tổng quan giúp nắm bắt nhanh cột mốc, trạng thái và tuần hoạt động đã được lên kế hoạch.</p>
+          </div>
+        </div>
+        <div class="hero-stats-grid">
+          <div class="stat-card">
+            <span class="stat-icon-box bg-blue-tint text-blue"><i class="fa-solid fa-calendar-day"></i></span>
+            <div>
+              <div class="stat-number">12</div>
+              <div class="stat-label">Tuần hoạt động</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon-box bg-orange-tint text-orange"><i class="fa-solid fa-clock"></i></span>
+            <div>
+              <div class="stat-number">3</div>
+              <div class="stat-label">Tháng triển khai</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon-box bg-green-tint text-green"><i class="fa-solid fa-layer-group"></i></span>
+            <div>
+              <div class="stat-number">4</div>
+              <div class="stat-label">Chủ đề hoạt động</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIMELINE SECTION — REBUILT ========== -->
+      <section class="tl-section">
+
+        <div class="tl-section-header">
+          <h3 class="tl-section-title">
+            <i class="fa-solid fa-route text-blue"></i>
+            Kế hoạch tổng thể chiến dịch hè
+          </h3>
+          <p class="tl-section-sub">Tiến trình triển khai hoạt động từ tháng 6 đến tháng 8. Nhấp chọn tuần để chuyển đến điểm danh hoặc xem chi tiết hoạt động.</p>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="tl-progress-track">
+          <div class="tl-progress-fill"></div>
+        </div>
+
+        <!-- 3-column card grid -->
+        <div class="tl-grid">
+
+          <!-- Tháng 6 — Hoàn thành -->
+          <div class="tl-card done">
+            <div class="tl-node done">
+              <i class="fa-solid fa-flag"></i>
+            </div>
+            <div class="tl-card-top">
+              <span class="tl-month">Tháng 6</span>
+              <span class="tl-tag done"><i class="fa-solid fa-check"></i> Hoàn thành</span>
+            </div>
+            <div class="tl-title">Khởi động lễ khai giảng & huấn luyện bơi</div>
+            <div class="tl-desc">Tổ chức khai mạc, kỷ niệm an toàn bơi lội và tập huấn phòng tránh đuối nước cho các chiến sĩ mùa hè.</div>
+            <div class="tl-weeks">
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%201">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 1
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%202">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 2
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%203">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 3
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%204">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 4
+              </a>
+            </div>
+          </div>
+
+          <!-- Tháng 7 — Đang diễn ra -->
+          <div class="tl-card active">
+            <div class="tl-node active">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div class="tl-card-top">
+              <span class="tl-month">Tháng 7</span>
+              <span class="tl-tag active"><i class="fa-solid fa-circle-dot"></i> Đang diễn ra</span>
+            </div>
+            <div class="tl-title">Chiến dịch tình nguyện & hội trại hè</div>
+            <div class="tl-desc">Thực hiện chương trình đền ơn đáp nghĩa, chiến dịch làm sạch và hội trại kết nối thanh niên tại địa bàn.</div>
+            <div class="tl-weeks">
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%205">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 5
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%206">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 6
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%207">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 7
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%208">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 8
+              </a>
+            </div>
+          </div>
+
+          <!-- Tháng 8 — Sắp diễn ra -->
+          <div class="tl-card upcoming">
+            <div class="tl-node upcoming">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="tl-card-top">
+              <span class="tl-month">Tháng 8</span>
+              <span class="tl-tag upcoming"><i class="fa-regular fa-clock"></i> Sắp diễn ra</span>
+            </div>
+            <div class="tl-title">Tổng kết chiến dịch & đêm hội tri ân</div>
+            <div class="tl-desc">Đánh giá kết quả, trao học bổng và khép lại hành trình lan tỏa giá trị xanh, sáng tạo và sẻ chia.</div>
+            <div class="tl-weeks">
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%209">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 9
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%2010">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 10
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%2011">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 11
+              </a>
+              <a class="tl-week-btn" href="attendance.html?week=Tuần%2012">
+                <i class="fa-solid fa-clipboard-user"></i> Tuần 12
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <!-- ========== END TIMELINE ========== -->
+
+      <!-- Weekly Schedule Section -->
+      <section class="weekly-section">
+        <div class="section-header">
+          <h3 class="section-title"><i class="fa-solid fa-calendar-check text-green"></i> Lịch hoạt động 12 tuần chi tiết</h3>
+          <p class="section-subtitle">Nhấp chọn nhãn để lọc nhanh chủ điểm hoạt động hè.</p>
+        </div>
+
+        <div class="note-card">
+          <strong>Lưu ý:</strong> Sử dụng bộ lọc chủ đề để thu gọn hoạt động theo kỹ năng, thể thao, tình nguyện, học tập và nghệ thuật.
+        </div>
+
+        <div class="filter-tabs-container">
+          <div class="filter-tabs" id="weeklyFilters">
+            <button class="filter-btn active" data-filter="all">Tất cả</button>
+            <button class="filter-btn" data-filter="kỹ năng"><i class="fa-solid fa-graduation-cap"></i> Kỹ năng</button>
+            <button class="filter-btn" data-filter="thể thao"><i class="fa-solid fa-dumbbell"></i> Thể thao</button>
+            <button class="filter-btn" data-filter="tình nguyện"><i class="fa-solid fa-hand-holding-heart"></i> Tình nguyện</button>
+            <button class="filter-btn" data-filter="học tập"><i class="fa-solid fa-book"></i> Học tập</button>
+            <button class="filter-btn" data-filter="nghệ thuật"><i class="fa-solid fa-palette"></i> Nghệ thuật</button>
+          </div>
+        </div>
+
+        <div class="weekly-slider-wrapper">
+          <button class="slider-nav-btn prev-btn" id="prevWeekBtn" aria-label="Previous weeks">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="weekly-slider" id="weeklySlider">
+            <!-- Injected via app.js -->
+          </div>
+          <button class="slider-nav-btn next-btn" id="nextWeekBtn" aria-label="Next weeks">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Weekly Details Modal -->
+  <div class="modal" id="weeklyModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="weeklyModalTitle">Chi Tiết Hoạt Động Tuần</h3>
+          <button class="modal-close" id="closeWeeklyModal">&times;</button>
+        </div>
+        <div class="modal-body" id="weeklyModalBody">
+          <!-- Populated via app.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+    integrity="sha512-rVoIWpJ2LBr6JCM3N8yoSapF4SbV0qu9e8+6uok5p+AVaDaqL0xV8mKqTacPfLz7V/sM8t3i38N4c4abGQv1Ng=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

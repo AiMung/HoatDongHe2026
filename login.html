@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Nhập - Cổng Thông Tin Sinh Hoạt Hè 2026</title>
+  <meta name="description" content="Đăng nhập hệ thống quản lý sinh hoạt hè địa phương. Hệ thống bảo mật cổng thông tin Đoàn Thanh niên.">
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Kiểm tra theme trước khi render body để tránh chớp nháy màu nền
+    (function() {
+      const currentTheme = localStorage.getItem("theme");
+      if (currentTheme === "dark") {
+        document.documentElement.classList.add("dark-theme");
+      }
+    })();
+  </script>
+</head>
+<body class="login-body">
+
+  <!-- Decorative background blobs -->
+  <div class="login-bg-blob blob-1"></div>
+  <div class="login-bg-blob blob-2"></div>
+  <div class="login-bg-blob blob-3"></div>
+
+  <div class="login-container">
+    <div class="login-card">
+
+      <!-- Theme toggle in login screen -->
+      <div style="position: absolute; top: 20px; right: 20px;">
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+
+      <div class="login-logo-area">
+        <img src="image/logo_DTN.webp" alt="Logo Đoàn Thanh niên" class="login-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/vi/9/90/Logo_Huy_hi%E1%BB%87u_%C4%90o%C3%A0n.png';">
+        <h1 class="login-title">MÙA HÈ TÌNH NGUYỆN</h1>
+        <p class="login-subtitle">Cổng Quản Lý &amp; Điểm Danh Sinh Hoạt Hè 2026</p>
+        <div class="login-security-badge">
+          <i class="fa-solid fa-shield-halved"></i>
+          Hệ thống bảo mật · Dành cho cán bộ phụ trách
+        </div>
+      </div>
+
+      <!-- Error box (Hidden by default) -->
+      <div id="loginError" class="login-error" style="display: none; margin-bottom: 20px;">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="errorMessage">Mật khẩu hoặc tài khoản chưa đúng.</span>
+      </div>
+
+      <form id="loginForm" class="login-form">
+
+        <div class="login-group">
+          <label for="loginChiDoan"><i class="fa-solid fa-building-flag"></i> Chọn đơn vị Chi đoàn <span style="color: var(--secondary);">*</span></label>
+          <select id="loginChiDoan" required class="login-select">
+            <option value="" disabled selected>-- Chọn đơn vị Chi đoàn --</option>
+            <option value="Ban Chỉ Đạo Hè Phường">Ban Chỉ Đạo Hè Phường (Tài khoản Admin)</option>
+            <option disabled>──────────────────────────</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Đồi Dinh">Chi đoàn Thanh niên TDP Đồi Dinh</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Văn Trỗi.">Chi đoàn Thanh niên TDP Nguyễn Văn Trỗi</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Phan Bội Châu.">Chi đoàn Thanh niên TDP Phan Bội Châu</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Đoàn Kết.">Chi đoàn Thanh niên TDP Đoàn Kết</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Hòa Bình.">Chi đoàn Thanh niên TDP Hòa Bình</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nam Kỳ Khởi Nghĩa.">Chi đoàn Thanh niên TDP Nam Kỳ Khởi Nghĩa</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Ánh Sáng.">Chi đoàn Thanh niên TDP Ánh Sáng</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Đa Hòa.">Chi đoàn Thanh niên TDP Đa Hòa</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Mimosa.">Chi đoàn Thanh niên TDP Mimosa</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Hàm Nghi.">Chi đoàn Thanh niên TDP Hàm Nghi</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trưng Vương.">Chi đoàn Thanh niên TDP Trưng Vương</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Bùi Thị Xuân 1.">Chi đoàn Thanh niên TDP Bùi Thị Xuân 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Lý Tự Trọng.">Chi đoàn Thanh niên TDP Lý Tự Trọng</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Võ Thị Sáu.">Chi đoàn Thanh niên TDP Võ Thị Sáu</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Thị Nghĩa.">Chi đoàn Thanh niên TDP Nguyễn Thị Nghĩa</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Bùi Thị Xuân 2.">Chi đoàn Thanh niên TDP Bùi Thị Xuân 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Tô Ngọc Vân.">Chi đoàn Thanh niên TDP Tô Ngọc Vân</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Phan Đình Phùng 1.">Chi đoàn Thanh niên TDP Phan Đình Phùng 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Phan Đình Phùng 2.">Chi đoàn Thanh niên TDP Phan Đình Phùng 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Công Trứ.">Chi đoàn Thanh niên TDP Nguyễn Công Trứ</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Dương Vương.">Chi đoàn Thanh niên TDP An Dương Vương</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Mỹ Lộc.">Chi đoàn Thanh niên TDP Mỹ Lộc</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Cổ Loa.">Chi đoàn Thanh niên TDP Cổ Loa</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Lương Bằng.">Chi đoàn Thanh niên TDP Nguyễn Lương Bằng</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Du.">Chi đoàn Thanh niên TDP Nguyễn Du</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Phạm Ngũ Lão.">Chi đoàn Thanh niên TDP Phạm Ngũ Lão</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Lê Đại Hành.">Chi đoàn Thanh niên TDP Lê Đại Hành</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trần Phú.">Chi đoàn Thanh niên TDP Trần Phú</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Suối Cát.">Chi đoàn Thanh niên TDP Suối Cát</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Xuân An.">Chi đoàn Thanh niên TDP Xuân An</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nhà Chung.">Chi đoàn Thanh niên TDP Nhà Chung</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Hà Huy Tập 1.">Chi đoàn Thanh niên TDP Hà Huy Tập 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Tân Bình.">Chi đoàn Thanh niên TDP Tân Bình</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Hà Huy Tập 2.">Chi đoàn Thanh niên TDP Hà Huy Tập 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Lương Thế Vinh.">Chi đoàn Thanh niên TDP Lương Thế Vinh</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Ba Tháng Tư.">Chi đoàn Thanh niên TDP Ba Tháng Tư</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Đặng Thái Thân.">Chi đoàn Thanh niên TDP Đặng Thái Thân</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Tri Phương.">Chi đoàn Thanh niên TDP Nguyễn Tri Phương</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2">Chi đoàn Thanh niên TDP Nguyễn Trung Trực 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Bình 1">Chi đoàn Thanh niên TDP An Bình 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Bình 2">Chi đoàn Thanh niên TDP An Bình 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Tô Hiến Thành.">Chi đoàn Thanh niên TDP Tô Hiến Thành</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Tân Lạc">Chi đoàn Thanh niên TDP Tân Lạc</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Prenn.">Chi đoàn Thanh niên TDP Prenn</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trường Chinh.">Chi đoàn Thanh niên TDP Trường Chinh</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Thiên Thành.">Chi đoàn Thanh niên TDP Thiên Thành</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Mạc Đỉnh Chi 1.">Chi đoàn Thanh niên TDP Mạc Đỉnh Chi 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Mạc Đỉnh Chi 2.">Chi đoàn Thanh niên TDP Mạc Đỉnh Chi 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trần Lê.">Chi đoàn Thanh niên TDP Trần Lê</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Thiện Mỹ.">Chi đoàn Thanh niên TDP Thiện Mỹ</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Đồng Thiện">Chi đoàn Thanh niên TDP Đồng Thiện</option>
+            <option value="Chi đoàn Thanh niên Ngô Thì Nhậm">Chi đoàn Thanh niên Ngô Thì Nhậm</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nam Thiên.">Chi đoàn Thanh niên TDP Nam Thiên</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Huyền Trân Công Chúa.">Chi đoàn Thanh niên TDP Huyền Trân Công Chúa</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Ngô Thì Sỹ">Chi đoàn Thanh niên TDP Ngô Thì Sỹ</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Lê Hồng Phong.">Chi đoàn Thanh niên TDP Lê Hồng Phong</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Huỳnh Thúc Kháng.">Chi đoàn Thanh niên TDP Huỳnh Thúc Kháng</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Lạc 1.">Chi đoàn Thanh niên TDP An Lạc 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Lạc 2.">Chi đoàn Thanh niên TDP An Lạc 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 1.">Chi đoàn Thanh niên TDP Nguyễn Trung Trực 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Sơn 1.">Chi đoàn Thanh niên TDP An Sơn 1</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố An Sơn 2.">Chi đoàn Thanh niên TDP An Sơn 2</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trần Thái Tông.">Chi đoàn Thanh niên TDP Trần Thái Tông</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Yên Thế.">Chi đoàn Thanh niên TDP Yên Thế</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Hoàng Hoa Thám.">Chi đoàn Thanh niên TDP Hoàng Hoa Thám</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Đa Lợi.">Chi đoàn Thanh niên TDP Đa Lợi</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Lê Văn Tám.">Chi đoàn Thanh niên TDP Lê Văn Tám</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Khe Sanh.">Chi đoàn Thanh niên TDP Khe Sanh</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Sở Lăng.">Chi đoàn Thanh niên TDP Sở Lăng</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trần Quý Cáp">Chi đoàn Thanh niên TDP Trần Quý Cáp</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Hồng Lạc">Chi đoàn Thanh niên TDP Hồng Lạc</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Phạm Hồng Thái">Chi đoàn Thanh niên TDP Phạm Hồng Thái</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trần Hưng Đạo">Chi đoàn Thanh niên TDP Trần Hưng Đạo</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Khởi Nghĩa Bắc Sơn">Chi đoàn Thanh niên TDP Khởi Nghĩa Bắc Sơn</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Nhất Thống">Chi đoàn Thanh niên TDP Nhất Thống</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Yersin">Chi đoàn Thanh niên TDP Yersin</option>
+            <option value="Chi đoàn Thanh niên Tổ dân phố Trần Quang Diệu">Chi đoàn Thanh niên TDP Trần Quang Diệu</option>
+          </select>
+        </div>
+
+        <div class="login-group">
+          <label for="loginPassword"><i class="fa-solid fa-lock"></i> Mật khẩu truy cập <span style="color: var(--secondary);">*</span></label>
+          <div class="password-input-wrapper">
+            <input type="password" id="loginPassword" placeholder="Nhập mật khẩu chi đoàn" required class="login-input">
+            <button type="button" id="togglePassword" class="password-toggle-btn" aria-label="Hiện/Ẩn mật khẩu">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnLoginSubmit" class="login-btn">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập hệ thống
+        </button>
+
+      </form>
+
+      <div class="login-footer">
+        Bản quyền thuộc về Ban Chỉ Đạo Sinh Hoạt Hè Phường &copy; 2026.<br>
+        Hệ thống được thiết kế chạy thực tế kết nối Google Sheets bảo mật.
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL: BẮT BUỘC ĐỔI MẬT KHẨU LẦN ĐẦU ĐĂNG NHẬP
+       ================================================================ -->
+  <div id="changePasswordModal" class="modal-overlay change-pass-modal-overlay">
+    <div class="change-pass-modal-card">
+
+      <!-- Header -->
+      <div class="change-pass-header">
+        <div class="change-pass-icon-wrap">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <div>
+          <h2 class="change-pass-title">Đặt Mật Khẩu Mới</h2>
+          <p class="change-pass-subtitle">Bạn đang dùng mật khẩu mặc định. Vui lòng đặt mật khẩu riêng để bảo mật tài khoản.</p>
+        </div>
+      </div>
+
+      <!-- Notice -->
+      <div class="change-pass-notice">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Mật khẩu mới phải khác mật khẩu mặc định và có ít nhất <strong>6 ký tự</strong>.</span>
+      </div>
+
+      <!-- Error -->
+      <div id="changePassError" class="login-error" style="display:none; margin-bottom: 16px;">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span></span>
+      </div>
+
+      <form id="changePasswordForm">
+
+        <div class="login-group">
+          <label for="newPassword"><i class="fa-solid fa-lock"></i> Mật khẩu mới <span style="color: var(--secondary);">*</span></label>
+          <div class="password-input-wrapper">
+            <input type="password" id="newPassword" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)" required class="login-input">
+            <button type="button" id="toggleNewPass" data-target="newPassword" class="password-toggle-btn" aria-label="Hiện/Ẩn mật khẩu">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <!-- Strength indicator -->
+          <div class="strength-container">
+            <div class="strength-bar-bg">
+              <div id="strengthBar" class="strength-bar-fill"></div>
+            </div>
+            <span id="strengthText" class="strength-label"></span>
+          </div>
+        </div>
+
+        <div class="login-group">
+          <label for="confirmPassword"><i class="fa-solid fa-lock-open"></i> Xác nhận mật khẩu <span style="color: var(--secondary);">*</span></label>
+          <div class="password-input-wrapper">
+            <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu mới" required class="login-input">
+            <button type="button" id="toggleConfirmPass" data-target="confirmPassword" class="password-toggle-btn" aria-label="Hiện/Ẩn mật khẩu">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnChangePassword" class="login-btn" style="margin-top: 8px;">
+          <i class="fa-solid fa-shield-halved"></i> Xác nhận &amp; Vào hệ thống
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

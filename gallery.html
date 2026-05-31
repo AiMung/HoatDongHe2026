@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thư Viện Ảnh - Cổng Thông Tin Sinh Hoạt Hè 2026</title>
+  <meta name="description"
+    content="Hình ảnh và hoạt động nổi bật diễn ra trong chiến dịch hè 2026 của học sinh và thanh thiếu niên.">
+  <script>
+    (function () {
+      const user = localStorage.getItem("summer_user");
+      if (!user) {
+        window.location.href = "login.html";
+      }
+      const currentTheme = localStorage.getItem("theme");
+      if (currentTheme === "dark") {
+        document.documentElement.classList.add("dark-theme");
+      }
+    })();
+  </script>
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- CSS bổ sung để làm Padlet tràn màn hình -->
+  <style>
+    /* Biến khu vực chính thành Flexbox để kéo dãn nội dung */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      /* Full chiều cao màn hình */
+      padding: 0 !important;
+      /* Xóa bỏ padding mặc định của main */
+      overflow: hidden;
+      /* Ngăn cuộn trang chính khi đã có cuộn trong Padlet */
+    }
+
+    /* Đảm bảo container chiếm trọn không gian còn lại */
+    .container-fluid-full {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    /* Tiêu đề góc kỷ niệm giữ nguyên nhưng thêm padding gọn gàng */
+    .gallery-title-wrapper {
+      padding: 15px 20px;
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Chế độ tối cho phần tiêu đề nếu có */
+    .dark-theme .gallery-title-wrapper {
+      background: #1e1e1e;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Phần bao bọc Padlet tự động kéo dãn tối đa */
+    .padlet-container-full {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .padlet-container-full iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <div class="mobile-logo-area">
+      <img src="image/logo_DTN.webp" alt="Logo" class="mobile-logo-img">
+      <span class="mobile-brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+    </div>
+    <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Left Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
+      <div class="brand-info">
+        <span class="brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+        <span class="brand-subtitle">Chiến Dịch Hè 2026</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-link" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Trang
+        chủ</a>
+      <a href="event.html" class="sidebar-link" id="link-event"><i class="fa-solid fa-calendar-days"></i> Kế hoạch &
+        Lịch trình</a>
+      <a href="sudden_events.html" class="sidebar-link" id="link-sudden-events"><i class="fa-solid fa-bolt"></i> Hoạt
+        động đột xuất</a>
+      <a href="attendance.html" class="sidebar-link" id="link-attendance"><i class="fa-solid fa-clipboard-user"></i>
+        Điểm danh chuyên cần</a>
+      <a href="gallery.html" target="_blank" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i>
+        Thư viện hình ảnh</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-theme-area">
+        <span>Chế độ tối</span>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+      <div class="sidebar-profile">
+        <div class="profile-avatar">BTC</div>
+        <div class="profile-info">
+          <span class="profile-name">Ban Chỉ Đạo Hè</span>
+          <span class="profile-role">Người điều hành</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Main Content Area -->
+  <main class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar" style="margin-bottom: 0;">
+      <h2 class="topbar-title">Thư Viện Khoảnh Khắc Hè</h2>
+      <div class="topbar-meta">
+        <span><i class="fa-solid fa-image"></i> Media: Hình ảnh & Kỷ niệm</span>
+        <span><i class="fa-regular fa-clock"></i> Cập nhật: 2026-05-25</span>
+      </div>
+    </header>
+
+    <!-- Thùng chứa full màn hình -->
+    <div class="container-fluid-full">
+
+      <!-- Gallery Title Wrapper & Upload Button -->
+      <div class="gallery-title-wrapper">
+        <div class="section-header" style="margin-bottom: 0;">
+          <h3 class="section-title"><i class="fa-solid fa-camera-retro text-orange"></i> Góc kỷ niệm chiến dịch</h3>
+          <p class="section-subtitle">Ảnh do các chi đoàn tải lên sẽ được chia sẻ toàn hệ thống để tất cả đơn vị cùng
+            theo dõi.</p>
+        </div>
+        <div class="upload-simulation-area">
+          <input type="file" id="imageUploadInput" accept="image/*" style="display: none;">
+        </div>
+      </div>
+
+      <!-- Padlet tràn toàn bộ phần còn lại của màn hình -->
+      <div class="padlet-container-full">
+        <iframe src="https://padlet.com/embed/odw1te637zzmsbh1"
+          allow="camera;microphone;geolocation;display-capture;clipboard-write">
+        </iframe>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

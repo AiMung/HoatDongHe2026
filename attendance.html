@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Điểm Danh Chuyên Cần - Sinh Hoạt Hè 2026</title>
+  <script>
+    (function () {
+      const u = localStorage.getItem("summer_user");
+      if (!u) { window.location.href = "login.html"; }
+      if (localStorage.getItem("theme") === "dark") document.documentElement.classList.add("dark-theme");
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ── TABS ── */
+    .att-tabs {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px
+    }
+
+    .att-tabs::-webkit-scrollbar {
+      display: none
+    }
+
+    .att-tab {
+      flex-shrink: 0;
+      padding: 7px 15px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-main);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+      letter-spacing: .3px
+    }
+
+    .att-tab:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: var(--primary-glow)
+    }
+
+    .att-tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 102, 204, .22)
+    }
+
+    /* ── TOOLBAR ── */
+    .att-toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .att-search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 180px
+    }
+
+    .att-search-wrap i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+      pointer-events: none
+    }
+
+    .att-search-wrap input {
+      width: 100%;
+      padding: 8px 12px 8px 32px;
+      font-size: 13px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--input-bg);
+      color: var(--text-main);
+      outline: none;
+      transition: all .15s
+    }
+
+    .att-search-wrap input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow)
+    }
+
+    .att-toolbar .tb-btn {
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .att-toolbar .tb-btn:hover {
+      background: var(--bg-main);
+      border-color: var(--primary);
+      color: var(--primary)
+    }
+
+    .att-toolbar .tb-btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 3px 10px rgba(0, 102, 204, .2)
+    }
+
+    .att-toolbar .tb-btn.primary:hover {
+      filter: brightness(1.08)
+    }
+
+    .att-toolbar .tb-btn.success {
+      background: #10b981;
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 3px 10px rgba(16, 185, 129, .2)
+    }
+
+    .att-toolbar .tb-btn.success:hover {
+      filter: brightness(1.06)
+    }
+
+    /* ── STATS GRID ── */
+    .att-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    .att-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .att-stat::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      border-radius: 0
+    }
+
+    .att-stat.s-present::before {
+      background: #10b981
+    }
+
+    .att-stat.s-excused::before {
+      background: #f59e0b
+    }
+
+    .att-stat.s-unexcused::before {
+      background: #ef4444
+    }
+
+    .att-stat.s-male::before {
+      background: #3b82f6
+    }
+
+    .att-stat.s-female::before {
+      background: #ec4899
+    }
+
+    .att-stat.s-total::before {
+      background: var(--primary)
+    }
+
+    .att-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .att-stat-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1
+    }
+
+    .att-stat-val.p {
+      color: #059669
+    }
+
+    .att-stat-val.e {
+      color: #d97706
+    }
+
+    .att-stat-val.u {
+      color: #dc2626
+    }
+
+    .att-stat-val.m {
+      color: #2563eb
+    }
+
+    .att-stat-val.f {
+      color: #db2777
+    }
+
+    .att-stat-val.t {
+      color: var(--primary)
+    }
+
+    .att-stat-sub {
+      font-size: 11px;
+      color: var(--text-muted)
+    }
+
+    /* ── LEGEND ── */
+    .att-legend {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .att-leg {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-muted)
+    }
+
+    /* ── SYNC BADGE ── */
+    .att-sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all .3s
+    }
+
+    .att-sync-badge.syncing {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: var(--primary-glow)
+    }
+
+    .att-sync-badge.saved {
+      color: #059669;
+      border-color: #a7f3d0;
+      background: #f0fdf4
+    }
+
+    .att-sync-badge.error {
+      color: #dc2626;
+      border-color: #fecaca;
+      background: #fef2f2
+    }
+
+    /* ── TABLE ── */
+    .att-tbl-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      max-height: 440px
+    }
+
+    .att-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      table-layout: fixed
+    }
+
+    .att-tbl thead tr {
+      background: var(--bg-main);
+      position: sticky;
+      top: 0;
+      z-index: 2
+    }
+
+    .att-tbl th {
+      padding: 9px 10px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .att-tbl th:nth-child(1) {
+      width: 38px;
+      text-align: center
+    }
+
+    .att-tbl th:nth-child(2) {
+      width: 190px
+    }
+
+    .att-tbl th:nth-child(3) {
+      width: 90px;
+      text-align: center
+    }
+
+    .att-tbl th:nth-child(4) {
+      width: 90px;
+      text-align: center
+    }
+
+    .att-tbl th:nth-child(5) {
+      width: 200px
+    }
+
+    .att-tbl th:nth-child(6) {
+      min-width: 90px
+    }
+
+    .att-tbl th:nth-child(7) {
+      width: 114px;
+      text-align: center
+    }
+
+    .att-tbl th:nth-child(8) {
+      width: 40px;
+      text-align: center
+    }
+
+    .att-tbl td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle
+    }
+
+    .att-tbl tr:last-child td {
+      border-bottom: none
+    }
+
+    .att-tbl tbody tr {
+      transition: background .1s
+    }
+
+    .att-tbl tbody tr:hover {
+      background: rgba(0, 102, 204, .025)
+    }
+
+    .att-tbl tbody tr.highlight {
+      background: rgba(0, 102, 204, .06)
+    }
+
+    .att-num {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .att-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .att-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .att-avatar.m {
+      background: #dbeafe;
+      color: #1d4ed8
+    }
+
+    .att-avatar.f {
+      background: #fce7f3;
+      color: #9d174d
+    }
+
+    .att-avatar.u {
+      background: var(--bg-main);
+      color: var(--text-muted)
+    }
+
+    /* Gender pill */
+    .gender-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .gender-pill.m {
+      background: #dbeafe;
+      color: #1e40af
+    }
+
+    .gender-pill.f {
+      background: #fce7f3;
+      color: #9d174d
+    }
+
+    .gender-pill.u {
+      background: var(--bg-main);
+      color: var(--text-muted);
+      border: 1px dashed var(--border-color)
+    }
+
+    /* Year */
+    .year-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-weight: 600
+    }
+
+    /* Badge toggle */
+    .att-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .1s, box-shadow .1s;
+      letter-spacing: .3px
+    }
+
+    .att-badge:active {
+      transform: scale(0.91)
+    }
+
+    .att-badge:hover {
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, .06)
+    }
+
+    .att-badge.present {
+      background: #dcfce7;
+      color: #166534
+    }
+
+    .att-badge.excused {
+      background: #fef9c3;
+      color: #854d0e
+    }
+
+    .att-badge.unexcused {
+      background: #fee2e2;
+      color: #991b1b
+    }
+
+    .att-badge.empty {
+      background: var(--bg-main);
+      color: var(--text-muted);
+      border: 1.5px dashed var(--border-color)
+    }
+
+    /* Note */
+    .att-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-family: inherit;
+      outline: none;
+      padding: 0
+    }
+
+    .att-note:focus {
+      color: var(--text-main)
+    }
+
+    .att-note::placeholder {
+      color: var(--border-color)
+    }
+
+    /* Del */
+    .att-del {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      transition: all .15s
+    }
+
+    .att-del:hover {
+      color: #dc2626;
+      background: rgba(239, 68, 68, .08)
+    }
+
+    /* Loading */
+    .att-skeleton {
+      padding: 36px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: .9rem
+    }
+
+    .att-skeleton i {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      opacity: .5
+    }
+
+    /* ── ADD MEMBER MODAL ── */
+    .add-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 30, .55);
+      backdrop-filter: blur(6px);
+      z-index: 4000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .add-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .add-modal-card {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+      width: 100%;
+      max-width: 480px;
+      transform: translateY(20px) scale(.97);
+      transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+      overflow: hidden;
+    }
+
+    .add-modal-overlay.open .add-modal-card {
+      transform: translateY(0) scale(1)
+    }
+
+    .add-modal-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(0, 102, 204, .04), rgba(59, 130, 246, .03));
+    }
+
+    .add-modal-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .add-modal-header h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0
+    }
+
+    .add-modal-header p {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin: 2px 0 0
+    }
+
+    .add-modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      line-height: 1;
+      transition: all .15s;
+    }
+
+    .add-modal-close:hover {
+      background: var(--bg-main);
+      color: var(--text-main)
+    }
+
+    .add-modal-body {
+      padding: 20px 24px
+    }
+
+    .add-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .add-form-full {
+      grid-column: 1/-1
+    }
+
+    .add-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .add-form-group label {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 5px
+    }
+
+    .add-form-group label .req {
+      color: #ef4444
+    }
+
+    .add-form-group input,
+    .add-form-group select {
+      padding: 10px 13px;
+      font-size: .9rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--input-bg);
+      color: var(--text-main);
+      outline: none;
+      transition: all .15s;
+      font-family: inherit;
+    }
+
+    .add-form-group input:focus,
+    .add-form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow)
+    }
+
+    .add-form-group input::placeholder {
+      color: var(--text-muted);
+      opacity: .6
+    }
+
+    .add-modal-footer {
+      padding: 14px 24px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-main);
+    }
+
+    .add-modal-footer button {
+      padding: 9px 20px;
+      font-size: .88rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all .15s;
+    }
+
+    .add-modal-footer .btn-cancel {
+      background: var(--bg-card);
+      color: var(--text-muted)
+    }
+
+    .add-modal-footer .btn-cancel:hover {
+      background: var(--bg-main);
+      color: var(--text-main)
+    }
+
+    .add-modal-footer .btn-submit {
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(0, 102, 204, .25);
+    }
+
+    .add-modal-footer .btn-submit:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 6px 18px rgba(0, 102, 204, .3)
+    }
+
+    .add-modal-footer .btn-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      filter: none
+    }
+
+    /* Live search highlight */
+    .search-hl {
+      background: #fef08a;
+      color: #713f12;
+      border-radius: 2px;
+      padding: 0 1px
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="mobile-header">
+    <div class="mobile-logo-area">
+      <img src="image/logo_DTN.webp" alt="Logo" class="mobile-logo-img">
+      <span class="mobile-brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+    </div>
+    <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
+      <div class="brand-info">
+        <span class="brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+        <span class="brand-subtitle">Chiến Dịch Hè 2026</span>
+      </div>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-link" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Trang
+        chủ</a>
+      <a href="event.html" class="sidebar-link" id="link-event"><i class="fa-solid fa-calendar-days"></i> Kế hoạch &
+        Lịch trình</a>
+      <a href="sudden_events.html" class="sidebar-link" id="link-sudden-events"><i class="fa-solid fa-bolt"></i> Hoạt
+        động đột xuất</a>
+      <a href="attendance.html" class="sidebar-link active" id="link-attendance"><i
+          class="fa-solid fa-clipboard-user"></i> Điểm danh chuyên cần</a>
+      <a href="gallery.html" target="_blank" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i>
+        Thư viện hình ảnh</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-theme-area">
+        <span>Chế độ tối</span>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Theme"><i
+            class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="sidebar-profile">
+        <div class="profile-avatar">BTC</div>
+        <div class="profile-info">
+          <span class="profile-name">Ban Chỉ Đạo Hè</span>
+          <span class="profile-role">Người điều hành</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h2 class="topbar-title">Điểm Danh & Điểm Số Chuyên Cần</h2>
+      <div class="topbar-meta">
+        <span><i class="fa-solid fa-table-cells"></i> Click-to-toggle</span>
+        <span><i class="fa-regular fa-clock"></i> Đồng bộ Google Sheets</span>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+
+      <!-- SECTION 1: BẢNG ĐIỂM DANH -->
+      <div class="glass-card" style="padding:24px;margin-bottom:28px;">
+
+        <div
+          style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap;">
+          <div>
+            <h3
+              style="font-size:1.15rem;font-weight:800;color:var(--text-main);margin:0 0 5px;display:flex;align-items:center;gap:8px;">
+              <i class="fa-solid fa-table-cells-large" style="color:var(--primary);"></i>
+              Bảng Điểm Danh Tuần
+            </h3>
+
+          </div>
+          <span class="att-sync-badge" id="attSyncBadge">
+            <i class="fa-regular fa-circle-check"></i> Đã đồng bộ
+          </span>
+        </div>
+
+        <div id="attWidget">
+          <div class="att-skeleton"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
+        </div>
+      </div>
+
+
+    </div>
+  </main>
+
+  <!-- MODAL THÊM ĐOÀN VIÊN -->
+  <div class="add-modal-overlay" id="addMemberModal">
+    <div class="add-modal-card">
+      <div class="add-modal-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="add-modal-icon"><i class="fa-solid fa-user-plus"></i></div>
+          <div>
+            <h3>Thêm đoàn viên mới</h3>
+            <p>Điền đầy đủ thông tin để thêm vào bảng điểm danh</p>
+          </div>
+        </div>
+        <button class="add-modal-close" id="closeAddModal" aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="add-modal-body">
+        <div class="add-form-grid" id="addMemberForm">
+
+          <div class="add-form-group add-form-full">
+            <label><i class="fa-solid fa-user" style="color:var(--primary);font-size:11px;"></i> Họ và tên <span
+                class="req">*</span></label>
+            <input type="text" id="newName" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="off">
+          </div>
+
+          <div class="add-form-group">
+            <label><i class="fa-solid fa-venus-mars" style="color:#ec4899;font-size:11px;"></i> Giới tính</label>
+            <select id="newGender">
+              <option value="">-- Chọn --</option>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </select>
+          </div>
+
+          <div class="add-form-group">
+            <label><i class="fa-regular fa-calendar" style="color:#f59e0b;font-size:11px;"></i> Năm sinh</label>
+            <input type="number" id="newYear" placeholder="Ví dụ: 2012" min="2000" max="2020">
+          </div>
+
+          <div class="add-form-group add-form-full">
+            <label><i class="fa-solid fa-school" style="color:#8b5cf6;font-size:11px;"></i> Trường / Đơn vị</label>
+            <input type="text" id="newDonVi" placeholder="Ví dụ: Trường THCS Nguyễn Du">
+          </div>
+
+          <div class="add-form-group add-form-full">
+            <label><i class="fa-solid fa-building-flag" style="color:var(--primary);font-size:11px;"></i> Chi
+              đoàn</label>
+            <input type="text" id="newGroup" placeholder="Tên tắt chi đoàn">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="add-modal-footer">
+        <button class="btn-cancel" id="cancelAddModal"><i class="fa-solid fa-xmark"></i> Hủy</button>
+        <button class="btn-submit" id="submitAddModal"><i class="fa-solid fa-circle-plus"></i> Thêm vào bảng</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+
+  <script>
+    window.initBulkWeeklyAttendance = function () { };
+
+    const STATUSES = ['', 'present', 'excused', 'unexcused'];
+    const S_LABEL = { '': '—', present: 'V', excused: 'P', unexcused: 'KP' };
+    const S_TEXT = { '': 'Chưa điểm danh', present: 'Có mặt', excused: 'Vắng có phép', unexcused: 'Vắng không phép' };
+    const SK = 'att_roster_v4';
+
+    let rosterData = [];
+    let activeWeek = 0;
+    let nextRid = 1;
+    let syncTimer = null;
+    let weekCount = 12;
+    let liveQuery = '';
+
+    function getUser() {
+      try { return JSON.parse(localStorage.getItem('summer_user') || 'null'); } catch { return null; }
+    }
+    function saveLocal() {
+      try { localStorage.setItem(SK, JSON.stringify(rosterData)); } catch { }
+    }
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function initials(name) {
+      const parts = (name || '').trim().split(' ');
+      if (parts.length >= 2) return (parts[parts.length - 2][0] + (parts[parts.length - 1][0] || '')).toUpperCase();
+      return (name || '?').substring(0, 2).toUpperCase();
+    }
+    function highlightText(text, query) {
+      if (!query) return esc(text);
+      const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      return esc(text).replace(re, '<mark class="search-hl">$1</mark>');
+    }
+
+    /* ── Sync badge ── */
+    function setSyncBadge(type, text) {
+      const el = document.getElementById('attSyncBadge');
+      if (!el) return;
+      el.className = 'att-sync-badge ' + type;
+      const ic = { syncing: 'fa-spinner fa-spin', saved: 'fa-circle-check', error: 'fa-triangle-exclamation' };
+      el.innerHTML = `<i class="fa-solid ${ic[type] || 'fa-circle-check'}"></i> ${text}`;
+    }
+    function scheduleSync() {
+      setSyncBadge('syncing', 'Đang lưu...');
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(syncToServer, 1500);
+    }
+    function syncToServer() {
+      const user = getUser();
+      if (!user) { setSyncBadge('saved', 'Lưu cục bộ'); return; }
+      const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
+      if (!apiUrl) { setSyncBadge('saved', 'Offline — đã lưu cục bộ'); return; }
+      const weekLabel = 'Tuần ' + (activeWeek + 1);
+      const rows = rosterData.map(r => ({
+        hoTen: r.name, gioiTinh: r.gioiTinh || '',
+        namSinh: r.namSinh || '', donVi: r.donVi || '',
+        trangThai: S_TEXT[r.attendance[activeWeek]] || 'Chưa điểm danh',
+        ghiChu: r.notes || ''
+      }));
+      fetch(apiUrl, {
+        method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ action: 'saveWeeklyRoster', week: weekLabel, chiDoan: user.chiDoan, rows })
+      }).then(r => r.json()).then(res => {
+        if (res.success) setSyncBadge('saved', 'Đã lưu lên Sheets ✓');
+        else { setSyncBadge('error', 'Lỗi lưu'); typeof showToast === 'function' && showToast(res.error || 'Lỗi lưu bảng', 'error'); }
+      }).catch(() => setSyncBadge('error', 'Mất kết nối — đã lưu offline'));
+    }
+
+    /* ── Load from server ── */
+    function loadFromServer(weekLabel, cb) {
+      const user = getUser();
+      const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
+      if (!apiUrl || !user) { cb([]); return; }
+      fetch(apiUrl + '?action=getWeeklyRoster&week=' + encodeURIComponent(weekLabel))
+        .then(r => r.json())
+        .then(res => {
+          const rows = (res.data || []).filter(x => user.quyen === 'Admin' || x.ChiDoan === user.chiDoan);
+          cb(rows);
+        }).catch(() => cb([]));
+    }
+
+    /* ── Merge server rows ── */
+    function mergeServerRows(serverRows) {
+      serverRows.forEach(sr => {
+        let rec = rosterData.find(x => x.name.toLowerCase() === (sr.HoTen || '').toLowerCase());
+        if (!rec) {
+          rec = {
+            id: nextRid++, name: sr.HoTen || '', group: sr.ChiDoan || '',
+            notes: '', gioiTinh: sr.GioiTinh || '', namSinh: sr.NamSinh || '', donVi: sr.DonVi || '',
+            attendance: Array(weekCount).fill('')
+          };
+          rosterData.push(rec);
+        }
+        const sm = { 'Có mặt': 'present', 'Vắng có phép': 'excused', 'Vắng không phép': 'unexcused' };
+        rec.attendance[activeWeek] = sm[sr.TrangThai] || '';
+        rec.notes = sr.GhiChu || rec.notes;
+      });
+    }
+
+    /* ── Compute stats ── */
+    function computeStats(list) {
+      let p = 0, e = 0, u = 0, m = 0, f = 0;
+      list.forEach(r => {
+        const s = r.attendance[activeWeek];
+        if (s === 'present') p++; else if (s === 'excused') e++; else if (s === 'unexcused') u++;
+        if (r.gioiTinh === 'Nam') m++; else if (r.gioiTinh === 'Nữ') f++;
+      });
+      return { p, e, u, m, f, total: list.length };
+    }
+
+    /* ── Render ── */
+    function renderWidget() {
+      const widget = document.getElementById('attWidget');
+      if (!widget) return;
+
+      if (typeof WEEKLY_ACTIVITIES !== 'undefined' && WEEKLY_ACTIVITIES.length > 0) {
+        weekCount = WEEKLY_ACTIVITIES.length;
+      }
+      rosterData.forEach(r => {
+        while (r.attendance.length < weekCount) r.attendance.push('');
+      });
+
+      const q = liveQuery;
+      const filtered = rosterData.filter(r => {
+        if (!q) return true;
+        const hay = (r.name + ' ' + (r.group || '') + (r.gioiTinh || '') + (r.namSinh || '')).toLowerCase();
+        return hay.includes(q.toLowerCase());
+      });
+      const st = computeStats(filtered);
+
+      /* Tabs */
+      let tabsHtml = '';
+      for (let w = 0; w < weekCount; w++) {
+        tabsHtml += `<div class="att-tab${w === activeWeek ? ' active' : ''}" data-w="${w}">Tuần ${w + 1}</div>`;
+      }
+
+      /* Rows */
+      let rowsHtml = '';
+      if (filtered.length === 0) {
+        rowsHtml = `<tr><td colspan="8" class="att-skeleton">
+        <i class="fa-regular fa-clipboard" style="opacity:.35;"></i>
+        ${q ? 'Không tìm thấy kết quả cho "<strong>' + esc(q) + '</strong>"' : 'Chưa có đoàn viên. Nhấn + Thêm để bắt đầu.'}
+      </td></tr>`;
+      } else {
+        filtered.forEach((r, i) => {
+          const s = r.attendance[activeWeek] || '';
+          const gKey = r.gioiTinh === 'Nam' ? 'm' : r.gioiTinh === 'Nữ' ? 'f' : 'u';
+          const gLabel = r.gioiTinh || '?';
+          const av = initials(r.name);
+          const nameHtml = highlightText(r.name, q);
+          rowsHtml += `<tr data-rid="${r.id}">
+          <td class="att-num">${i + 1}</td>
+          <td>
+            <div class="att-name-cell">
+              <div class="att-avatar ${gKey}">${av}</div>
+              <span style="font-weight:600;font-size:13px;">${nameHtml}</span>
+            </div>
+          </td>
+          <td style="text-align:center;">
+            <span class="gender-pill ${gKey}">
+              <i class="fa-solid fa-${r.gioiTinh === 'Nữ' ? 'venus' : 'mars'}" style="font-size:10px;"></i> ${gLabel}
+            </span>
+          </td>
+          <td style="text-align:center;">
+            ${r.namSinh ? `<span class="year-badge">${esc(String(r.namSinh))}</span>` : '<span style="color:var(--text-muted);font-size:11px;">—</span>'}
+          </td>
+          <td style="font-size:12px;color:var(--text-muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(r.group)}">${esc(r.group) || '—'}</td>
+          <td><input class="att-note" data-rid="${r.id}" value="${esc(r.notes)}" placeholder="Ghi chú..."></td>
+          <td style="text-align:center;">
+            <span class="att-badge ${s || 'empty'}" data-rid="${r.id}" title="${S_TEXT[s]}">${S_LABEL[s]}</span>
+          </td>
+          <td style="text-align:center;">
+            <button class="att-del" data-rid="${r.id}" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+          </td>
+        </tr>`;
+        });
+      }
+
+      widget.innerHTML = `
+      <div class="att-tabs" id="attTabs">${tabsHtml}</div>
+
+      <div class="att-toolbar">
+        <div class="att-search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="attSearch" placeholder="Tìm tên, chi đoàn, năm sinh..." value="${esc(q)}" autocomplete="off">
+        </div>
+        <button class="tb-btn success" id="attBtnAdd"><i class="fa-solid fa-user-plus"></i> Thêm</button>
+        <button class="tb-btn" id="attBtnLoadPrev" title="Sao chép từ tuần trước"><i class="fa-solid fa-copy"></i> Chép tuần trước</button>
+        <button class="tb-btn primary" id="attBtnSave"><i class="fa-solid fa-floppy-disk"></i> Lưu ngay</button>
+        <button class="tb-btn" id="attBtnExport"><i class="fa-solid fa-file-excel"></i> Xuất CSV</button>
+      </div>
+
+      <div class="att-stats">
+        <div class="att-stat s-total">
+          <div class="att-stat-label">Tổng số</div>
+          <div class="att-stat-val t">${st.total}</div>
+          <div class="att-stat-sub">đoàn viên</div>
+        </div>
+        <div class="att-stat s-present">
+          <div class="att-stat-label">Có mặt</div>
+          <div class="att-stat-val p">${st.p}</div>
+          <div class="att-stat-sub">${st.total ? Math.round(st.p / st.total * 100) : 0}%</div>
+        </div>
+        <div class="att-stat s-excused">
+          <div class="att-stat-label">Vắng phép</div>
+          <div class="att-stat-val e">${st.e}</div>
+          <div class="att-stat-sub">${st.total ? Math.round(st.e / st.total * 100) : 0}%</div>
+        </div>
+        <div class="att-stat s-unexcused">
+          <div class="att-stat-label">Vắng K/P</div>
+          <div class="att-stat-val u">${st.u}</div>
+          <div class="att-stat-sub">${st.total ? Math.round(st.u / st.total * 100) : 0}%</div>
+        </div>
+        <div class="att-stat s-male">
+          <div class="att-stat-label">Nam</div>
+          <div class="att-stat-val m">${st.m}</div>
+          <div class="att-stat-sub">${st.total ? Math.round(st.m / st.total * 100) : 0}%</div>
+        </div>
+        <div class="att-stat s-female">
+          <div class="att-stat-label">Nữ</div>
+          <div class="att-stat-val f">${st.f}</div>
+          <div class="att-stat-sub">${st.total ? Math.round(st.f / st.total * 100) : 0}%</div>
+        </div>
+      </div>
+
+      <div class="att-legend">
+        <span class="att-leg"><span class="att-badge present" style="min-width:auto;padding:3px 10px;">V</span> Có mặt</span>
+        <span class="att-leg"><span class="att-badge excused" style="min-width:auto;padding:3px 10px;">P</span> Vắng phép</span>
+        <span class="att-leg"><span class="att-badge unexcused" style="min-width:auto;padding:3px 10px;">KP</span> Vắng không phép</span>
+        <span class="att-leg"><span class="att-badge empty" style="min-width:auto;padding:3px 10px;">—</span> Chưa điểm danh</span>
+      </div>
+
+      <div class="att-tbl-wrap">
+        <table class="att-tbl">
+          <thead>
+            <tr>
+              <th>#</th><th>Họ và tên</th><th>Giới tính</th><th>Năm sinh</th>
+              <th>Chi đoàn</th><th>Ghi chú</th>
+              <th style="text-align:center;">Trạng thái</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="attTbody">${rowsHtml}</tbody>
+        </table>
+      </div>
+    `;
+
+      bindEvents();
+    }
+
+    /* ── Bind events ── */
+    function bindEvents() {
+      /* Tabs */
+      document.getElementById('attTabs')?.querySelectorAll('.att-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const w = parseInt(tab.dataset.w);
+          if (w === activeWeek) return;
+          activeWeek = w;
+          showLoading();
+          loadFromServer('Tuần ' + (activeWeek + 1), rows => {
+            if (rows.length) mergeServerRows(rows);
+            renderWidget();
+          });
+        });
+      });
+
+      /* Live search */
+      const searchEl = document.getElementById('attSearch');
+      if (searchEl) {
+        searchEl.focus();
+        searchEl.addEventListener('input', function () {
+          liveQuery = this.value.trim();
+          renderWidget();
+          /* Refocus + set cursor */
+          const el = document.getElementById('attSearch');
+          if (el) { const len = el.value.length; el.focus(); el.setSelectionRange(len, len); }
+        });
+      }
+
+      /* Badge click-to-toggle */
+      document.getElementById('attTbody')?.querySelectorAll('.att-badge').forEach(b => {
+        b.addEventListener('click', () => {
+          const rid = parseInt(b.dataset.rid);
+          const rec = rosterData.find(x => x.id === rid);
+          if (!rec) return;
+          const ci = STATUSES.indexOf(rec.attendance[activeWeek]);
+          rec.attendance[activeWeek] = STATUSES[(ci + 1) % STATUSES.length];
+          const s = rec.attendance[activeWeek];
+          b.className = 'att-badge ' + (s || 'empty');
+          b.textContent = S_LABEL[s];
+          b.title = S_TEXT[s];
+          updateStatsOnly();
+          saveLocal();
+          scheduleSync();
+        });
+      });
+
+      /* Note */
+      document.getElementById('attTbody')?.querySelectorAll('.att-note').forEach(inp => {
+        inp.addEventListener('change', () => {
+          const rec = rosterData.find(x => x.id === parseInt(inp.dataset.rid));
+          if (rec) { rec.notes = inp.value; saveLocal(); scheduleSync(); }
+        });
+      });
+
+      /* Delete */
+      document.getElementById('attTbody')?.querySelectorAll('.att-del').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const rec = rosterData.find(x => x.id === parseInt(btn.dataset.rid));
+          if (confirm(`Xóa đoàn viên "${rec ? rec.name : 'này'}" khỏi bảng?`)) {
+            rosterData = rosterData.filter(x => x.id !== parseInt(btn.dataset.rid));
+            saveLocal(); renderWidget(); scheduleSync();
+          }
+        });
+      });
+
+      /* Thêm — mở modal */
+      document.getElementById('attBtnAdd')?.addEventListener('click', openAddModal);
+
+      /* Lưu ngay */
+      document.getElementById('attBtnSave')?.addEventListener('click', () => { clearTimeout(syncTimer); syncToServer(); });
+
+      /* Chép tuần trước */
+      document.getElementById('attBtnLoadPrev')?.addEventListener('click', () => {
+        if (activeWeek === 0) { typeof showToast === 'function' && showToast('Tuần 1 không có tuần trước!', 'error'); return; }
+        showLoading();
+        loadFromServer('Tuần ' + activeWeek, rows => {
+          if (!rows.length) { typeof showToast === 'function' && showToast('Không tìm thấy danh sách tuần trước', 'error'); renderWidget(); return; }
+          rows.forEach(r => {
+            const exists = rosterData.find(x => x.name.toLowerCase() === (r.HoTen || '').toLowerCase());
+            if (!exists) rosterData.push({
+              id: nextRid++, name: r.HoTen || '', group: r.ChiDoan || '',
+              notes: '', gioiTinh: r.GioiTinh || '', namSinh: r.NamSinh || '', donVi: r.DonVi || '',
+              attendance: Array(weekCount).fill('')
+            });
+          });
+          saveLocal(); renderWidget();
+          typeof showToast === 'function' && showToast(`Đã sao chép ${rows.length} thành viên. Vui lòng điểm danh và lưu!`);
+        });
+      });
+
+      /* Xuất CSV */
+      document.getElementById('attBtnExport')?.addEventListener('click', exportCSV);
+    }
+
+    /* ── Update stats without full re-render ── */
+    function updateStatsOnly() {
+      const st = computeStats(rosterData);
+      const map = { '.att-stat-val.t': st.total, '.att-stat-val.p': st.p, '.att-stat-val.e': st.e, '.att-stat-val.u': st.u, '.att-stat-val.m': st.m, '.att-stat-val.f': st.f };
+      Object.entries(map).forEach(([sel, val]) => {
+        const el = document.querySelector(sel);
+        if (el) el.textContent = val;
+      });
+      /* update % sub */
+      document.querySelectorAll('.att-stat-sub').forEach((el, i) => {
+        const total = st.total || 1;
+        const vals = [st.total, st.p, st.e, st.u, st.m, st.f];
+        if (i === 0) el.textContent = 'đoàn viên';
+        else el.textContent = Math.round(vals[i] / total * 100) + '%';
+      });
+    }
+
+    /* ── Loading row ── */
+    function showLoading() {
+      const tb = document.getElementById('attTbody');
+      if (tb) tb.innerHTML = `<tr><td colspan="8" class="att-skeleton">
+      <i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu tuần ${activeWeek + 1}...
+    </td></tr>`;
+    }
+
+    /* ── Export CSV ── */
+    function exportCSV() {
+      let csv = '\uFEFFHọ và tên,Giới tính,Năm sinh,Trường/Đơn vị,Chi đoàn,Ghi chú';
+      for (let w = 0; w < weekCount; w++) csv += `,Tuần ${w + 1}`;
+      csv += '\n';
+      rosterData.forEach(r => {
+        const sta = r.attendance.map(s => S_TEXT[s] || 'Chưa điểm danh');
+        csv += `"${r.name}","${r.gioiTinh || ''}","${r.namSinh || ''}","${r.donVi || ''}","${r.group}","${r.notes || ''}",${sta.map(s => `"${s}"`).join(',')}\n`;
+      });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+      a.download = 'DiemDanh_TatCaTuan.csv';
+      a.click();
+    }
+
+    /* ── MODAL LOGIC ── */
+    function openAddModal() {
+      const user = getUser();
+      const groupDefault = user ? user.chiDoan.replace('Chi đoàn Thanh niên Tổ dân phố ', '').replace(/\.$/, '') : '';
+      document.getElementById('newName').value = '';
+      document.getElementById('newGender').value = '';
+      document.getElementById('newYear').value = '';
+      document.getElementById('newDonVi').value = '';
+      document.getElementById('newGroup').value = groupDefault;
+      document.getElementById('addMemberModal').classList.add('open');
+      setTimeout(() => document.getElementById('newName').focus(), 200);
+    }
+    function closeAddModal() {
+      document.getElementById('addMemberModal').classList.remove('open');
+    }
+    document.getElementById('closeAddModal')?.addEventListener('click', closeAddModal);
+    document.getElementById('cancelAddModal')?.addEventListener('click', closeAddModal);
+    document.getElementById('addMemberModal')?.addEventListener('click', function (e) {
+      if (e.target === this) closeAddModal();
+    });
+
+    document.getElementById('submitAddModal')?.addEventListener('click', () => {
+      const name = document.getElementById('newName').value.trim();
+      if (!name) { document.getElementById('newName').focus(); return; }
+      const gender = document.getElementById('newGender').value;
+      const year = document.getElementById('newYear').value.trim();
+      const donVi = document.getElementById('newDonVi').value.trim();
+      const group = document.getElementById('newGroup').value.trim();
+
+      rosterData.push({
+        id: nextRid++, name, group, notes: '',
+        gioiTinh: gender, namSinh: year, donVi,
+        attendance: Array(weekCount).fill('')
+      });
+      saveLocal();
+      closeAddModal();
+      renderWidget();
+      scheduleSync();
+      typeof showToast === 'function' && showToast(`Đã thêm "${name}" vào bảng!`);
+    });
+
+    /* Enter key in modal */
+    document.getElementById('addMemberModal')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) document.getElementById('submitAddModal')?.click();
+      if (e.key === 'Escape') closeAddModal();
+    });
+
+    /* ── INIT ── */
+    function initAttWidget() {
+      try {
+        const stored = localStorage.getItem(SK);
+        if (stored) rosterData = JSON.parse(stored);
+      } catch { rosterData = []; }
+
+      if (rosterData.length > 0)
+        nextRid = Math.max(...rosterData.map(d => d.id), 0) + 1;
+
+      const wp = new URLSearchParams(window.location.search).get('week');
+      if (wp) {
+        const wn = wp.startsWith('Tuần ') ? parseInt(wp.replace('Tuần ', '')) : parseInt(wp);
+        if (!isNaN(wn) && wn >= 1) activeWeek = wn - 1;
+      }
+
+      renderWidget();
+
+      loadFromServer('Tuần ' + (activeWeek + 1), rows => {
+        if (rows.length) { mergeServerRows(rows); saveLocal(); renderWidget(); setSyncBadge('saved', 'Đồng bộ từ Sheets ✓'); }
+        else setSyncBadge('saved', 'Đã đồng bộ');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initAttWidget, 300));
+
+    const _orig = window.syncWeeklyActivitiesWithServer;
+    window.syncWeeklyActivitiesWithServer = function () {
+      const p = _orig ? _orig() : Promise.resolve();
+      return p && p.then ? p.then(() => {
+        if (typeof WEEKLY_ACTIVITIES !== 'undefined' && WEEKLY_ACTIVITIES.length > 0) {
+          weekCount = WEEKLY_ACTIVITIES.length; renderWidget();
+        }
+      }) : p;
+    };
+  </script>
+</body>
+
+</html>

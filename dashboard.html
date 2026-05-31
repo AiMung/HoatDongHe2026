@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang Chủ - Cổng Thông Tin Sinh Hoạt Hè 2026</title>
+  <meta name="description" content="Tổng quan chiến dịch hè 2026, đếm ngược sự kiện và chỉ số chuyên cần.">
+  <script>
+    (function () {
+      const user = localStorage.getItem("summer_user");
+      if (!user) { window.location.href = "login.html"; }
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark-theme");
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ── BENTO GRID ── */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .bento-cell {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s;
+    }
+
+    .bento-cell:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .bc-hero {
+      grid-column: span 8;
+    }
+
+    .bc-cd {
+      grid-column: span 4;
+    }
+
+    .bc-3 {
+      grid-column: span 4;
+    }
+
+    .bc-4 {
+      grid-column: span 3;
+    }
+
+    .bc-6 {
+      grid-column: span 6;
+    }
+
+    .bc-12 {
+      grid-column: span 12;
+    }
+
+    /* Hero card */
+    .hero-card {
+      background: linear-gradient(135deg, #0c44b0 0%, #1a6fd8 60%, #3b8ee0 100%) !important;
+      border: none !important;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, .18);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      width: fit-content;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 6px;
+      line-height: 1.3;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-sub {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, .75);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-chip {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* Countdown */
+    .cd-card {
+      text-align: center;
+    }
+
+    .cd-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .cd-box {
+      background: var(--bg-main);
+      border-radius: 8px;
+      padding: 8px 4px;
+    }
+
+    .cd-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: block;
+      line-height: 1;
+    }
+
+    .cd-lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Stat cards */
+    .stat-icon-bento {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .bento-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 4px;
+    }
+
+    .bento-val {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--text-main);
+    }
+
+    .bento-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .prog-wrap {
+      height: 5px;
+      background: var(--bg-main);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+
+    /* Mini pill stats row */
+    .pill-stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .pill-stat {
+      background: var(--bg-main);
+      border-radius: 10px;
+      padding: 12px 14px;
+      border-left: 3px solid transparent;
+    }
+
+    .pill-stat-val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .pill-stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    /* Gender bars */
+    .gender-row {
+      display: flex;
+      gap: 4px;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .gender-fill {
+      height: 100%;
+    }
+
+    /* Mini bar chart */
+    .mini-bars {
+      display: flex;
+      gap: 3px;
+      align-items: flex-end;
+      height: 48px;
+      margin-top: 12px;
+    }
+
+    .mini-bar-item {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      background: var(--primary-glow);
+      border: 1px solid rgba(0, 102, 204, .15);
+      transition: height .5s ease;
+      min-height: 4px;
+    }
+
+    .mini-bar-item.peak {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Honor table */
+    .honor-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .honor-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .honor-row:last-child {
+      border-bottom: none;
+    }
+
+    .honor-av {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-glow);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .honor-rank {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* Admin table */
+    .admin-honor-tbl {
+      width: 100%;
+      font-size: 12px;
+      border-collapse: collapse;
+    }
+
+    .admin-honor-tbl th {
+      text-align: left;
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .admin-honor-tbl td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .admin-honor-tbl tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Feed section */
+    .feed-section {
+      margin-bottom: 28px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+
+      .bc-hero,
+      .bc-cd,
+      .bc-3 {
+        grid-column: span 12;
+      }
+
+      .bc-4 {
+        grid-column: span 6;
+      }
+
+      .bc-6 {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .bc-4 {
+        grid-column: span 12;
+      }
+
+      .pill-stat-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mobile-header">
+    <div class="mobile-logo-area">
+      <img src="image/logo_DTN.webp" alt="Logo" class="mobile-logo-img">
+      <span class="mobile-brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+    </div>
+    <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
+      <div class="brand-info">
+        <span class="brand-title">MÙA HÈ TÌNH NGUYỆN</span>
+        <span class="brand-subtitle">Chiến Dịch Hè 2026</span>
+      </div>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-link" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Trang
+        chủ</a>
+      <a href="event.html" class="sidebar-link" id="link-event"><i class="fa-solid fa-calendar-days"></i> Kế hoạch &
+        Lịch trình</a>
+      <a href="sudden_events.html" class="sidebar-link" id="link-sudden-events"><i class="fa-solid fa-bolt"></i> Hoạt
+        động đột xuất</a>
+      <a href="attendance.html" class="sidebar-link" id="link-attendance"><i class="fa-solid fa-clipboard-user"></i>
+        Điểm danh chuyên cần</a>
+      <a href="gallery.html" target="_blank" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i>
+        Thư viện hình ảnh</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-theme-area">
+        <span>Chế độ tối</span>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Theme"><i
+            class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="sidebar-profile">
+        <div class="profile-avatar">BTC</div>
+        <div class="profile-info">
+          <span class="profile-name">Ban Chỉ Đạo Hè</span>
+          <span class="profile-role">Người điều hành</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h2 class="topbar-title">Bảng Điều Khiển Tổng Quan</h2>
+      <div class="topbar-meta">
+        <span><i class="fa-regular fa-calendar"></i> Chiến dịch: Tháng 06 – 08/2026</span>
+        <span id="dashSyncTime"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải...</span>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+
+      <!-- ── BENTO GRID ── -->
+      <div class="bento">
+
+        <!-- Hero -->
+        <div class="bento-cell bc-hero hero-card">
+          <div>
+            <div class="hero-badge"><i class="fa-solid fa-star" style="font-size:10px;"></i> Mùa hè rực rỡ 2026</div>
+            <h1 class="hero-title">Cổng Thông Tin Sinh Hoạt Hè<br>Phường Số 1</h1>
+            <p class="hero-sub">Quản lý điểm danh, lịch trình và hình ảnh chiến dịch hè tình nguyện địa phương</p>
+          </div>
+          <div class="hero-chips">
+            <span class="hero-chip"><i class="fa-solid fa-building-flag"></i> 77 chi đoàn</span>
+            <span class="hero-chip"><i class="fa-solid fa-hand-holding-heart"></i> 25 tình nguyện viên</span>
+            <span class="hero-chip"><i class="fa-regular fa-calendar"></i> 12 tuần hoạt động</span>
+          </div>
+        </div>
+
+        <!-- Countdown -->
+        <div class="bento-cell bc-cd cd-card">
+          <div class="bento-label"><i class="fa-solid fa-hourglass-half" style="font-size:10px;"></i> Đếm ngược tổng kết
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">31/08/2026 — Ngày hội kết thúc chiến
+            dịch</div>
+          <div class="cd-grid">
+            <div class="cd-box"><span class="cd-num" id="days">--</span>
+              <div class="cd-lbl">Ngày</div>
+            </div>
+            <div class="cd-box"><span class="cd-num" id="hours">--</span>
+              <div class="cd-lbl">Giờ</div>
+            </div>
+            <div class="cd-box"><span class="cd-num" id="minutes">--</span>
+              <div class="cd-lbl">Phút</div>
+            </div>
+            <div class="cd-box"><span class="cd-num" id="seconds">--</span>
+              <div class="cd-lbl">Giây</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat: Tổng đoàn viên (FIX: từ roster toàn hệ thống) -->
+        <div class="bento-cell bc-3">
+          <div class="stat-icon-bento" style="background:rgba(59,130,246,.12);"><i class="fa-solid fa-users"
+              style="color:#3b82f6;"></i></div>
+          <div class="bento-label">Tổng đoàn viên</div>
+          <!-- 
+            FIX: id="valStatMembers" vẫn giữ để app.js updateStatsMetrics() update,
+            NHƯNG ta override logic: xem JS bên dưới
+          -->
+          <div class="bento-val" id="valStatMembers">—</div>
+          <div class="bento-sub" id="subStatMembers">đoàn viên đã tham gia (toàn phường)</div>
+          <div class="prog-wrap">
+            <div class="prog-fill" id="progMembers" style="width:0%;background:#3b82f6;"></div>
+          </div>
+        </div>
+
+        <!-- Stat: Tỉ lệ chuyên cần -->
+        <div class="bento-cell bc-3">
+          <div class="stat-icon-bento" style="background:rgba(16,185,129,.12);"><i class="fa-solid fa-clipboard-check"
+              style="color:#10b981;"></i></div>
+          <div class="bento-label">Tỉ lệ chuyên cần</div>
+          <div class="bento-val" style="color:#059669;" id="valStatAttendance">—</div>
+          <div class="bento-sub">bình quân toàn phường</div>
+          <div class="prog-wrap">
+            <div class="prog-fill" id="progAttendance" style="width:0%;background:#10b981;"></div>
+          </div>
+        </div>
+
+        <!-- Stat: Chi đoàn đã điểm danh -->
+        <div class="bento-cell bc-3">
+          <div class="stat-icon-bento" style="background:rgba(245,158,11,.12);"><i class="fa-solid fa-building-flag"
+              style="color:#d97706;"></i></div>
+          <div class="bento-label">Chi đoàn hoạt động</div>
+          <div class="bento-val" style="color:#d97706;" id="valStatChiDoan">—</div>
+          <div class="bento-sub">/ 77 chi đoàn đã điểm danh</div>
+          <div class="prog-wrap">
+            <div class="prog-fill" id="progChiDoan" style="width:0%;background:#f59e0b;"></div>
+          </div>
+        </div>
+
+        <!-- Stat: Sự kiện đột xuất -->
+        <div class="bento-cell bc-3">
+          <div class="stat-icon-bento" style="background:rgba(139,92,246,.12);"><i class="fa-solid fa-bolt"
+              style="color:#8b5cf6;"></i></div>
+          <div class="bento-label">Sự kiện đột xuất</div>
+          <div class="bento-val" style="color:#8b5cf6;" id="valStatEvents">—</div>
+          <div class="bento-sub">sự kiện được tổ chức</div>
+          <div class="prog-wrap">
+            <div class="prog-fill" id="progEvents" style="width:0%;background:#8b5cf6;"></div>
+          </div>
+        </div>
+
+        <!-- Pill stats: trạng thái điểm danh -->
+        <div class="bento-cell bc-12" style="padding-bottom:14px;">
+          <div class="bento-label" style="margin-bottom:12px;">Trạng thái điểm danh (tổng hợp toàn phường)</div>
+          <div class="pill-stat-row">
+            <div class="pill-stat" style="border-left-color:#10b981;">
+              <div class="pill-stat-val" style="color:#059669;" id="psPresent">—</div>
+              <div class="pill-stat-label"><i class="fa-solid fa-circle-check" style="color:#10b981;font-size:9px;"></i>
+                Có mặt</div>
+            </div>
+            <div class="pill-stat" style="border-left-color:#f59e0b;">
+              <div class="pill-stat-val" style="color:#d97706;" id="psExcused">—</div>
+              <div class="pill-stat-label"><i class="fa-solid fa-circle-minus" style="color:#f59e0b;font-size:9px;"></i>
+                Vắng có phép</div>
+            </div>
+            <div class="pill-stat" style="border-left-color:#ef4444;">
+              <div class="pill-stat-val" style="color:#dc2626;" id="psUnexcused">—</div>
+              <div class="pill-stat-label"><i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:9px;"></i>
+                Vắng không phép</div>
+            </div>
+            <div class="pill-stat" style="border-left-color:var(--border-color);">
+              <div class="pill-stat-val" id="psUntouched">—</div>
+              <div class="pill-stat-label"><i class="fa-regular fa-circle" style="font-size:9px;"></i> Chưa điểm danh
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Giới tính + Năm sinh -->
+        <div class="bento-cell bc-6">
+          <div class="bento-label" style="margin-bottom:8px;">Phân bố giới tính</div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+            <span><i class="fa-solid fa-mars" style="color:#3b82f6;"></i> Nam: <strong id="gMaleN">—</strong></span>
+            <span><i class="fa-solid fa-venus" style="color:#ec4899;"></i> Nữ: <strong id="gFemaleN">—</strong></span>
+          </div>
+          <div class="gender-row">
+            <div class="gender-fill" id="gMaleBar" style="width:50%;background:#3b82f6;border-radius:4px 0 0 4px;">
+            </div>
+            <div class="gender-fill" id="gFemaleBar" style="width:50%;background:#ec4899;border-radius:0 4px 4px 0;">
+            </div>
+          </div>
+          <div
+            style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px;">
+            <span id="gMalePct">—</span>
+            <span id="gFemalePct">—</span>
+          </div>
+        </div>
+
+        <!-- Mini bar chart: điểm danh theo tuần -->
+        <div class="bento-cell bc-6">
+          <div class="bento-label" style="margin-bottom:4px;">Xu hướng chuyên cần theo tuần</div>
+          <div class="mini-bars" id="weekMiniBar">
+            <!-- rendered by JS -->
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;letter-spacing:.03em;">
+            T1 → T12 &nbsp;·&nbsp; <span style="display:inline-flex;align-items:center;gap:3px;"><span
+                style="width:8px;height:8px;background:var(--primary);border-radius:2px;display:inline-block;"></span>
+              Tuần cao nhất</span>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="bento-cell bc-6" style="padding-bottom:14px;">
+          <div class="bento-label" style="margin-bottom:12px;"><i class="fa-solid fa-chart-line text-blue"
+              style="font-size:11px;"></i> Điểm danh theo tuần (chi tiết)</div>
+          <div style="position:relative;height:220px;">
+            <canvas id="attendanceLineChart"></canvas>
+            <div id="chartSkeletonLine"
+              style="position:absolute;inset:0;display:flex;align-items:flex-end;gap:6px;padding:4px;background:var(--bg-card);">
+              <div style="flex:1;height:30%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:60%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:45%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:75%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:50%;background:var(--bg-main);border-radius:3px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-cell bc-6" style="padding-bottom:14px;">
+          <div class="bento-label" style="margin-bottom:12px;"><i class="fa-solid fa-chart-pie text-orange"
+              style="font-size:11px;"></i> Tỷ lệ trạng thái</div>
+          <div style="position:relative;height:220px;display:flex;align-items:center;justify-content:center;">
+            <canvas id="statusDoughnutChart"></canvas>
+            <div id="chartSkeletonDoughnut"
+              style="position:absolute;width:160px;height:160px;border-radius:50%;background:var(--bg-main);z-index:1;">
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end bento -->
+
+      <!-- ── VINH DANH ── -->
+      <section class="feed-section glass-card" style="padding:22px;margin-bottom:24px;">
+        <div class="section-header" style="margin-bottom:16px;">
+          <h3 class="section-title"><i class="fa-solid fa-trophy text-orange"></i> Bảng Vinh Danh Chuyên Cần</h3>
+          <p class="section-subtitle">Đoàn viên tích cực và chi đoàn có phong trào điểm danh tốt</p>
+        </div>
+
+        <div class="honor-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+          <div style="background:var(--bg-main);border-radius:10px;padding:14px;">
+            <div
+              style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">
+              <i class="fa-solid fa-medal" style="color:#10b981;font-size:10px;"></i> Tham gia nhiều nhất</div>
+            <div style="font-size:1rem;font-weight:700;color:var(--text-main);" id="topAttendanceName">Đang tải...</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:3px;" id="topAttendanceMeta">—</div>
+          </div>
+          <div style="background:var(--bg-main);border-radius:10px;padding:14px;">
+            <div
+              style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">
+              <i class="fa-solid fa-star" style="color:#3b82f6;font-size:10px;"></i> Tỷ lệ chuyên cần cao nhất</div>
+            <div style="font-size:1rem;font-weight:700;color:var(--text-main);" id="topRateName">Đang tải...</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:3px;" id="topRateMeta">—</div>
+          </div>
+        </div>
+
+        <!-- Admin: top members from roster -->
+        <div id="topRosterSection" style="display:none;">
+          <div
+            style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">
+            Top đoàn viên chuyên cần (từ bảng điểm danh)</div>
+          <div class="honor-rows" id="topRosterList"></div>
+        </div>
+
+        <!-- Admin chi đoàn table -->
+        <div id="adminHonorWrapper" style="display:none;">
+          <div
+            style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin:14px 0 8px;">
+            Tổng hợp theo chi đoàn</div>
+          <div class="table-wrapper">
+            <table class="admin-honor-tbl">
+              <thead>
+                <tr>
+                  <th>Chi đoàn</th>
+                  <th>Đoàn viên</th>
+                  <th>Gương mặt sáng giá</th>
+                  <th>Tỷ lệ có mặt</th>
+                </tr>
+              </thead>
+              <tbody id="adminHonorBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TIN TỨC ── -->
+      <section class="feed-section">
+        <div class="section-header">
+          <h3 class="section-title"><i class="fa-solid fa-bullhorn text-orange"></i> Tin tức & Hoạt động trọng điểm</h3>
+          <p class="section-subtitle">Thông tin cập nhật về các chuyên đề tập huấn lớn</p>
+        </div>
+        <div class="feed-list">
+          <div class="feed-item">
+            <div class="feed-date-badge"><span class="feed-day">01</span><span class="feed-month">T.6</span></div>
+            <div class="feed-details">
+              <h4 class="feed-item-title">Lễ Khai mạc Sinh hoạt hè toàn phường & Phát động chiến dịch</h4>
+              <p class="feed-item-desc">Mở đầu chuỗi hoạt động 3 tháng hè. Tập hợp toàn bộ thiếu niên, nhi đồng địa
+                phương, phân nhóm sinh hoạt và tổ chức các gian hàng trò chơi dân gian miễn phí.</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-date-badge" style="background-color:var(--secondary-glow);color:var(--secondary);"><span
+                class="feed-day">08</span><span class="feed-month">T.6</span></div>
+            <div class="feed-details">
+              <h4 class="feed-item-title">Tập huấn Kỹ năng bơi lội & Phòng chống tai nạn thương tích</h4>
+              <p class="feed-item-desc">Tổ chức lớp dạy bơi miễn phí tại hồ bơi trung tâm quận. Đồng hành cùng các chiến
+                sĩ công an tuyên truyền kỹ năng an toàn thoát nạn cháy nổ.</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-date-badge" style="background-color:rgba(16,185,129,.08);color:var(--accent-green);"><span
+                class="feed-day">25</span><span class="feed-month">T.7</span></div>
+            <div class="feed-details">
+              <h4 class="feed-item-title">Hội trại kỹ năng dã ngoại 2 ngày 1 đêm "Khát Vọng Tuổi Trẻ"</h4>
+              <p class="feed-item-desc">Hội trại kỹ năng lớn nhất năm. Cắm trại nhanh, nấu ăn dã chiến, hành quân giải
+                mật thư đêm và đêm nhạc lửa trại sôi động.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    /*
+     * DASHBOARD PATCH — Sửa lỗi đếm đoàn viên + thêm stats từ att_roster_v4
+     *
+     * Vấn đề gốc: updateStatsMetrics() trong app.js chỉ đọc attendanceRecords
+     * (cache của 1 chi đoàn đang đăng nhập). Dashboard cần đếm toàn bộ 77 chi
+     * đoàn. Giải pháp: đọc att_roster_v4 (bảng điểm danh mới lưu toàn bộ) và
+     * dùng API getWeeklyRoster nếu là Admin.
+     */
+
+    (function patchDashboardStats() {
+
+      /* ── Đọc dữ liệu từ bảng att_roster_v4 (bảng điểm danh đa tuần) ── */
+      function getRosterData() {
+        try { return JSON.parse(localStorage.getItem('att_roster_v4') || '[]'); } catch { return []; }
+      }
+
+      /* ── Tính toán stats từ roster ── */
+      function calcRosterStats(roster) {
+        const totalMembers = roster.length;
+        const groups = new Set(roster.map(r => (r.group || '').trim()).filter(Boolean));
+        let present = 0, excused = 0, unexcused = 0, untouched = 0;
+        let totalSessions = 0;
+
+        roster.forEach(r => {
+          const att = r.attendance || [];
+          const hasSomething = att.some(Boolean);
+          if (!hasSomething) { untouched++; return; }
+          att.forEach(s => {
+            if (s === 'present') present++;
+            else if (s === 'excused') excused++;
+            else if (s === 'unexcused') unexcused++;
+          });
+          totalSessions += att.filter(Boolean).length;
+        });
+
+        const allPresent = present;
+        const rate = totalSessions > 0 ? (allPresent / totalSessions * 100) : 0;
+        const male = roster.filter(r => r.gioiTinh === 'Nam').length;
+        const female = roster.filter(r => r.gioiTinh === 'Nữ').length;
+
+        return { totalMembers, groups: groups.size, present, excused, unexcused, untouched, rate, male, female };
+      }
+
+      /* ── Render bento stats ── */
+      function renderBentoStats(stats) {
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        const setW = (id, pct) => { const el = document.getElementById(id); if (el) el.style.width = pct + '%'; };
+
+        set('valStatMembers', stats.totalMembers > 0 ? stats.totalMembers.toLocaleString() : '—');
+        document.getElementById('subStatMembers') && (document.getElementById('subStatMembers').textContent =
+          `đoàn viên tham gia (${stats.groups} chi đoàn đã điểm danh)`);
+        setW('progMembers', Math.min(100, stats.totalMembers / 500 * 100));
+
+        set('valStatAttendance', stats.totalMembers > 0 ? stats.rate.toFixed(1) + '%' : '—');
+        setW('progAttendance', stats.rate);
+
+        set('valStatChiDoan', stats.groups > 0 ? stats.groups : '—');
+        setW('progChiDoan', Math.min(100, stats.groups / 77 * 100));
+
+        set('psPresent', stats.present > 0 ? stats.present : '—');
+        set('psExcused', stats.excused > 0 ? stats.excused : '—');
+        set('psUnexcused', stats.unexcused > 0 ? stats.unexcused : '—');
+        set('psUntouched', stats.untouched > 0 ? stats.untouched : '—');
+
+        /* Gender */
+        const gTotal = stats.male + stats.female;
+        if (gTotal > 0) {
+          const mp = Math.round(stats.male / gTotal * 100);
+          const fp = 100 - mp;
+          set('gMaleN', stats.male);
+          set('gFemaleN', stats.female);
+          set('gMalePct', mp + '%');
+          set('gFemalePct', fp + '%');
+          const mb = document.getElementById('gMaleBar');
+          const fb = document.getElementById('gFemaleBar');
+          if (mb) mb.style.width = mp + '%';
+          if (fb) fb.style.width = fp + '%';
+        }
+
+        /* Sync badge */
+        const st = document.getElementById('dashSyncTime');
+        if (st) st.innerHTML = '<i class="fa-regular fa-clock"></i> Cập nhật: ' + new Date().toLocaleTimeString('vi-VN');
+      }
+
+      /* ── Mini bar chart tuần ── */
+      function renderMiniBar(roster) {
+        const container = document.getElementById('weekMiniBar');
+        if (!container) return;
+        const weekCount = roster.length > 0 && roster[0].attendance
+          ? roster[0].attendance.length : 12;
+
+        const counts = Array.from({ length: weekCount }, (_, w) =>
+          roster.reduce((a, r) => a + (r.attendance && r.attendance[w] === 'present' ? 1 : 0), 0)
+        );
+
+        const maxC = Math.max(...counts, 1);
+        container.innerHTML = counts.map((c, i) => {
+          const h = Math.max(6, Math.round(c / maxC * 100));
+          const isPeak = c === Math.max(...counts) && c > 0;
+          return `<div class="mini-bar-item${isPeak ? ' peak' : ''}" style="height:${h}%;" title="Tuần ${i + 1}: ${c} buổi có mặt"></div>`;
+        }).join('');
+      }
+
+      /* ── Top roster members vinh danh ── */
+      function renderTopRoster(roster) {
+        const section = document.getElementById('topRosterSection');
+        const listEl = document.getElementById('topRosterList');
+        if (!section || !listEl || roster.length === 0) return;
+
+        const ranked = roster
+          .filter(r => r.name)
+          .map(r => ({
+            name: r.name,
+            group: r.group || '',
+            cnt: r.attendance ? r.attendance.filter(s => s === 'present').length : 0,
+            total: r.attendance ? r.attendance.filter(Boolean).length : 0
+          }))
+          .sort((a, b) => b.cnt - a.cnt)
+          .slice(0, 5);
+
+        if (!ranked.length) return;
+        section.style.display = 'block';
+
+        const medals = ['🥇', '🥈', '🥉', '', ''];
+        listEl.innerHTML = ranked.map((r, i) => {
+          const init = r.name.split(' ').slice(-2).map(w => w[0] || '').join('').toUpperCase();
+          const rate = r.total > 0 ? Math.round(r.cnt / r.total * 100) : 0;
+          return `<div class="honor-row">
+          <div class="honor-rank">${medals[i] || (i + 1)}</div>
+          <div class="honor-av">${init}</div>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:700;color:var(--text-main);">${r.name}</div>
+            <div style="font-size:11px;color:var(--text-muted);">${r.group || 'N/A'}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px;font-weight:700;color:var(--primary);">${r.cnt} buổi</div>
+            <div style="font-size:10px;color:var(--text-muted);">${rate}% có mặt</div>
+          </div>
+        </div>`;
+        }).join('');
+      }
+
+      /* ── Cập nhật topAttendance / topRate từ roster ── */
+      function renderHonorFromRoster(roster) {
+        if (!roster.length) return;
+        const ranked = roster
+          .filter(r => r.name)
+          .map(r => ({
+            name: r.name, group: r.group || '',
+            cnt: r.attendance ? r.attendance.filter(s => s === 'present').length : 0,
+            total: r.attendance ? r.attendance.filter(Boolean).length : 0
+          }))
+          .sort((a, b) => b.cnt - a.cnt);
+
+        const byCount = ranked[0];
+        const byRate = [...ranked].filter(r => r.total > 0).sort((a, b) => (b.cnt / b.total) - (a.cnt / a.total))[0];
+
+        if (byCount) {
+          const n = document.getElementById('topAttendanceName');
+          const m = document.getElementById('topAttendanceMeta');
+          if (n) n.textContent = byCount.name;
+          if (m) m.textContent = `${byCount.cnt} buổi tham gia · ${byCount.group || 'N/A'}`;
+        }
+        if (byRate) {
+          const n = document.getElementById('topRateName');
+          const m = document.getElementById('topRateMeta');
+          if (n) n.textContent = byRate.name;
+          if (m) m.textContent = `${Math.round(byRate.cnt / byRate.total * 100)}% có mặt (${byRate.cnt}/${byRate.total})`;
+        }
+      }
+
+      /* ── Load event count từ server ── */
+      function loadEventCount() {
+        const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
+        if (!apiUrl) return;
+        fetch(apiUrl + '?action=getExtraEvents')
+          .then(r => r.json())
+          .then(res => {
+            const cnt = (res.data || []).length;
+            const el = document.getElementById('valStatEvents');
+            const pg = document.getElementById('progEvents');
+            if (el) el.textContent = cnt || '0';
+            if (pg) pg.style.width = Math.min(100, cnt / 20 * 100) + '%';
+          })
+          .catch(() => { });
+      }
+
+      /* ── Main init ── */
+      function init() {
+        const roster = getRosterData();
+        const stats = calcRosterStats(roster);
+        renderBentoStats(stats);
+        renderMiniBar(roster);
+        renderTopRoster(roster);
+        renderHonorFromRoster(roster);
+        loadEventCount();
+
+        /* Nếu Admin: đọc thêm từ server để có full data */
+        const userStr = localStorage.getItem('summer_user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        if (user && user.quyen === 'Admin') {
+          const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
+          if (apiUrl) {
+            /* Admin: load roster tuần hiện tại để tính stats toàn hệ thống */
+            fetch(apiUrl + '?action=getWeeklyRoster&week=Tu%E1%BA%A7n%201')
+              .then(r => r.json())
+              .then(res => {
+                if (res.success && res.data && res.data.length > 0) {
+                  /* Merge vào roster local nếu chưa có */
+                  const existing = new Set(roster.map(r => r.name.toLowerCase()));
+                  res.data.forEach(sr => {
+                    if (!existing.has((sr.HoTen || '').toLowerCase())) {
+                      roster.push({
+                        id: Date.now() + Math.random(),
+                        name: sr.HoTen || '',
+                        group: sr.ChiDoan || '',
+                        gioiTinh: sr.GioiTinh || '',
+                        namSinh: sr.NamSinh || '',
+                        attendance: Array(12).fill('')
+                      });
+                    }
+                  });
+                  const newStats = calcRosterStats(roster);
+                  renderBentoStats(newStats);
+                  renderMiniBar(roster);
+                  renderTopRoster(roster);
+                  renderHonorFromRoster(roster);
+                }
+              }).catch(() => { });
+          }
+        }
+      }
+
+      /* Chạy sau khi app.js đã load */
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => setTimeout(init, 400));
+      } else {
+        setTimeout(init, 400);
+      }
+
+      /* Override updateStatsMetrics nếu app.js gọi nó (tránh reset về 0 em) */
+      const _orig = window.updateStatsMetrics;
+      window.updateStatsMetrics = function () {
+        /* Gọi bản gốc cho statPresent/Excused/Unexcused (màn hình attendance) */
+        if (typeof _orig === 'function') _orig.apply(this, arguments);
+        /* Sau đó re-render bento từ roster (không dùng attendanceRecords của 1 chi đoàn) */
+        const roster = getRosterData();
+        const stats = calcRosterStats(roster);
+        renderBentoStats(stats);
+      };
+
+    })();
+  </script>
+</body>
+
+</html>
