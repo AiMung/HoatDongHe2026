@@ -4,7 +4,7 @@
 
 let WEEKLY_ACTIVITIES = [];
 
-const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbxR7Xkocn9kXMv0bXzaCq_8unp7akHKnO_WqfGI74aHoBBzuvuyKh01CZ9u3rcOTB-gfw/exec";
+const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbw1cYRUHwEtCoFUWl_Ds4JVBXiRV4-t6cF6ER1N3EvIpyP9rbo1iockZbIdT9q6PXJwDw/exec";
 
 const DEFAULT_ATTENDANCE = [
   { date: "2026-06-01", week: "Tuần 1", name: "Nguyễn Văn An", status: "Có mặt", notes: "Đi đúng giờ", chiDoan: "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2" },
