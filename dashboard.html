@@ -620,120 +620,120 @@
               style="font-size:11px;"></i> Điểm danh theo tuần (chi tiết)</div>
           <div style="position:relative;height:220px;">
             <canvas id="attendanceLineChart"></canvas>
-          </div>
-          <div id="chartSkeletonLine"
-            style="position:absolute;inset:0;display:flex;align-items:flex-end;gap:6px;padding:4px;background:var(--bg-card);">
-            <div style="flex:1;height:30%;background:var(--bg-main);border-radius:3px;"></div>
-            <div style="flex:1;height:60%;background:var(--bg-main);border-radius:3px;"></div>
-            <div style="flex:1;height:45%;background:var(--bg-main);border-radius:3px;"></div>
-            <div style="flex:1;height:75%;background:var(--bg-main);border-radius:3px;"></div>
-            <div style="flex:1;height:50%;background:var(--bg-main);border-radius:3px;"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bento-cell bc-6" style="padding-bottom:14px;">
-        <div class="bento-label" style="margin-bottom:12px;"><i class="fa-solid fa-chart-pie text-orange"
-            style="font-size:11px;"></i> Tỷ lệ trạng thái</div>
-        <div style="position:relative;height:220px;display:flex;align-items:center;justify-content:center;">
-          <canvas id="statusDoughnutChart"></canvas>
-          <div id="chartSkeletonDoughnut"
-            style="position:absolute;width:160px;height:160px;border-radius:50%;background:var(--bg-main);z-index:1;">
+            <div id="chartSkeletonLine"
+              style="position:absolute;inset:0;display:flex;align-items:flex-end;gap:6px;padding:4px;background:var(--bg-card);">
+              <div style="flex:1;height:30%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:60%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:45%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:75%;background:var(--bg-main);border-radius:3px;"></div>
+              <div style="flex:1;height:50%;background:var(--bg-main);border-radius:3px;"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-    </div><!-- end bento -->
+        <div class="bento-cell bc-6" style="padding-bottom:14px;">
+          <div class="bento-label" style="margin-bottom:12px;"><i class="fa-solid fa-chart-pie text-orange"
+              style="font-size:11px;"></i> Tỷ lệ trạng thái</div>
+          <div style="position:relative;height:220px;display:flex;align-items:center;justify-content:center;">
+            <canvas id="statusDoughnutChart"></canvas>
+            <div id="chartSkeletonDoughnut"
+              style="position:absolute;width:160px;height:160px;border-radius:50%;background:var(--bg-main);z-index:1;">
+            </div>
+          </div>
+        </div>
 
-    <!-- ── VINH DANH ── -->
-    <section class="feed-section glass-card" style="padding:22px;margin-bottom:24px;">
-      <div class="section-header" style="margin-bottom:16px;">
-        <h3 class="section-title"><i class="fa-solid fa-trophy text-orange"></i> Bảng Vinh Danh Chuyên Cần</h3>
-        <p class="section-subtitle">Đoàn viên tích cực và chi đoàn có phong trào điểm danh tốt</p>
-      </div>
+      </div><!-- end bento -->
 
-      <div class="honor-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-        <div style="background:var(--bg-main);border-radius:10px;padding:14px;">
+      <!-- ── VINH DANH ── -->
+      <section class="feed-section glass-card" style="padding:22px;margin-bottom:24px;">
+        <div class="section-header" style="margin-bottom:16px;">
+          <h3 class="section-title"><i class="fa-solid fa-trophy text-orange"></i> Bảng Vinh Danh Chuyên Cần</h3>
+          <p class="section-subtitle">Đoàn viên tích cực và chi đoàn có phong trào điểm danh tốt</p>
+        </div>
+
+        <div class="honor-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+          <div style="background:var(--bg-main);border-radius:10px;padding:14px;">
+            <div
+              style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">
+              <i class="fa-solid fa-medal" style="color:#10b981;font-size:10px;"></i> Tham gia nhiều nhất
+            </div>
+            <div style="font-size:1rem;font-weight:700;color:var(--text-main);" id="topAttendanceName">Đang tải...</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:3px;" id="topAttendanceMeta">—</div>
+          </div>
+          <div style="background:var(--bg-main);border-radius:10px;padding:14px;">
+            <div
+              style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">
+              <i class="fa-solid fa-star" style="color:#3b82f6;font-size:10px;"></i> Tỷ lệ chuyên cần cao nhất
+            </div>
+            <div style="font-size:1rem;font-weight:700;color:var(--text-main);" id="topRateName">Đang tải...</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:3px;" id="topRateMeta">—</div>
+          </div>
+        </div>
+
+        <!-- Admin: top members from roster -->
+        <div id="topRosterSection" style="display:none;">
           <div
-            style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">
-            <i class="fa-solid fa-medal" style="color:#10b981;font-size:10px;"></i> Tham gia nhiều nhất
-          </div>
-          <div style="font-size:1rem;font-weight:700;color:var(--text-main);" id="topAttendanceName">Đang tải...</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:3px;" id="topAttendanceMeta">—</div>
+            style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">
+            Top đoàn viên chuyên cần (từ bảng điểm danh)</div>
+          <div class="honor-rows" id="topRosterList"></div>
         </div>
-        <div style="background:var(--bg-main);border-radius:10px;padding:14px;">
+
+        <!-- Admin chi đoàn table -->
+        <div id="adminHonorWrapper" style="display:none;">
           <div
-            style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">
-            <i class="fa-solid fa-star" style="color:#3b82f6;font-size:10px;"></i> Tỷ lệ chuyên cần cao nhất
+            style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin:14px 0 8px;">
+            Tổng hợp theo chi đoàn</div>
+          <div class="table-wrapper">
+            <table class="admin-honor-tbl">
+              <thead>
+                <tr>
+                  <th>Chi đoàn</th>
+                  <th>Đoàn viên</th>
+                  <th>Gương mặt sáng giá</th>
+                  <th>Tỷ lệ có mặt</th>
+                </tr>
+              </thead>
+              <tbody id="adminHonorBody"></tbody>
+            </table>
           </div>
-          <div style="font-size:1rem;font-weight:700;color:var(--text-main);" id="topRateName">Đang tải...</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:3px;" id="topRateMeta">—</div>
         </div>
-      </div>
+      </section>
 
-      <!-- Admin: top members from roster -->
-      <div id="topRosterSection" style="display:none;">
-        <div
-          style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">
-          Top đoàn viên chuyên cần (từ bảng điểm danh)</div>
-        <div class="honor-rows" id="topRosterList"></div>
-      </div>
-
-      <!-- Admin chi đoàn table -->
-      <div id="adminHonorWrapper" style="display:none;">
-        <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin:14px 0 8px;">
-          Tổng hợp theo chi đoàn</div>
-        <div class="table-wrapper">
-          <table class="admin-honor-tbl">
-            <thead>
-              <tr>
-                <th>Chi đoàn</th>
-                <th>Đoàn viên</th>
-                <th>Gương mặt sáng giá</th>
-                <th>Tỷ lệ có mặt</th>
-              </tr>
-            </thead>
-            <tbody id="adminHonorBody"></tbody>
-          </table>
+      <!-- ── TIN TỨC ── -->
+      <section class="feed-section">
+        <div class="section-header">
+          <h3 class="section-title"><i class="fa-solid fa-bullhorn text-orange"></i> Tin tức & Hoạt động trọng điểm</h3>
+          <p class="section-subtitle">Thông tin cập nhật về các chuyên đề tập huấn lớn</p>
         </div>
-      </div>
-    </section>
-
-    <!-- ── TIN TỨC ── -->
-    <section class="feed-section">
-      <div class="section-header">
-        <h3 class="section-title"><i class="fa-solid fa-bullhorn text-orange"></i> Tin tức & Hoạt động trọng điểm</h3>
-        <p class="section-subtitle">Thông tin cập nhật về các chuyên đề tập huấn lớn</p>
-      </div>
-      <div class="feed-list">
-        <div class="feed-item">
-          <div class="feed-date-badge"><span class="feed-day">01</span><span class="feed-month">T.6</span></div>
-          <div class="feed-details">
-            <h4 class="feed-item-title">Lễ Khai mạc Sinh hoạt hè toàn phường & tiếp sức mùa thi</h4>
-            <p class="feed-item-desc">Mở đầu chuỗi hoạt động 3 tháng hè. Tập hợp toàn bộ thiếu niên, nhi đồng địa
-              phương, phân nhóm sinh hoạt và tổ chức các gian hàng trò chơi dân gian miễn phí.</p>
+        <div class="feed-list">
+          <div class="feed-item">
+            <div class="feed-date-badge"><span class="feed-day">01</span><span class="feed-month">T.6</span></div>
+            <div class="feed-details">
+              <h4 class="feed-item-title">Lễ Khai mạc Sinh hoạt hè toàn phường & tiếp sức mùa thi</h4>
+              <p class="feed-item-desc">Mở đầu chuỗi hoạt động 3 tháng hè. Tập hợp toàn bộ thiếu niên, nhi đồng địa
+                phương, phân nhóm sinh hoạt và tổ chức các gian hàng trò chơi dân gian miễn phí.</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-date-badge" style="background-color:var(--secondary-glow);color:var(--secondary);"><span
+                class="feed-day">08</span><span class="feed-month">T.6</span></div>
+            <div class="feed-details">
+              <h4 class="feed-item-title">Tập huấn Kỹ năng bơi lội & Phòng chống tai nạn thương tích</h4>
+              <p class="feed-item-desc">Tổ chức lớp dạy bơi miễn phí tại hồ bơi trung tâm quận. Đồng hành cùng các chiến
+                sĩ công an tuyên truyền kỹ năng an toàn thoát nạn cháy nổ.</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-date-badge" style="background-color:rgba(16,185,129,.08);color:var(--accent-green);"><span
+                class="feed-day">25</span><span class="feed-month">T.7</span></div>
+            <div class="feed-details">
+              <h4 class="feed-item-title">Hội trại kỹ năng dã ngoại 2 ngày 1 đêm "Khát Vọng Tuổi Trẻ"</h4>
+              <p class="feed-item-desc">Hội trại kỹ năng lớn nhất năm. Cắm trại nhanh, nấu ăn dã chiến, hành quân giải
+                mật thư đêm và đêm nhạc lửa trại sôi động.</p>
+            </div>
           </div>
         </div>
-        <div class="feed-item">
-          <div class="feed-date-badge" style="background-color:var(--secondary-glow);color:var(--secondary);"><span
-              class="feed-day">08</span><span class="feed-month">T.6</span></div>
-          <div class="feed-details">
-            <h4 class="feed-item-title">Tập huấn Kỹ năng bơi lội & Phòng chống tai nạn thương tích</h4>
-            <p class="feed-item-desc">Tổ chức lớp dạy bơi miễn phí tại hồ bơi trung tâm quận. Đồng hành cùng các chiến
-              sĩ công an tuyên truyền kỹ năng an toàn thoát nạn cháy nổ.</p>
-          </div>
-        </div>
-        <div class="feed-item">
-          <div class="feed-date-badge" style="background-color:rgba(16,185,129,.08);color:var(--accent-green);"><span
-              class="feed-day">25</span><span class="feed-month">T.7</span></div>
-          <div class="feed-details">
-            <h4 class="feed-item-title">Hội trại kỹ năng dã ngoại 2 ngày 1 đêm "Khát Vọng Tuổi Trẻ"</h4>
-            <p class="feed-item-desc">Hội trại kỹ năng lớn nhất năm. Cắm trại nhanh, nấu ăn dã chiến, hành quân giải
-              mật thư đêm và đêm nhạc lửa trại sôi động.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
     </div>
   </main>
@@ -1028,8 +1028,6 @@
         const user = getUser();
         const roster = getRosterData(user);  // ✅ Đã lọc đúng theo quyền
         const stats = calcRosterStats(roster, user);
-        console.log(user);
-        console.log(roster);
         renderCharts(roster);
         renderBentoStats(stats, user);
         renderMiniBar(roster);
