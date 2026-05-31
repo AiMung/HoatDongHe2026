@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cổng Thông Tin Sinh Hoạt Hè 2026 - 3D Experience</title>
-  <meta name="description" content="Trang chủ 3D ấn tượng của chiến dịch Mùa Hè Tình Nguyện 2026">
-  
+  <meta name="description" content="Trang chủ 3D ấn tượng của chiến dịch MÙA HÈ XUÂN HƯƠNG - ĐÀ LẠT 2026">
+
   <!-- Google Fonts: Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
   <style>
     :root {
       --primary: #3b82f6;
       --primary-hover: #2563eb;
     }
-    body, html {
+
+    body,
+    html {
       margin: 0;
       padding: 0;
       width: 100%;
@@ -25,7 +29,7 @@
       background-color: #050505;
       overflow: hidden;
     }
-    
+
     /* Spline viewer covers the whole screen */
     spline-viewer {
       position: absolute;
@@ -48,7 +52,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      pointer-events: none; /* Let clicks pass through to Spline */
+      pointer-events: none;
+      /* Let clicks pass through to Spline */
     }
 
     .content-box {
@@ -60,8 +65,9 @@
       padding: 50px;
       text-align: center;
       max-width: 600px;
-      pointer-events: auto; /* Enable clicks on this box */
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      pointer-events: auto;
+      /* Enable clicks on this box */
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       transform: translateY(20px);
       opacity: 0;
       animation: fadeUp 1s ease forwards 0.5s;
@@ -123,9 +129,11 @@
     .cta-btn::before {
       content: '';
       position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transition: all 0.5s ease;
     }
 
@@ -137,13 +145,14 @@
     .cta-btn:hover::before {
       left: 100%;
     }
-    
+
     /* Hide the Spline logo if possible (though their free tier requires it, we can push it down) */
     spline-viewer::part(logo) {
       display: none;
     }
   </style>
 </head>
+
 <body>
 
   <!-- Spline 3D Viewer -->
@@ -154,9 +163,10 @@
   <!-- Overlay Content -->
   <div class="landing-overlay">
     <div class="content-box">
-      <div class="badge">Mùa Hè Tình Nguyện 2026</div>
+      <div class="badge">MÙA HÈ XUÂN HƯƠNG - ĐÀ LẠT 2026</div>
       <h1>Cổng Thông Tin<br>Sinh Hoạt Hè</h1>
-      <p>Trải nghiệm hệ thống quản lý, điểm danh và lưu giữ khoảnh khắc tuổi trẻ năng động, trực quan và đẳng cấp nhất.</p>
+      <p>Trải nghiệm hệ thống quản lý, điểm danh và lưu giữ khoảnh khắc tuổi trẻ năng động, trực quan và đẳng cấp nhất.
+      </p>
       <a href="dashboard.html" class="cta-btn">Vào Hệ Thống Ngay</a>
     </div>
   </div>
@@ -165,7 +175,7 @@
     // Logic to directly redirect if user is already logged in and it's a direct visit, 
     // but here we might want them to see the 3D page anyway. 
     // Let's only redirect if they are not logged in when they click the CTA.
-    document.querySelector('.cta-btn').addEventListener('click', function(e) {
+    document.querySelector('.cta-btn').addEventListener('click', function (e) {
       e.preventDefault();
       const user = localStorage.getItem("summer_user");
       if (user) {
@@ -176,4 +186,5 @@
     });
   </script>
 </body>
+
 </html>

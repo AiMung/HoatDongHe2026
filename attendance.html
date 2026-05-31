@@ -926,23 +926,35 @@
     window.initBulkWeeklyAttendance = function () { };
 
     const STATUSES = ['', 'present', 'excused', 'unexcused'];
-    const S_LABEL = { '': '—', present: 'V', excused: 'P', unexcused: 'KP' };
+    const S_LABEL = { '': '—', present: 'Có mặt', excused: 'Vắng phép', unexcused: 'KP' };
     const S_TEXT = { '': 'Chưa điểm danh', present: 'Có mặt', excused: 'Vắng có phép', unexcused: 'Vắng không phép' };
-    const SK = 'att_roster_v4';
+
+    // ✅ FIX 1: Key lưu localStorage theo từng chi đoàn, không dùng chung
+    function getRosterKey() {
+      try {
+        const user = JSON.parse(localStorage.getItem('summer_user') || 'null');
+        if (!user) return 'att_roster_v4';
+        // Admin dùng key chung, User dùng key riêng theo chi đoàn
+        if (user.quyen === 'Admin') return 'att_roster_v4_admin';
+        return 'att_roster_v4_' + btoa(encodeURIComponent(user.chiDoan)).replace(/=/g, '');
+      } catch { return 'att_roster_v4'; }
+    }
 
     let rosterData = [];
     let activeWeek = 0;
     let nextRid = 1;
     let syncTimer = null;
-    let weekCount = 12;
+    let weekCount = 10;
     let liveQuery = '';
 
     function getUser() {
       try { return JSON.parse(localStorage.getItem('summer_user') || 'null'); } catch { return null; }
     }
+
     function saveLocal() {
-      try { localStorage.setItem(SK, JSON.stringify(rosterData)); } catch { }
+      try { localStorage.setItem(getRosterKey(), JSON.stringify(rosterData)); } catch { }
     }
+
     function esc(s) {
       return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
@@ -957,7 +969,6 @@
       return esc(text).replace(re, '<mark class="search-hl">$1</mark>');
     }
 
-    /* ── Sync badge ── */
     function setSyncBadge(type, text) {
       const el = document.getElementById('attSyncBadge');
       if (!el) return;
@@ -970,6 +981,7 @@
       clearTimeout(syncTimer);
       syncTimer = setTimeout(syncToServer, 1500);
     }
+
     function syncToServer() {
       const user = getUser();
       if (!user) { setSyncBadge('saved', 'Lưu cục bộ'); return; }
@@ -991,7 +1003,7 @@
       }).catch(() => setSyncBadge('error', 'Mất kết nối — đã lưu offline'));
     }
 
-    /* ── Load from server ── */
+    // ✅ FIX 2: loadFromServer lọc ĐÚNG theo chi đoàn ngay tại đây
     function loadFromServer(weekLabel, cb) {
       const user = getUser();
       const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
@@ -999,12 +1011,15 @@
       fetch(apiUrl + '?action=getWeeklyRoster&week=' + encodeURIComponent(weekLabel))
         .then(r => r.json())
         .then(res => {
-          const rows = (res.data || []).filter(x => user.quyen === 'Admin' || x.ChiDoan === user.chiDoan);
+          // ✅ Lọc chính xác: User chỉ thấy đúng chi đoàn mình, Admin thấy tất cả
+          const rows = (res.data || []).filter(x => {
+            if (user.quyen === 'Admin') return true;
+            return (x.ChiDoan || '').trim() === (user.chiDoan || '').trim();
+          });
           cb(rows);
         }).catch(() => cb([]));
     }
 
-    /* ── Merge server rows ── */
     function mergeServerRows(serverRows) {
       serverRows.forEach(sr => {
         let rec = rosterData.find(x => x.name.toLowerCase() === (sr.HoTen || '').toLowerCase());
@@ -1019,10 +1034,11 @@
         const sm = { 'Có mặt': 'present', 'Vắng có phép': 'excused', 'Vắng không phép': 'unexcused' };
         rec.attendance[activeWeek] = sm[sr.TrangThai] || '';
         rec.notes = sr.GhiChu || rec.notes;
+        // ✅ Luôn cập nhật group từ server để đảm bảo đúng chi đoàn
+        rec.group = sr.ChiDoan || rec.group;
       });
     }
 
-    /* ── Compute stats ── */
     function computeStats(list) {
       let p = 0, e = 0, u = 0, m = 0, f = 0;
       list.forEach(r => {
@@ -1033,7 +1049,6 @@
       return { p, e, u, m, f, total: list.length };
     }
 
-    /* ── Render ── */
     function renderWidget() {
       const widget = document.getElementById('attWidget');
       if (!widget) return;
@@ -1053,19 +1068,17 @@
       });
       const st = computeStats(filtered);
 
-      /* Tabs */
       let tabsHtml = '';
       for (let w = 0; w < weekCount; w++) {
         tabsHtml += `<div class="att-tab${w === activeWeek ? ' active' : ''}" data-w="${w}">Tuần ${w + 1}</div>`;
       }
 
-      /* Rows */
       let rowsHtml = '';
       if (filtered.length === 0) {
         rowsHtml = `<tr><td colspan="8" class="att-skeleton">
-        <i class="fa-regular fa-clipboard" style="opacity:.35;"></i>
-        ${q ? 'Không tìm thấy kết quả cho "<strong>' + esc(q) + '</strong>"' : 'Chưa có đoàn viên. Nhấn + Thêm để bắt đầu.'}
-      </td></tr>`;
+      <i class="fa-regular fa-clipboard" style="opacity:.35;"></i>
+      ${q ? 'Không tìm thấy kết quả cho "<strong>' + esc(q) + '</strong>"' : 'Chưa có đoàn viên. Nhấn + Thêm để bắt đầu.'}
+    </td></tr>`;
       } else {
         filtered.forEach((r, i) => {
           const s = r.attendance[activeWeek] || '';
@@ -1074,107 +1087,77 @@
           const av = initials(r.name);
           const nameHtml = highlightText(r.name, q);
           rowsHtml += `<tr data-rid="${r.id}">
-          <td class="att-num">${i + 1}</td>
-          <td>
-            <div class="att-name-cell">
-              <div class="att-avatar ${gKey}">${av}</div>
-              <span style="font-weight:600;font-size:13px;">${nameHtml}</span>
-            </div>
-          </td>
-          <td style="text-align:center;">
-            <span class="gender-pill ${gKey}">
-              <i class="fa-solid fa-${r.gioiTinh === 'Nữ' ? 'venus' : 'mars'}" style="font-size:10px;"></i> ${gLabel}
-            </span>
-          </td>
-          <td style="text-align:center;">
-            ${r.namSinh ? `<span class="year-badge">${esc(String(r.namSinh))}</span>` : '<span style="color:var(--text-muted);font-size:11px;">—</span>'}
-          </td>
-          <td style="font-size:12px;color:var(--text-muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(r.group)}">${esc(r.group) || '—'}</td>
-          <td><input class="att-note" data-rid="${r.id}" value="${esc(r.notes)}" placeholder="Ghi chú..."></td>
-          <td style="text-align:center;">
-            <span class="att-badge ${s || 'empty'}" data-rid="${r.id}" title="${S_TEXT[s]}">${S_LABEL[s]}</span>
-          </td>
-          <td style="text-align:center;">
-            <button class="att-del" data-rid="${r.id}" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
-          </td>
-        </tr>`;
+        <td class="att-num">${i + 1}</td>
+        <td>
+          <div class="att-name-cell">
+            <div class="att-avatar ${gKey}">${av}</div>
+            <span style="font-weight:600;font-size:13px;">${nameHtml}</span>
+          </div>
+        </td>
+        <td style="text-align:center;">
+          <span class="gender-pill ${gKey}">
+            <i class="fa-solid fa-${r.gioiTinh === 'Nữ' ? 'venus' : 'mars'}" style="font-size:10px;"></i> ${gLabel}
+          </span>
+        </td>
+        <td style="text-align:center;">
+          ${r.namSinh ? `<span class="year-badge">${esc(String(r.namSinh))}</span>` : '<span style="color:var(--text-muted);font-size:11px;">—</span>'}
+        </td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(r.group)}">${esc(r.group) || '—'}</td>
+        <td><input class="att-note" data-rid="${r.id}" value="${esc(r.notes)}" placeholder="Ghi chú..."></td>
+        <td style="text-align:center;">
+          <span class="att-badge ${s || 'empty'}" data-rid="${r.id}" title="${S_TEXT[s]}">${S_LABEL[s]}</span>
+        </td>
+        <td style="text-align:center;">
+          <button class="att-del" data-rid="${r.id}" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+        </td>
+      </tr>`;
         });
       }
 
       widget.innerHTML = `
-      <div class="att-tabs" id="attTabs">${tabsHtml}</div>
-
-      <div class="att-toolbar">
-        <div class="att-search-wrap">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="attSearch" placeholder="Tìm tên, chi đoàn, năm sinh..." value="${esc(q)}" autocomplete="off">
-        </div>
-        <button class="tb-btn success" id="attBtnAdd"><i class="fa-solid fa-user-plus"></i> Thêm</button>
-        <button class="tb-btn" id="attBtnLoadPrev" title="Sao chép từ tuần trước"><i class="fa-solid fa-copy"></i> Chép tuần trước</button>
-        <button class="tb-btn primary" id="attBtnSave"><i class="fa-solid fa-floppy-disk"></i> Lưu ngay</button>
-        <button class="tb-btn" id="attBtnExport"><i class="fa-solid fa-file-excel"></i> Xuất CSV</button>
+    <div class="att-tabs" id="attTabs">${tabsHtml}</div>
+    <div class="att-toolbar">
+      <div class="att-search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="attSearch" placeholder="Tìm tên, chi đoàn, năm sinh..." value="${esc(q)}" autocomplete="off">
       </div>
-
-      <div class="att-stats">
-        <div class="att-stat s-total">
-          <div class="att-stat-label">Tổng số</div>
-          <div class="att-stat-val t">${st.total}</div>
-          <div class="att-stat-sub">đoàn viên</div>
-        </div>
-        <div class="att-stat s-present">
-          <div class="att-stat-label">Có mặt</div>
-          <div class="att-stat-val p">${st.p}</div>
-          <div class="att-stat-sub">${st.total ? Math.round(st.p / st.total * 100) : 0}%</div>
-        </div>
-        <div class="att-stat s-excused">
-          <div class="att-stat-label">Vắng phép</div>
-          <div class="att-stat-val e">${st.e}</div>
-          <div class="att-stat-sub">${st.total ? Math.round(st.e / st.total * 100) : 0}%</div>
-        </div>
-        <div class="att-stat s-unexcused">
-          <div class="att-stat-label">Vắng K/P</div>
-          <div class="att-stat-val u">${st.u}</div>
-          <div class="att-stat-sub">${st.total ? Math.round(st.u / st.total * 100) : 0}%</div>
-        </div>
-        <div class="att-stat s-male">
-          <div class="att-stat-label">Nam</div>
-          <div class="att-stat-val m">${st.m}</div>
-          <div class="att-stat-sub">${st.total ? Math.round(st.m / st.total * 100) : 0}%</div>
-        </div>
-        <div class="att-stat s-female">
-          <div class="att-stat-label">Nữ</div>
-          <div class="att-stat-val f">${st.f}</div>
-          <div class="att-stat-sub">${st.total ? Math.round(st.f / st.total * 100) : 0}%</div>
-        </div>
-      </div>
-
-      <div class="att-legend">
-        <span class="att-leg"><span class="att-badge present" style="min-width:auto;padding:3px 10px;">V</span> Có mặt</span>
-        <span class="att-leg"><span class="att-badge excused" style="min-width:auto;padding:3px 10px;">P</span> Vắng phép</span>
-        <span class="att-leg"><span class="att-badge unexcused" style="min-width:auto;padding:3px 10px;">KP</span> Vắng không phép</span>
-        <span class="att-leg"><span class="att-badge empty" style="min-width:auto;padding:3px 10px;">—</span> Chưa điểm danh</span>
-      </div>
-
-      <div class="att-tbl-wrap">
-        <table class="att-tbl">
-          <thead>
-            <tr>
-              <th>#</th><th>Họ và tên</th><th>Giới tính</th><th>Năm sinh</th>
-              <th>Chi đoàn</th><th>Ghi chú</th>
-              <th style="text-align:center;">Trạng thái</th><th></th>
-            </tr>
-          </thead>
-          <tbody id="attTbody">${rowsHtml}</tbody>
-        </table>
-      </div>
-    `;
+      <button class="tb-btn success" id="attBtnAdd"><i class="fa-solid fa-user-plus"></i> Thêm</button>
+      <button class="tb-btn" id="attBtnLoadPrev" title="Sao chép từ tuần trước"><i class="fa-solid fa-copy"></i> Chép tuần trước</button>
+      <button class="tb-btn primary" id="attBtnSave"><i class="fa-solid fa-floppy-disk"></i> Lưu ngay</button>
+      <button class="tb-btn" id="attBtnExport"><i class="fa-solid fa-file-excel"></i> Xuất CSV</button>
+    </div>
+    <div class="att-stats">
+      <div class="att-stat s-total"><div class="att-stat-label">Tổng số</div><div class="att-stat-val t">${st.total}</div><div class="att-stat-sub">đoàn viên</div></div>
+      <div class="att-stat s-present"><div class="att-stat-label">Có mặt</div><div class="att-stat-val p">${st.p}</div><div class="att-stat-sub">${st.total ? Math.round(st.p / st.total * 100) : 0}%</div></div>
+      <div class="att-stat s-excused"><div class="att-stat-label">Vắng phép</div><div class="att-stat-val e">${st.e}</div><div class="att-stat-sub">${st.total ? Math.round(st.e / st.total * 100) : 0}%</div></div>
+      <div class="att-stat s-unexcused"><div class="att-stat-label">Vắng K/P</div><div class="att-stat-val u">${st.u}</div><div class="att-stat-sub">${st.total ? Math.round(st.u / st.total * 100) : 0}%</div></div>
+      <div class="att-stat s-male"><div class="att-stat-label">Nam</div><div class="att-stat-val m">${st.m}</div><div class="att-stat-sub">${st.total ? Math.round(st.m / st.total * 100) : 0}%</div></div>
+      <div class="att-stat s-female"><div class="att-stat-label">Nữ</div><div class="att-stat-val f">${st.f}</div><div class="att-stat-sub">${st.total ? Math.round(st.f / st.total * 100) : 0}%</div></div>
+    </div>
+    <div class="att-legend">
+      <span class="att-leg"><span class="att-badge present" style="min-width:auto;padding:3px 10px;">Có Mặt</span> Có mặt</span>
+      <span class="att-leg"><span class="att-badge excused" style="min-width:auto;padding:3px 10px;">Vắng Phép</span> Vắng phép</span>
+      <span class="att-leg"><span class="att-badge unexcused" style="min-width:auto;padding:3px 10px;">KP</span> Vắng không phép</span>
+      <span class="att-leg"><span class="att-badge empty" style="min-width:auto;padding:3px 10px;">—</span> Chưa điểm danh</span>
+    </div>
+    <div class="att-tbl-wrap">
+      <table class="att-tbl">
+        <thead>
+          <tr>
+            <th>#</th><th>Họ và tên</th><th>Giới tính</th><th>Năm sinh</th>
+            <th>Chi đoàn</th><th>Ghi chú</th>
+            <th style="text-align:center;">Trạng thái</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="attTbody">${rowsHtml}</tbody>
+      </table>
+    </div>
+  `;
 
       bindEvents();
     }
 
-    /* ── Bind events ── */
     function bindEvents() {
-      /* Tabs */
       document.getElementById('attTabs')?.querySelectorAll('.att-tab').forEach(tab => {
         tab.addEventListener('click', () => {
           const w = parseInt(tab.dataset.w);
@@ -1188,20 +1171,17 @@
         });
       });
 
-      /* Live search */
       const searchEl = document.getElementById('attSearch');
       if (searchEl) {
         searchEl.focus();
         searchEl.addEventListener('input', function () {
           liveQuery = this.value.trim();
           renderWidget();
-          /* Refocus + set cursor */
           const el = document.getElementById('attSearch');
           if (el) { const len = el.value.length; el.focus(); el.setSelectionRange(len, len); }
         });
       }
 
-      /* Badge click-to-toggle */
       document.getElementById('attTbody')?.querySelectorAll('.att-badge').forEach(b => {
         b.addEventListener('click', () => {
           const rid = parseInt(b.dataset.rid);
@@ -1219,7 +1199,6 @@
         });
       });
 
-      /* Note */
       document.getElementById('attTbody')?.querySelectorAll('.att-note').forEach(inp => {
         inp.addEventListener('change', () => {
           const rec = rosterData.find(x => x.id === parseInt(inp.dataset.rid));
@@ -1227,7 +1206,6 @@
         });
       });
 
-      /* Delete */
       document.getElementById('attTbody')?.querySelectorAll('.att-del').forEach(btn => {
         btn.addEventListener('click', () => {
           const rec = rosterData.find(x => x.id === parseInt(btn.dataset.rid));
@@ -1238,13 +1216,9 @@
         });
       });
 
-      /* Thêm — mở modal */
       document.getElementById('attBtnAdd')?.addEventListener('click', openAddModal);
-
-      /* Lưu ngay */
       document.getElementById('attBtnSave')?.addEventListener('click', () => { clearTimeout(syncTimer); syncToServer(); });
 
-      /* Chép tuần trước */
       document.getElementById('attBtnLoadPrev')?.addEventListener('click', () => {
         if (activeWeek === 0) { typeof showToast === 'function' && showToast('Tuần 1 không có tuần trước!', 'error'); return; }
         showLoading();
@@ -1263,19 +1237,20 @@
         });
       });
 
-      /* Xuất CSV */
       document.getElementById('attBtnExport')?.addEventListener('click', exportCSV);
     }
 
-    /* ── Update stats without full re-render ── */
     function updateStatsOnly() {
       const st = computeStats(rosterData);
-      const map = { '.att-stat-val.t': st.total, '.att-stat-val.p': st.p, '.att-stat-val.e': st.e, '.att-stat-val.u': st.u, '.att-stat-val.m': st.m, '.att-stat-val.f': st.f };
+      const map = {
+        '.att-stat-val.t': st.total, '.att-stat-val.p': st.p,
+        '.att-stat-val.e': st.e, '.att-stat-val.u': st.u,
+        '.att-stat-val.m': st.m, '.att-stat-val.f': st.f
+      };
       Object.entries(map).forEach(([sel, val]) => {
         const el = document.querySelector(sel);
         if (el) el.textContent = val;
       });
-      /* update % sub */
       document.querySelectorAll('.att-stat-sub').forEach((el, i) => {
         const total = st.total || 1;
         const vals = [st.total, st.p, st.e, st.u, st.m, st.f];
@@ -1284,16 +1259,15 @@
       });
     }
 
-    /* ── Loading row ── */
     function showLoading() {
       const tb = document.getElementById('attTbody');
       if (tb) tb.innerHTML = `<tr><td colspan="8" class="att-skeleton">
-      <i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu tuần ${activeWeek + 1}...
-    </td></tr>`;
+    <i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu tuần ${activeWeek + 1}...
+  </td></tr>`;
     }
 
-    /* ── Export CSV ── */
     function exportCSV() {
+      const user = getUser();
       let csv = '\uFEFFHọ và tên,Giới tính,Năm sinh,Trường/Đơn vị,Chi đoàn,Ghi chú';
       for (let w = 0; w < weekCount; w++) csv += `,Tuần ${w + 1}`;
       csv += '\n';
@@ -1303,14 +1277,13 @@
       });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-      a.download = 'DiemDanh_TatCaTuan.csv';
+      a.download = `DiemDanh_${user ? user.chiDoan.replace(/\s+/g, '_') : 'TatCa'}.csv`;
       a.click();
     }
 
-    /* ── MODAL LOGIC ── */
     function openAddModal() {
       const user = getUser();
-      const groupDefault = user ? user.chiDoan.replace('Chi đoàn Thanh niên Tổ dân phố ', '').replace(/\.$/, '') : '';
+      const groupDefault = user ? user.chiDoan : '';
       document.getElementById('newName').value = '';
       document.getElementById('newGender').value = '';
       document.getElementById('newYear').value = '';
@@ -1331,14 +1304,15 @@
     document.getElementById('submitAddModal')?.addEventListener('click', () => {
       const name = document.getElementById('newName').value.trim();
       if (!name) { document.getElementById('newName').focus(); return; }
-      const gender = document.getElementById('newGender').value;
-      const year = document.getElementById('newYear').value.trim();
-      const donVi = document.getElementById('newDonVi').value.trim();
-      const group = document.getElementById('newGroup').value.trim();
-
+      const user = getUser();
       rosterData.push({
-        id: nextRid++, name, group, notes: '',
-        gioiTinh: gender, namSinh: year, donVi,
+        id: nextRid++, name,
+        // ✅ Luôn gán đúng chi đoàn đang đăng nhập
+        group: user ? user.chiDoan : document.getElementById('newGroup').value.trim(),
+        notes: '',
+        gioiTinh: document.getElementById('newGender').value,
+        namSinh: document.getElementById('newYear').value.trim(),
+        donVi: document.getElementById('newDonVi').value.trim(),
         attendance: Array(weekCount).fill('')
       });
       saveLocal();
@@ -1348,17 +1322,26 @@
       typeof showToast === 'function' && showToast(`Đã thêm "${name}" vào bảng!`);
     });
 
-    /* Enter key in modal */
     document.getElementById('addMemberModal')?.addEventListener('keydown', e => {
       if (e.key === 'Enter' && !e.shiftKey) document.getElementById('submitAddModal')?.click();
       if (e.key === 'Escape') closeAddModal();
     });
 
-    /* ── INIT ── */
+    // ── INIT ──
     function initAttWidget() {
+      const user = getUser();
       try {
-        const stored = localStorage.getItem(SK);
-        if (stored) rosterData = JSON.parse(stored);
+        // ✅ FIX 3: Đọc đúng key theo chi đoàn, không đọc lẫn lộn
+        const stored = localStorage.getItem(getRosterKey());
+        if (stored) {
+          rosterData = JSON.parse(stored);
+          // Nếu là User, lọc thêm lần nữa để chắc chắn không có dữ liệu chi đoàn khác
+          if (user && user.quyen !== 'Admin') {
+            rosterData = rosterData.filter(r =>
+              !r.group || (r.group || '').trim() === (user.chiDoan || '').trim()
+            );
+          }
+        }
       } catch { rosterData = []; }
 
       if (rosterData.length > 0)
@@ -1372,9 +1355,16 @@
 
       renderWidget();
 
+      // Load từ server — đã lọc đúng chi đoàn trong loadFromServer
       loadFromServer('Tuần ' + (activeWeek + 1), rows => {
-        if (rows.length) { mergeServerRows(rows); saveLocal(); renderWidget(); setSyncBadge('saved', 'Đồng bộ từ Sheets ✓'); }
-        else setSyncBadge('saved', 'Đã đồng bộ');
+        if (rows.length) {
+          mergeServerRows(rows);
+          saveLocal();
+          renderWidget();
+          setSyncBadge('saved', 'Đồng bộ từ Sheets ✓');
+        } else {
+          setSyncBadge('saved', 'Đã đồng bộ');
+        }
       });
     }
 

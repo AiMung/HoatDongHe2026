@@ -185,67 +185,89 @@ function setupDatabase() {
   let sheetWeeks = ss.getSheetByName(SHEET_WEEKS);
   if (!sheetWeeks) { sheetWeeks = ss.insertSheet(SHEET_WEEKS); } else { sheetWeeks.clear(); }
   sheetWeeks.appendRow(["Tuan", "TieuDe", "ThoiGian", "MoTa", "Nhan", "LichTrinh_JSON"]);
-  sheetWeeks.appendRow([1, "Khai Mạc Hè & Kết Nối Bạn Mới", "01/06 - 07/06", "Lễ ra quân chiến dịch hè, các trò chơi vòng tròn gắn kết tình đồng đội và phổ biến nội quy sinh hoạt hè.", "kỹ năng, nghệ thuật", JSON.stringify([
-    { day: "Thứ 2", activity: "8:00 - Lễ Khai mạc sinh hoạt hè toàn phường tại Hội trường lớn." },
-    { day: "Thứ 4", activity: "14:00 - Chuyên đề: 'Định hướng lối sống lành mạnh & Kế hoạch hè 2026'." },
-    { day: "Thứ 7", activity: "15:00 - Sân chơi Team Building 'Vòng tay bè bạn' và Đăng ký các câu lạc bộ năng khiếu." }
-  ])]);
-  sheetWeeks.appendRow([2, "Kỹ Năng Sinh Tồn & Phòng Chống Tai Nạn", "08/06 - 14/06", "Tuyên truyền thực hành phòng chống đuối nước, thoát hiểm khi cháy nổ và kỹ năng sơ cấp cứu y tế.", "kỹ năng", JSON.stringify([
-    { day: "Thứ 2", activity: "8:00 - Khai mạc lớp học bơi miễn phí tại hồ bơi địa phương (diễn ra cả tuần)." },
-    { day: "Thứ 4", activity: "14:00 - Tập huấn lý thuyết phòng chống tai nạn thương tích và đuối nước." },
-    { day: "Thứ 7", activity: "8:00 - Buổi diễn tập thực hành thoát nạn cháy nổ & Kỹ thuật sơ cứu, băng bó vết thương." }
-  ])]);
-  sheetWeeks.appendRow([3, "Hội Thao Hè - Bứt Phá Giới Hạn", "15/06 - 21/06", "Khai mạc các câu lạc bộ thể thao và vòng loại Giải Bóng đá Thiếu niên & Nhi đồng truyền thống.", "thể thao", JSON.stringify([
-    { day: "Thứ 2", activity: "15:00 - Bốc thăm chia bảng và khai mạc giải bóng đá mini hè." },
-    { day: "Thứ 4", activity: "16:00 - Các trận đấu vòng bảng bảng A và bảng B." },
-    { day: "Thứ 7", activity: "7:30 - Ngày hội thể thao cộng đồng: Chạy việt dã thiếu niên và các trò chơi dân gian kéo co, nhảy bao bố." }
-  ])]);
-  sheetWeeks.appendRow([4, "Hành Trình Xanh - Chung Tay Bảo Vệ Môi Trường", "22/06 - 28/06", "Chiến dịch nhặt rác công viên, phân loại rác tại nguồn, làm nến thơm và trồng sen đá trang trí phòng học.", "tình nguyện, kỹ năng", JSON.stringify([
-    { day: "Thứ 2", activity: "8:00 - Phát động phong trào 'Thu gom pin cũ & vỏ hộp sữa đổi cây xanh'." },
-    { day: "Thứ 4", activity: "14:00 - Workshop làm nến thơm handmade và trang trí chậu cây bằng chai nhựa tái chế." },
-    { day: "Thứ 7", activity: "7:00 - Ra quân dọn dẹp vệ sinh khuôn viên công viên thiếu nhi và sơn vẽ lại bồn hoa công cộng." }
-  ])]);
-  sheetWeeks.appendRow([5, "Âm Nhạc Mùa Hè - Ươm Mầm Nghệ Thuật", "29/06 - 05/07", "Tổ chức lớp hát dân ca, múa hiện đại và tuyển chọn các tiết mục văn nghệ chuẩn bị cho đêm hội lớn.", "nghệ thuật", JSON.stringify([
-    { day: "Thứ 2", activity: "14:00 - Khai giảng lớp năng khiếu: Nhạc cụ, Thanh nhạc và Nhảy hiện đại hè." },
-    { day: "Thứ 4", activity: "14:00 - Tập luyện các bài hát thiếu nhi và dân vũ cộng đồng." },
-    { day: "Thứ 7", activity: "15:00 - Gala giao lưu âm nhạc đường phố và bình chọn giọng ca triển vọng." }
-  ])]);
-  sheetWeeks.appendRow([6, "Ngày Hội Sáng Tạo & Robotics", "06/07 - 12/07", "Tiếp cận thế giới công nghệ thông qua các thí nghiệm khoa học vui và lập trình robot LEGO đơn giản.", "học tập, kỹ năng", JSON.stringify([
-    { day: "Thứ 2", activity: "14:00 - Workshop: 'Thế giới hóa học kỳ thú' qua các thí nghiệm an toàn." },
-    { day: "Thứ 4", activity: "14:00 - Trải nghiệm lắp ráp mô hình kỹ thuật STEM cơ bản." },
-    { day: "Thứ 7", activity: "8:30 - Hội thi sáng tạo robot mini: Vận hành robot vượt sa bàn thu hoạch quà." }
-  ])]);
-  sheetWeeks.appendRow([7, "Uống Nước Nhớ Nguồn - Tri Ân 27/7", "13/07 - 19/07", "Chuỗi hoạt động thăm hỏi gia đình có công với cách mạng, quét dọn Nghĩa trang Liệt sĩ nhân ngày 27/7.", "tình nguyện", JSON.stringify([
-    { day: "Thứ 2", activity: "15:00 - Họp đoàn và lên kế hoạch đi thăm hỏi Mẹ Việt Nam Anh hùng tại địa phương." },
-    { day: "Thứ 4", activity: "8:00 - Ra quân dọn dẹp, dâng hương tại Bia tưởng niệm Liệt sĩ phường." },
-    { day: "Thứ 7", activity: "18:30 - Lễ thắp nến tri ân các anh hùng liệt sĩ tại Nghĩa trang Liệt sĩ thành phố." }
-  ])]);
-  sheetWeeks.appendRow([8, "Hội Trại Kỹ Năng - Vượt Qua Thử Thách", "20/07 - 26/07", "Hội trại hè dã ngoại kéo dài 2 ngày 1 đêm với các phần thi dựng lều nghệ thuật, giải mật thư và đốt lửa trại.", "kỹ năng, thể thao", JSON.stringify([
-    { day: "Thứ 2", activity: "14:00 - Phổ biến luật trại, tập huấn giải mật thư và nút dây cơ bản." },
-    { day: "Thứ 6", activity: "6:00 - Xuất phát đi địa điểm cắm trại dã ngoại (ngày 1: dựng lều, thi cắm hoa, đêm lửa trại)." },
-    { day: "Thứ 7", activity: "Cả ngày - Ngày 2 của Hội trại: Trò chơi lớn chinh phục mật thư, bế mạc trại và thu dọn rác." }
-  ])]);
-  sheetWeeks.appendRow([9, "Kỳ Thủ Nhí - Trí Tuệ Tỏa Sáng", "27/07 - 02/08", "Giải thi đấu cờ vua, cờ tướng dành cho thanh thiếu niên để phát triển tư duy logic và sự kiên trì.", "thể thao, học tập", JSON.stringify([
-    { day: "Thứ 2", activity: "14:00 - Đăng ký thi đấu giải cờ vua thanh thiếu niên hè 2026." },
-    { day: "Thứ 4", activity: "15:00 - Đấu loại trực tiếp các kỳ thủ vòng bảng." },
-    { day: "Thứ 7", activity: "8:00 - Chung kết giải cờ vua, trao giải thưởng và cúp lưu niệm cho kỳ thủ xuất sắc." }
-  ])]);
-  sheetWeeks.appendRow([10, "Diễn Đàn Trẻ Em - Lắng Nghe Con Nói", "03/08 - 09/08", "Rèn luyện kỹ năng thuyết trình trước đám đông, thảo luận về chủ đề phòng chống bạo lực học đường.", "kỹ năng, học tập", JSON.stringify([
-    { day: "Thứ 2", activity: "14:00 - Chuyên đề kỹ năng thuyết trình, giao tiếp trước công chúng hiệu quả." },
-    { day: "Thứ 4", activity: "14:00 - Thảo luận nhóm về quyền trẻ em và các giải pháp phòng chống bạo lực học đường." },
-    { day: "Thứ 7", activity: "9:00 - Diễn đàn đối thoại trực tiếp giữa Lãnh đạo địa phương với thanh thiếu nhi." }
-  ])]);
-  sheetWeeks.appendRow([11, "Chung Tay Vì Cộng Đồng - Sách Cũ Trao Tay", "10/08 - 16/08", "Quyên góp sách giáo khoa cũ, vở mới, bút thước để chuẩn bị gửi tặng cho học sinh vùng cao khó khăn trước năm học mới.", "tình nguyện", JSON.stringify([
-    { day: "Thứ 2", activity: "8:00 - Bắt đầu tiếp nhận quyên góp sách vở, đồ dùng học tập tại Văn phòng Đoàn." },
-    { day: "Thứ 4", activity: "14:00 - Tổ chức phân loại sách, đóng tập vở ngăn nắp và viết thiệp chúc gửi học sinh miền núi." },
-    { day: "Thứ 7", activity: "8:00 - Đóng thùng hàng gửi đi vùng cao và tổng kết kết quả đợt quyên góp thiện nguyện." }
-  ])]);
-  sheetWeeks.appendRow([12, "Lễ Tổng Kết - Đêm Hội Trăng Rằm Sớm", "17/08 - 23/08", "Tổng kết thi đua hoạt động hè, biểu diễn các tiết mục văn nghệ xuất sắc nhất và trao quà khuyến học cho học sinh nghèo.", "nghệ thuật, tình nguyện", JSON.stringify([
-    { day: "Thứ 2", activity: "14:00 - Tổng duyệt chương trình biểu diễn văn nghệ tổng kết hè." },
-    { day: "Thứ 4", activity: "14:00 - Chuẩn bị lồng đèn, quà bánh cho đêm hội Trăng rằm sớm." },
-    { day: "Thứ 7", activity: "18:00 - Đêm hội tổng kết sinh hoạt hè 2026: Phát quà trung thu sớm, tuyên dương và trao học bổng." }
-  ])]);
 
+  sheetWeeks.appendRow([1, "Khai Mạc Hè Phường & Tiếp Nhận Đoàn Viên", "07/06 - 20/06",
+    "Lễ khai mạc sinh hoạt hè toàn phường, thành lập BCĐ hè tổ dân phố, tiếp nhận đoàn viên – học sinh về sinh hoạt hè tại các chi đoàn.",
+    "khai mạc, kỹ năng",
+    JSON.stringify([
+      { day: "07/06", activity: "Tham gia Lễ Khai mạc hè cấp phường (dự kiến tại Quảng trường)." },
+      { day: "Trước 20/06", activity: "Các tổ dân phố tổ chức Khai mạc hè tại địa phương, thông báo lịch về BCĐ hè phường." },
+      { day: "Cả tuần", activity: "BCĐ hè TDP thành lập Ban Điều hành hè; các Chi đoàn tiếp nhận đoàn viên, học sinh về tham gia sinh hoạt hè." }
+    ])]);
+
+  sheetWeeks.appendRow([2, "Tiếp Sức Mùa Thi & Khởi Động Chiến Dịch Tình Nguyện Hè", "10/06 - 13/06",
+    "Hỗ trợ tiếp sức mùa thi 2026, triển khai chiến dịch 'Tình nguyện hè', 'Hoa phượng đỏ', 'Hành quân xanh' năm 2026 của tỉnh.",
+    "tình nguyện",
+    JSON.stringify([
+      { day: "10/06 - 13/06", activity: "Cử lực lượng Đoàn viên Thanh niên tham gia hỗ trợ tiếp sức mùa thi theo phân bổ của Đoàn phường." },
+      { day: "Cả tuần", activity: "Phát động và triển khai chiến dịch 'Tình nguyện hè', 'Hoa phượng đỏ', 'Hành quân xanh' phối hợp các đơn vị ĐH, CĐ." }
+    ])]);
+
+  sheetWeeks.appendRow([3, "Tháng Hành Động Vì Trẻ Em & Ra Quân Tình Nguyện", "21/06 - 30/06",
+    "Tổ chức các hoạt động trong Tháng hành động vì trẻ em; thành lập Đội hình thanh niên tình nguyện tại chỗ; tuyên truyền phòng chống đuối nước, giáo dục giới tính, sức khỏe sinh sản vị thành niên.",
+    "tình nguyện, kỹ năng, sức khỏe",
+    JSON.stringify([
+      { day: "Thứ 2", activity: "Ra quân vệ sinh môi trường, cạo xóa quảng cáo sai quy định, hướng dẫn đăng ký định danh điện tử VNeID." },
+      { day: "Thứ 4", activity: "Mời cán bộ TTDS-KHHGĐ nói chuyện chuyên đề Giáo dục giới tính, SKSS vị thành niên, phòng chống dịch bệnh mùa hè." },
+      { day: "Thứ 7", activity: "Tuyên truyền phòng chống đuối nước; tổ chức các trò chơi tập thể sinh hoạt tại tổ dân phố." }
+    ])]);
+
+  sheetWeeks.appendRow([4, "Đối Thoại Lãnh Đạo & Sinh Hoạt Tổ Dân Phố", "01/07 - 09/07",
+    "Tổ chức Đối thoại giữa lãnh đạo UBND với Thanh niên địa phương; BCĐ hè TDP tổ chức sinh hoạt theo chương trình của tổ dân phố.",
+    "đối thoại, sinh hoạt",
+    JSON.stringify([
+      { day: "01/07 - 09/07", activity: "Tham gia 'Đối thoại giữa lãnh đạo UBND với Thanh niên địa phương' – hoạt động tập trung toàn phường." },
+      { day: "Cả tuần", activity: "BCĐ hè TDP tổ chức sinh hoạt theo chương trình của tổ dân phố." }
+    ])]);
+
+  sheetWeeks.appendRow([5, "Đổi Rác Thải Nhựa Lấy Quà & Trồng Cây Xanh", "10/07 - 11/07",
+    "Tổ chức chương trình 'Đổi rác thải nhựa lấy quà tặng'; phát động phong trào trồng hoa, cây xanh tại khuôn viên hội trường tổ.",
+    "môi trường, tình nguyện",
+    JSON.stringify([
+      { day: "10/07 - 11/07", activity: "Đoàn viên Thanh niên tham gia hoạt động 'Đổi rác thải nhựa lấy quà tặng' – hoạt động tập trung toàn phường." },
+      { day: "Cả đợt", activity: "Phát động phong trào phần việc thanh niên: đảm nhận trồng hoa, cây xanh tại khuôn viên hội trường tổ dân phố." }
+    ])]);
+
+  sheetWeeks.appendRow([6, "Tuyên Truyền Pháp Luật & An Toàn Mạng Xã Hội", "12/07 - 18/07",
+    "Tuyên truyền phòng chống xâm hại tình dục, bạo lực, ma túy, tệ nạn xã hội, nghiện game; định hướng an toàn mạng xã hội; Hội thi Rung chuông vàng tìm hiểu kiến thức pháp luật.",
+    "pháp luật, kỹ năng, an toàn",
+    JSON.stringify([
+      { day: "Thứ 2", activity: "Sinh hoạt tập thể, lồng ghép tuyên truyền Luật ATGT, Hiến pháp, phòng chống đuối nước – phối hợp Công an phường." },
+      { day: "Thứ 4", activity: "Hướng dẫn ĐVTTN phòng chống xâm hại tình dục, bạo lực học đường, ma túy, HIV/AIDS; định hướng an toàn mạng xã hội." },
+      { day: "Thứ 7", activity: "Hội thi Rung chuông vàng tìm hiểu kiến thức pháp luật – huy động ĐVTN toàn phường tham gia." }
+    ])]);
+
+  sheetWeeks.appendRow([7, "Uống Nước Nhớ Nguồn – Kỷ Niệm 27/7 & Văn Nghệ Quần Chúng", "19/07 - 31/07",
+    "Thăm viếng gia đình chính sách, viếng Nghĩa trang Liệt sĩ nhân ngày Thương binh – Liệt sĩ 27/7; Hội thi Văn nghệ quần chúng tổ dân phố.",
+    "tri ân, văn nghệ, tình nguyện",
+    JSON.stringify([
+      { day: "19/07 - 26/07", activity: "Ra quân vệ sinh môi trường; giới thiệu Hội viên HLHTN tiên tiến cho Đoàn phường kết nạp Đoàn." },
+      { day: "27/07", activity: "Tổ chức thăm các gia đình chính sách tại tổ dân phố; tham gia viếng Nghĩa trang Liệt sĩ theo lịch phường." },
+      { day: "Cuối tháng 7", activity: "BCĐ hè phối hợp hệ thống chính trị TDP xây dựng tiết mục văn nghệ; tham gia Hội thi Văn nghệ quần chúng tổ dân phố." }
+    ])]);
+
+  sheetWeeks.appendRow([8, "Hội Trại Hè – Kỹ Năng Sống & Trò Chơi Lớn", "01/08 - 08/08",
+    "Tổ chức Hội trại hè, trò chơi lớn, rèn luyện kỹ năng sống; nhận xét sinh hoạt cho đoàn viên, thanh thiếu nhi; gửi danh sách sinh hoạt về Đoàn phường.",
+    "kỹ năng, thể thao, trại hè",
+    JSON.stringify([
+      { day: "01/08 - 08/08", activity: "Tổ chức Hội trại hè tập trung toàn phường: trò chơi lớn, kỹ năng sinh tồn, giải mật thư, đêm lửa trại." },
+      { day: "Cả đợt", activity: "Huy động lực lượng ĐVTN tại tổ dân phố tham gia; nhận xét sinh hoạt và gửi danh sách về Đoàn phường." }
+    ])]);
+
+  sheetWeeks.appendRow([9, "Tổng Kết Hè Tổ Dân Phố", "09/08 - 13/08",
+    "Các tổ dân phố tiến hành tổng kết hè, khen thưởng cá nhân có thành tích tốt trong hoạt động hè 2026.",
+    "tổng kết, khen thưởng",
+    JSON.stringify([
+      { day: "09/08 - 13/08", activity: "Các TDP tổ chức Tổng kết hè: đánh giá kết quả, khen thưởng cá nhân xuất sắc." },
+      { day: "Trước tổng kết ít nhất 1 tuần", activity: "Gửi lịch tổng kết hè TDP về BCĐ hè phường." }
+    ])]);
+
+  sheetWeeks.appendRow([10, "Tổng Kết Hè Cấp Phường – Bế Mạc Sinh Hoạt Hè 2026", "14/08",
+    "Lễ Tổng kết sinh hoạt hè cấp phường Xuân Hương năm 2026; tuyên dương, khen thưởng tập thể và cá nhân xuất sắc.",
+    "tổng kết, khen thưởng, bế mạc",
+    JSON.stringify([
+      { day: "14/08", activity: "Lễ Tổng kết hè cấp phường: tuyên dương, khen thưởng các tập thể – cá nhân có thành tích xuất sắc trong hoạt động hè 2026." }
+    ])]);
   Logger.log("✅ Khởi tạo cơ sở dữ liệu thành công! (TaiKhoan, DanhSachDoanVien, DiemDanh, HinhAnh, HoatDongTuan)");
 }
 

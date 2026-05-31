@@ -4,7 +4,7 @@
 
 let WEEKLY_ACTIVITIES = [];
 
-const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbyT5SljNeEDFntqy1d4c_yP_usZgWakwk37RS54Qb1lOJmHcPTV5l_7aQ3D-USj4RWBGg/exec";
+const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbxR7Xkocn9kXMv0bXzaCq_8unp7akHKnO_WqfGI74aHoBBzuvuyKh01CZ9u3rcOTB-gfw/exec";
 
 const DEFAULT_ATTENDANCE = [
   { date: "2026-06-01", week: "Tuần 1", name: "Nguyễn Văn An", status: "Có mặt", notes: "Đi đúng giờ", chiDoan: "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2" },
@@ -199,6 +199,8 @@ function highlightActiveSidebar() {
     activeId = "link-event";
   } else if (filename.includes("attendance.html")) {
     activeId = "link-attendance";
+  } else if (filename.includes("sudden_events.html")) {
+    activeId = "link-sudden";
   } else if (filename.includes("gallery.html")) {
     activeId = "link-gallery";
   }
