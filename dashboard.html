@@ -738,11 +738,14 @@
     </div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js already loaded in <head> above -->
   <script src="app.js"></script>
 
   <script>
     (function patchDashboardStats() {
+      // Vô hiệu hóa các hàm vẽ chart/vinh danh cũ của app.js để tránh ghi đè/xung đột dữ liệu
+      window.updateDashboardCharts = function () { };
+      window.renderHonorStats = function () { };
 
       function getUser() {
         try { return JSON.parse(localStorage.getItem('summer_user') || 'null'); } catch { return null; }
@@ -752,13 +755,46 @@
         return user && user.quyen === 'Admin';
       }
 
-      /* ── Lấy roster — lọc đúng theo chi đoàn nếu là User ── */
+      /* ── Lấy đúng key localStorage theo quyền (PHẢI khớp với attendance.html) ── */
+      function getRosterKey(user) {
+        try {
+          if (!user) return 'att_roster_v4';
+          if (user.quyen === 'Admin') return 'att_roster_v4_admin';
+          return 'att_roster_v4_' + btoa(encodeURIComponent(user.chiDoan || '')).replace(/=/g, '');
+        } catch { return 'att_roster_v4'; }
+      }
+
+      /* ── Lấy roster — Admin gom tất cả key, User đọc key riêng ── */
       function getRosterData(user) {
         try {
-          const all = JSON.parse(localStorage.getItem('att_roster_v4') || '[]');
-          if (isAdmin(user)) return all;
-          // User chỉ thấy đoàn viên của chi đoàn mình
-          return all.filter(r => (r.group || '').trim() === (user.chiDoan || '').trim());
+          if (isAdmin(user)) {
+            // Admin: đọc key admin trước, nếu rỗng thử key cũ 'att_roster_v4'
+            let all = JSON.parse(localStorage.getItem('att_roster_v4_admin') || '[]');
+            if (!all.length) {
+              all = JSON.parse(localStorage.getItem('att_roster_v4') || '[]');
+            }
+            // Gom thêm data từ tất cả key User (att_roster_v4_*) nếu có
+            for (let i = 0; i < localStorage.length; i++) {
+              const k = localStorage.key(i);
+              if (k && k.startsWith('att_roster_v4_') && k !== 'att_roster_v4_admin') {
+                try {
+                  const extra = JSON.parse(localStorage.getItem(k) || '[]');
+                  extra.forEach(r => {
+                    if (!all.find(x => (x.name || '').toLowerCase() === (r.name || '').toLowerCase() && (x.group || '') === (r.group || ''))) {
+                      all.push(r);
+                    }
+                  });
+                } catch { }
+              }
+            }
+            return all;
+          }
+          // User: chỉ đọc key riêng của mình
+          const key = getRosterKey(user);
+          const stored = JSON.parse(localStorage.getItem(key) || '[]');
+          return stored.filter(r =>
+            !r.group || (r.group || '').trim() === (user.chiDoan || '').trim()
+          );
         } catch { return []; }
       }
 
@@ -855,9 +891,8 @@
       function renderMiniBar(roster) {
         const container = document.getElementById('weekMiniBar');
         if (!container) return;
-        const weekCount = roster.length > 0 && roster[0].attendance
-          ? roster[0].attendance.length : 12;
-        const counts = Array.from({ length: weekCount }, (_, w) =>
+        const wc = 10;
+        const counts = Array.from({ length: wc }, (_, w) =>
           roster.reduce((a, r) => a + (r.attendance && r.attendance[w] === 'present' ? 1 : 0), 0)
         );
         const maxC = Math.max(...counts, 1);
@@ -963,15 +998,32 @@
         if (skLine) skLine.style.display = 'none';
         if (skDoughnut) skDoughnut.style.display = 'none';
 
+        // Hủy các chart instance cũ (cả của app.js lẫn của dashboard.html) để tránh lỗi "Canvas is already in use"
+        if (window.attendanceLineChartInstance && typeof window.attendanceLineChartInstance.destroy === 'function') {
+          try { window.attendanceLineChartInstance.destroy(); } catch(e){}
+          window.attendanceLineChartInstance = null;
+        }
+        if (window.statusDoughnutChartInstance && typeof window.statusDoughnutChartInstance.destroy === 'function') {
+          try { window.statusDoughnutChartInstance.destroy(); } catch(e){}
+          window.statusDoughnutChartInstance = null;
+        }
+        if (window._lineChart && typeof window._lineChart.destroy === 'function') {
+          try { window._lineChart.destroy(); } catch(e){}
+          window._lineChart = null;
+        }
+        if (window._doughnutChart && typeof window._doughnutChart.destroy === 'function') {
+          try { window._doughnutChart.destroy(); } catch(e){}
+          window._doughnutChart = null;
+        }
+
         // Tính điểm danh theo tuần từ roster
-        const wc = roster.length > 0 && roster[0].attendance ? roster[0].attendance.length : 10;
+        const wc = 10;
         const weeks = Array.from({ length: wc }, (_, i) => `T${i + 1}`);
         const presentCounts = Array.from({ length: wc }, (_, w) =>
           roster.reduce((a, r) => a + (r.attendance && r.attendance[w] === 'present' ? 1 : 0), 0)
         );
 
         // Line chart
-        if (window._lineChart) { window._lineChart.destroy(); }
         window._lineChart = new Chart(ctxLine, {
           type: 'line',
           data: {
@@ -1006,7 +1058,6 @@
           });
         });
 
-        if (window._doughnutChart) { window._doughnutChart.destroy(); }
         window._doughnutChart = new Chart(ctxDoughnut, {
           type: 'doughnut',
           data: {
@@ -1023,10 +1074,11 @@
           }
         });
       }
+
       /* ── MAIN INIT ── */
       function init() {
         const user = getUser();
-        const roster = getRosterData(user);  // ✅ Đã lọc đúng theo quyền
+        let roster = getRosterData(user);  // Đọc từ localStorage (đúng key)
         const stats = calcRosterStats(roster, user);
         renderCharts(roster);
         renderBentoStats(stats, user);
@@ -1035,34 +1087,61 @@
         renderHonorFromRoster(roster);
         loadEventCount();
 
-        // Admin: load thêm từ server để có full data 77 chi đoàn
-        if (isAdmin(user)) {
-          const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
-          if (apiUrl) {
-            fetch(apiUrl + '?action=getWeeklyRoster&week=Tu%E1%BA%A7n%201')
-              .then(r => r.json())
-              .then(res => {
-                if (res.success && res.data && res.data.length > 0) {
-                  const existing = new Set(roster.map(r => r.name.toLowerCase()));
-                  res.data.forEach(sr => {
-                    if (!existing.has((sr.HoTen || '').toLowerCase())) {
-                      roster.push({
-                        id: Date.now() + Math.random(),
-                        name: sr.HoTen || '', group: sr.ChiDoan || '',
-                        gioiTinh: sr.GioiTinh || '', namSinh: sr.NamSinh || '',
-                        attendance: Array(12).fill('')
-                      });
-                    }
-                  });
-                  const newStats = calcRosterStats(roster, user);
-                  renderBentoStats(newStats, user);
-                  renderMiniBar(roster);
-                  renderTopRoster(roster);
-                  renderHonorFromRoster(roster);
-                }
-              }).catch(() => { });
-          }
-        }
+        // Luôn load từ API để cập nhật data mới nhất (cả Admin và User)
+        const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
+        if (!apiUrl) return;
+
+        // Fetch toàn bộ tuần (không lọc week để lấy hết tuần 1-12)
+        const fetchUrl = apiUrl + '?action=getWeeklyRoster';
+
+        fetch(fetchUrl)
+          .then(r => r.json())
+          .then(res => {
+            if (!res.success || !res.data || !res.data.length) return;
+
+            // Lọc theo chi đoàn nếu là User
+            const rows = isAdmin(user)
+              ? res.data
+              : res.data.filter(sr => (sr.ChiDoan || '').trim() === (user.chiDoan || '').trim());
+            if (!rows.length) return;
+
+            const existing = new Map();
+            roster.forEach(r => existing.set((r.name || '').toLowerCase(), r));
+
+            const statusMap = { 'Có mặt': 'present', 'Vắng có phép': 'excused', 'Vắng không phép': 'unexcused' };
+
+            rows.forEach(sr => {
+              const name = (sr.HoTen || '').toLowerCase();
+              const weekNum = sr.Tuan.startsWith('Tuần ') ? parseInt(sr.Tuan.replace('Tuần ', '')) : parseInt(sr.Tuan);
+              const wIdx = (!isNaN(weekNum) && weekNum >= 1) ? weekNum - 1 : 0;
+
+              if (existing.has(name)) {
+                const rec = existing.get(name);
+                while (rec.attendance.length <= wIdx) rec.attendance.push('');
+                rec.attendance[wIdx] = statusMap[sr.TrangThai] || '';
+              } else {
+                const attArr = Array(12).fill('');
+                attArr[wIdx] = statusMap[sr.TrangThai] || '';
+                const newRec = {
+                  id: Date.now() + Math.random(),
+                  name: sr.HoTen || '',
+                  group: sr.ChiDoan || '',
+                  gioiTinh: sr.GioiTinh || '',
+                  namSinh: sr.NamSinh || '',
+                  attendance: attArr
+                };
+                roster.push(newRec);
+                existing.set(name, newRec);
+              }
+            });
+
+            const newStats = calcRosterStats(roster, user);
+            renderCharts(roster);  // ✅ Vẽ lại biểu đồ với dữ liệu từ API
+            renderBentoStats(newStats, user);
+            renderMiniBar(roster);
+            renderTopRoster(roster);
+            renderHonorFromRoster(roster);
+          }).catch((err) => { console.warn("Lỗi load từ API:", err); });
       }
 
       if (document.readyState === 'loading') {
@@ -1072,13 +1151,15 @@
       }
 
       /* Override updateStatsMetrics — giữ đúng scope phân quyền */
-      const _orig = window.updateStatsMetrics;
       window.updateStatsMetrics = function () {
-        if (typeof _orig === 'function') _orig.apply(this, arguments);
         const user = getUser();
         const roster = getRosterData(user);
         const stats = calcRosterStats(roster, user);
         renderBentoStats(stats, user);
+        renderCharts(roster);
+        renderMiniBar(roster);
+        renderTopRoster(roster);
+        renderHonorFromRoster(roster);
       };
 
     })();
