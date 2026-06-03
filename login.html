@@ -63,10 +63,10 @@
 
       <form id="loginForm" class="login-form">
 
-        <div class="login-group">
+        <div class="login-group" style="position: relative;">
           <label for="loginChiDoan"><i class="fa-solid fa-building-flag"></i> Chọn đơn vị Chi đoàn <span
               style="color: var(--secondary);">*</span></label>
-          <select id="loginChiDoan" required class="login-select">
+          <select id="loginChiDoan" required class="login-select" style="position: absolute; opacity: 0; pointer-events: none; height: 0; width: 0; border: none; padding: 0; margin: 0;">
             <option value="" disabled selected>-- Chọn đơn vị Chi đoàn --</option>
             <option value="Ban Chỉ Đạo Hè Phường">Ban Chỉ Đạo Hè Phường (Tài khoản Admin)</option>
             <option disabled>──────────────────────────</option>
@@ -150,8 +150,18 @@
             <option value="Chi đoàn TDP Yersin">Chi đoàn TDP Yersin</option>
             <option value="Chi đoàn TDP Trần Quang Diệu">Chi đoàn TDP Trần Quang Diệu</option>
           </select>
-        </div>
 
+          <!-- Autocomplete Dropdown -->
+          <div class="autocomplete-wrapper" id="customChiDoanSelect" style="position: relative;">
+            <input type="text" id="customSelectInput" class="login-input"
+              placeholder="Nhập tên chi đoàn..." autocomplete="off"
+              style="cursor: pointer; padding-right: 16px;">
+            <ul class="custom-select-options" id="customSelectOptionsList"
+              style="display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-card); backdrop-filter: blur(12px); border: var(--glass-border); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); z-index: 1000; max-height: 250px; overflow-y: auto; padding: 8px 0; list-style: none; margin: 0;">
+              <!-- Options populated by JS -->
+            </ul>
+          </div>
+        </div>
         <div class="login-group">
           <label for="loginPassword"><i class="fa-solid fa-lock"></i> Mật khẩu truy cập <span
               style="color: var(--secondary);">*</span></label>
@@ -250,6 +260,157 @@
   </div>
 
   <script src="app.js"></script>
+
+  <!-- Autocomplete Dropdown Logic -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const nativeSelect = document.getElementById('loginChiDoan');
+      const searchInput = document.getElementById('customSelectInput');
+      const optionsList = document.getElementById('customSelectOptionsList');
+      const wrapper = document.getElementById('customChiDoanSelect');
+
+      // Tạo danh sách
+      function populateOptions() {
+        optionsList.innerHTML = '';
+        Array.from(nativeSelect.options).forEach((option, index) => {
+          if (option.disabled && option.value === "") return; // Bỏ qua dòng placeholder đầu tiên
+
+          const li = document.createElement('li');
+          li.textContent = option.text;
+          li.className = 'custom-select-option';
+          li.style.cssText = 'padding: 10px 16px; font-size: 0.9rem; color: var(--text-main); cursor: pointer; transition: background 0.2s;';
+
+          if (option.disabled) {
+            li.style.color = 'var(--text-muted)';
+            li.style.pointerEvents = 'none';
+            li.style.fontWeight = '500';
+            li.style.textTransform = 'uppercase';
+            li.style.letterSpacing = '0.5px';
+            li.classList.add('disabled-option');
+          } else {
+            li.dataset.value = option.value;
+            li.dataset.index = index;
+
+            // Hover effect
+            li.addEventListener('mouseenter', () => li.style.background = 'var(--primary-glow)');
+            li.addEventListener('mouseleave', () => li.style.background = 'transparent');
+
+            // Select
+            li.addEventListener('click', () => {
+              nativeSelect.selectedIndex = index;
+              searchInput.value = option.text;
+              closeDropdown();
+
+              // Kích hoạt sự kiện change cho native select (để app.js bắt được)
+              const event = new Event('change', { bubbles: true });
+              nativeSelect.dispatchEvent(event);
+            });
+          }
+          optionsList.appendChild(li);
+        });
+      }
+
+      function openDropdown() {
+        optionsList.style.display = 'block';
+        searchInput.style.borderColor = 'var(--primary)';
+        searchInput.style.boxShadow = '0 0 0 3px var(--primary-glow)';
+      }
+
+      function closeDropdown() {
+        optionsList.style.display = 'none';
+        searchInput.style.borderColor = 'var(--border-color)';
+        searchInput.style.boxShadow = 'none';
+      }
+
+      function filterOptions(query) {
+        const lowerQuery = query.toLowerCase();
+        const items = optionsList.querySelectorAll('li');
+        let hasMatch = false;
+
+        items.forEach(item => {
+          if (item.classList.contains('disabled-option')) {
+            // Giữ đường kẻ ngang
+            item.style.display = lowerQuery ? 'none' : 'block';
+            return;
+          }
+          const text = item.textContent.toLowerCase();
+          if (text.includes(lowerQuery)) {
+            item.style.display = 'block';
+            hasMatch = true;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+
+      // Xử lý sự kiện
+      searchInput.addEventListener('click', () => {
+        openDropdown();
+        filterOptions(''); // Reset filter khi click lại
+      });
+
+      searchInput.addEventListener('focus', () => {
+        openDropdown();
+        filterOptions('');
+      });
+
+      searchInput.addEventListener('input', (e) => {
+        openDropdown();
+        filterOptions(e.target.value);
+        // Nếu người dùng xoá hết, reset native select
+        if (e.target.value.trim() === '') {
+          nativeSelect.value = '';
+        }
+      });
+
+      // Đóng dropdown khi click ra ngoài
+      document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+          closeDropdown();
+
+          // Kiểm tra xem input có khớp với option nào không khi mất focus
+          if (searchInput.value.trim() !== '') {
+            let found = false;
+            Array.from(nativeSelect.options).forEach((opt, idx) => {
+              if (!opt.disabled && opt.text.toLowerCase() === searchInput.value.trim().toLowerCase()) {
+                nativeSelect.selectedIndex = idx;
+                searchInput.value = opt.text;
+                found = true;
+              }
+            });
+            if (!found) {
+              // Nếu gõ bậy, chọn lại trống
+              if (!nativeSelect.value) {
+                searchInput.value = '';
+              } else {
+                // Trả về text của option đang được chọn
+                searchInput.value = nativeSelect.options[nativeSelect.selectedIndex].text;
+              }
+            }
+          } else {
+            nativeSelect.value = '';
+          }
+        }
+      });
+
+      // Hỗ trợ validation
+      nativeSelect.addEventListener('invalid', (e) => {
+        e.preventDefault();
+        searchInput.style.borderColor = '#ef4444';
+        searchInput.classList.add('invalid-shake');
+        setTimeout(() => searchInput.classList.remove('invalid-shake'), 500);
+
+        const errorBox = document.getElementById('loginError');
+        const errorMsg = document.getElementById('errorMessage');
+        if (errorBox && errorMsg) {
+          errorBox.style.display = 'flex';
+          errorMsg.textContent = 'Vui lòng chọn đơn vị Chi đoàn!';
+        }
+      });
+
+      populateOptions();
+    });
+  </script>
 </body>
 
 </html>
