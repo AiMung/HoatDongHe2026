@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản Đồ Điểm Sinh Hoạt Hè - Phường Xuân Hương - Đà Lạt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --accent: #00d2ff;
+            --bg-color: #0f172a;
+            /* Dark slate modern background */
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        /* --- LOADING INTRO --- */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, #1e293b 0%, var(--bg-color) 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+            padding: 20px;
+        }
+
+        .logo-container {
+            position: relative;
+            margin-bottom: 2.5rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            /* Dùng drop-shadow để viền sáng ôm sát theo đường nét tách nền của logo */
+            filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.7));
+            animation: logo-glow-pulse 2s infinite alternate;
+        }
+
+        /* Glow effect phía sau logo (bỏ bớt để drop-shadow tỏa sáng, nhưng giữ lại một chút ánh hào quang) */
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: var(--accent);
+            border-radius: 50%;
+            filter: blur(55px);
+            opacity: 0.5;
+            animation: pulse-glow 2s infinite alternate;
+            z-index: 1;
+        }
+
+        .title-text {
+            color: var(--text-light);
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            white-space: nowrap;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+            background: linear-gradient(90deg, #fff, var(--accent), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 3.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Modern Progress Bar */
+        .progress-container {
+            width: 280px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #0056b3, var(--accent));
+            box-shadow: 0 0 15px var(--accent);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .loading-text {
+            margin-top: 1.2rem;
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            animation: blink 1.5s infinite;
+        }
+
+        /* Animations */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse-glow {
+            from {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0.3;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes logo-glow-pulse {
+            from {
+                filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.5));
+            }
+
+            to {
+                filter: drop-shadow(0 0 35px rgba(0, 210, 255, 0.9));
+            }
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* --- MAP CONTAINER --- */
+        .map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 1s ease-in, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .map-container.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Header Overlay for Map */
+        .map-header {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(15px);
+            pointer-events: none;
+            /* Let clicks pass through to map */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            width: auto;
+            white-space: nowrap;
+        }
+
+        .map-header img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .map-header h1 {
+            font-size: 1.1rem;
+            color: #1e293b;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .title-text {
+                font-size: clamp(0.8rem, 5vw, 1.4rem);
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .logo {
+                width: 140px;
+                height: 140px;
+            }
+
+            .logo-glow {
+                width: 120px;
+                height: 120px;
+            }
+
+            .progress-container {
+                width: 80%;
+            }
+
+            .map-header {
+                width: 90%;
+                padding: 10px 20px;
+                justify-content: center;
+                white-space: normal;
+                text-align: center;
+            }
+
+            .map-header h1 {
+                font-size: 0.95rem;
+            }
+        }
+
+        .title-text {
+            /* Chữ sẽ tự co giãn từ 20px đến 32px tùy theo kích thước màn hình */
+            font-size: clamp(20px, 5vw, 32px);
+            font-weight: bold;
+            text-align: center;
+            /* Tự động ngắt từ xuống dòng mới nếu chữ quá dài, tránh tràn viền */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .subtitle {
+            /* Chữ phụ nhỏ hơn, co giãn từ 14px đến 20px */
+            font-size: clamp(14px, 3vw, 20px);
+            text-align: center;
+        }
+
+        /* Đảm bảo khung chứa không bị vượt quá chiều rộng màn hình */
+        .container {
+            width: 100%;
+            max-width: 100vw;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loader-wrapper">
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <img src="./image/logo_DTN.webp" alt="Logo Đoàn Thanh Niên" class="logo"
+                onerror="this.src='https://upload.wikimedia.org/wikipedia/vi/a/a2/Huy_hieu_Doan.png';">
+        </div>
+        <h1 class="title-text">Phường Xuân Hương - Đà Lạt</h1>
+        <p class="subtitle">Bản đồ điểm sinh hoạt hè</p>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="loading-text" id="loading-text">ĐANG KHỞI TẠO BẢN ĐỒ... 0%</div>
+    </div>
+
+    <!-- Map Content -->
+    <div class="map-container" id="map-container">
+
+        <iframe id="map-iframe"
+            src="https://www.google.com/maps/d/embed?mid=1tQajVx8IbEv31Tiko3t1spI112mH4J0&hl=vi&ehbc=2E312F"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const progressBar = document.getElementById('progress-bar');
+            const loadingText = document.getElementById('loading-text');
+            const loaderWrapper = document.getElementById('loader-wrapper');
+            const mapContainer = document.getElementById('map-container');
+            const iframe = document.getElementById('map-iframe');
+
+            let progress = 0;
+            // Fake loading logic to ensure the cool intro is seen
+            const duration = 2500; // 2.5 seconds minimum intro duration
+            const intervalTime = 40;
+            const steps = duration / intervalTime;
+            const increment = 100 / steps;
+
+            let iframeLoaded = false;
+
+            const progressInterval = setInterval(() => {
+                progress += increment;
+
+                // If intro is almost done but iframe isn't loaded, hold at 90%
+                if (progress >= 90 && !iframeLoaded) {
+                    progress = 90;
+                    loadingText.innerText = `ĐANG TẢI DỮ LIỆU BẢN ĐỒ... 90%`;
+                } else if (progress >= 100) {
+                    progress = 100;
+                    finishLoading();
+                }
+
+                if (progress < 100) {
+                    progressBar.style.width = `${progress}%`;
+                    loadingText.innerText = `ĐANG KHỞI TẠO BẢN ĐỒ... ${Math.floor(progress)}%`;
+                }
+            }, intervalTime);
+
+            iframe.onload = () => {
+                iframeLoaded = true;
+                // If progress was stuck at 90, it will now continue to 100 on next tick
+            };
+
+            function finishLoading() {
+                clearInterval(progressInterval);
+                progressBar.style.width = `100%`;
+                loadingText.innerText = `ĐÃ SẴN SÀNG! 100%`;
+
+                // Fade out loader
+                setTimeout(() => {
+                    loaderWrapper.style.opacity = '0';
+                    loaderWrapper.style.visibility = 'hidden';
+
+                    // Show map with a nice scale-in animation
+                    setTimeout(() => {
+                        mapContainer.classList.add('visible');
+                    }, 200);
+                }, 400);
+            }
+        });
+    </script>
+</body>
+
+</html>
