@@ -432,7 +432,7 @@
         động đột xuất</a>
       <a href="attendance.html" class="sidebar-link" id="link-attendance"><i class="fa-solid fa-clipboard-user"></i>
         Điểm danh chuyên cần</a>
-      <a href="gallery.html" target="_blank" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i>
+      <a href="gallery.html" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i>
         Thư viện hình ảnh</a>
     </nav>
     <div class="sidebar-footer">
@@ -1000,19 +1000,19 @@
 
         // Hủy các chart instance cũ (cả của app.js lẫn của dashboard.html) để tránh lỗi "Canvas is already in use"
         if (window.attendanceLineChartInstance && typeof window.attendanceLineChartInstance.destroy === 'function') {
-          try { window.attendanceLineChartInstance.destroy(); } catch(e){}
+          try { window.attendanceLineChartInstance.destroy(); } catch (e) { }
           window.attendanceLineChartInstance = null;
         }
         if (window.statusDoughnutChartInstance && typeof window.statusDoughnutChartInstance.destroy === 'function') {
-          try { window.statusDoughnutChartInstance.destroy(); } catch(e){}
+          try { window.statusDoughnutChartInstance.destroy(); } catch (e) { }
           window.statusDoughnutChartInstance = null;
         }
         if (window._lineChart && typeof window._lineChart.destroy === 'function') {
-          try { window._lineChart.destroy(); } catch(e){}
+          try { window._lineChart.destroy(); } catch (e) { }
           window._lineChart = null;
         }
         if (window._doughnutChart && typeof window._doughnutChart.destroy === 'function') {
-          try { window._doughnutChart.destroy(); } catch(e){}
+          try { window._doughnutChart.destroy(); } catch (e) { }
           window._doughnutChart = null;
         }
 
