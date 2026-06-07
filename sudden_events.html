@@ -2090,7 +2090,7 @@
               const id = btn.dataset.id;
               const evt = allEvents.find(e => e.ID === id);
               const name = evt ? `"${evt.Ten}"` : `ID: ${id}`;
-              if (!confirm(`Bạn có chắc muốn xóa hoạt động ${name}?\n\nThao tác này sẽ xóa vĩnh viễn sự kiện và toàn bộ danh sách đăng ký trên Google Sheets!`)) return;
+              if (!confirm(`Bạn có chắc muốn xóa hoạt động ${name}?\n\nThao tác này sẽ xóa vĩnh viễn sự kiện và toàn bộ danh sách đăng ký`)) return;
               const orig = btn.innerHTML;
               btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
               try {
