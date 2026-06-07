@@ -4,7 +4,7 @@
 
 let WEEKLY_ACTIVITIES = [];
 
-const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbw1cYRUHwEtCoFUWl_Ds4JVBXiRV4-t6cF6ER1N3EvIpyP9rbo1iockZbIdT9q6PXJwDw/exec";
+const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbyUM7HPf0huJzs9dZAbpK71t6Obi1I-clUjw_jkYUVzmmaCZpeGDNOirWqkZlPZphk9Fw/exec";
 
 const DEFAULT_ATTENDANCE = [
   { date: "2026-06-01", week: "Tuần 1", name: "Nguyễn Văn An", status: "Có mặt", notes: "Đi đúng giờ", chiDoan: "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2" },
@@ -577,6 +577,21 @@ function initExtraEvents() {
       });
   }
 
+  // Helper: Format DateTime for humans
+  function formatDateTimeVN(isoStr) {
+    if (!isoStr) return "Chưa xác định";
+    try {
+      const d = new Date(isoStr);
+      if (isNaN(d.getTime())) return isoStr; // Fallback to raw string if not parseable
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${hh}:${mm} - Ngày ${day}/${month}/${year}`;
+    } catch (e) { return isoStr; }
+  }
+
   function renderExtraEvents(events) {
     if (!events.length) {
       listEl.innerHTML = `<div class="empty-state"><i class="fa-regular fa-calendar-minus" style="font-size:2.5rem; opacity:0.4; margin-bottom:12px;"></i><p>Chưa có hoạt động bổ sung nào được tạo.</p></div>`;
@@ -587,53 +602,73 @@ function initExtraEvents() {
     events.slice().reverse().forEach(evt => {
       const card = document.createElement("div");
       card.className = "feed-item glass-card fade-in-up";
-      card.style.display = "flex";
-      card.style.gap = "20px";
-      card.style.alignItems = "stretch";
 
       const regLink = `${window.location.origin}${window.location.pathname.replace(/[^/]+$/, '')}event-register.html?eventId=${encodeURIComponent(evt.ID)}`;
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(regLink)}`;
 
       card.innerHTML = `
         <div class="feed-details" style="flex:1; display: flex; flex-direction: column;">
-          <span class="status-tag status-active" style="margin-bottom: 8px;"><i class="fa-solid fa-bolt"></i> Sự kiện đột xuất</span>
-          <h4 class="feed-item-title">${evt.Ten}</h4>
-          <p class="feed-item-desc">${evt.MoTa || "Không có mô tả chi tiết."}</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <span class="status-tag" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(244, 63, 94, 0.15)); color: #e11d48; margin: 0; padding: 6px 14px; border-radius: 20px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.1); display: inline-flex; align-items: center; gap: 6px;"><i class="fa-solid fa-bolt" style="color: #f43f5e;"></i> SỰ KIỆN ĐỘT XUẤT</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; background: var(--bg-main); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border-color);"><i class="fa-regular fa-calendar-check text-blue"></i> Mới</span>
+          </div>
+          <h4 class="feed-item-title" style="font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, var(--text-main), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; line-height: 1.3;">${evt.Ten}</h4>
+          <p class="feed-item-desc" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px; border-left: 3px solid var(--primary); padding-left: 14px; background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%); padding-top: 10px; padding-bottom: 10px; border-radius: 0 8px 8px 0;">${evt.MoTa || "Chưa có mô tả chi tiết."}</p>
           
-          <div class="event-info">
-            <div class="event-info-item">
-              <i class="fa-regular fa-clock"></i> 
-              <strong>Thời gian:</strong> <span>${evt.BatDau || "-"}</span>
+          <div class="event-info" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; background: transparent; padding: 12px 0; border: none; margin-bottom: 20px;">
+            <div class="event-info-item" style="margin: 0; display: flex; align-items: center; gap: 14px; background: var(--bg-main); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.15)); color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;"><i class="fa-regular fa-clock"></i></div>
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Thời gian</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatDateTimeVN(evt.BatDau)}</div>
+              </div>
             </div>
-            <div class="event-info-item">
-              <i class="fa-solid fa-location-dot"></i> 
-              <strong>Địa điểm:</strong> <span>${evt.DiaDiem || "-"}</span>
+            <div class="event-info-item" style="margin: 0; display: flex; align-items: center; gap: 14px; background: var(--bg-main); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.15)); color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;"><i class="fa-solid fa-location-dot"></i></div>
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Địa điểm</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${evt.DiaDiem || "Chưa xác định"}</div>
+              </div>
             </div>
-            <div class="event-info-item">
-              <i class="fa-solid fa-user-group"></i> 
-              <strong>Giới hạn:</strong> <span>${evt.GioiHan ? `${evt.GioiHan} người` : "Không giới hạn"}</span>
+            <div class="event-info-item" style="margin: 0; display: flex; align-items: center; gap: 14px; background: var(--bg-main); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15)); color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;"><i class="fa-solid fa-user-group"></i></div>
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Giới hạn</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${evt.GioiHan ? `${evt.GioiHan} người` : "Không giới hạn"}</div>
+              </div>
             </div>
-            <div class="event-info-item">
-              <i class="fa-regular fa-circle-user"></i> 
-              <strong>Người tạo:</strong> <span>${evt.TaoBoi || "Admin"}</span>
+            <div class="event-info-item" style="margin: 0; display: flex; align-items: center; gap: 14px; background: var(--bg-main); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(109, 40, 217, 0.15)); color: #6d28d9; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;"><i class="fa-regular fa-circle-user"></i></div>
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 2px;">Người tạo</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${evt.TaoBoi || "Admin"}</div>
+              </div>
             </div>
           </div>
 
-          <div class="event-actions" style="margin-top: auto;">
-            <button class="btn btn-primary btn-sm btn-reg-event" data-id="${evt.ID}"><i class="fa-solid fa-pen-nib"></i> Đăng ký</button>
-            <button class="btn btn-secondary btn-sm btn-view-reg" data-id="${evt.ID}"><i class="fa-regular fa-eye"></i> Xem (${evt.DangKyCount || 0})</button>
-            <button class="btn btn-danger-outline btn-sm btn-cancel-reg" data-id="${evt.ID}"><i class="fa-solid fa-circle-xmark"></i> Hủy</button>
+          <div class="event-actions" style="margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding-top: 16px; border-top: 1px dashed rgba(0,0,0,0.1);">
+            <button class="btn btn-sm btn-reg-event" data-id="${evt.ID}" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 8px 16px; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); border-radius: 50px; transition: all 0.3s ease; font-weight: 600;"><i class="fa-solid fa-pen-nib" style="margin-right: 6px;"></i> Đăng ký</button>
+            <button class="btn btn-sm btn-view-reg" data-id="${evt.ID}" style="background: white; color: var(--text-main); border: 2px solid var(--border-color); padding: 6px 16px; font-size: 0.9rem; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.05);"><i class="fa-solid fa-list-ol" style="margin-right: 6px; color: var(--primary);"></i> DS Tham gia</button>
+            <button class="btn btn-sm btn-cancel-reg" data-id="${evt.ID}" style="background: transparent; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 7px 16px; font-size: 0.9rem; border-radius: 50px; transition: all 0.3s ease; font-weight: 600;"><i class="fa-solid fa-xmark" style="margin-right: 6px;"></i> Hủy</button>
+            
+            <div style="flex-grow: 1;"></div>
+            
             ${user && user.quyen === "Admin" ? `
-              <button class="btn btn-secondary btn-sm btn-edit-event" data-id="${evt.ID}" style="background: linear-gradient(135deg, #f59e0b, #d97706); border:none; color:white;"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
-              <button class="btn btn-danger btn-sm btn-delete-event" data-id="${evt.ID}"><i class="fa-solid fa-trash-can"></i> Xóa</button>
+              <div style="display: flex; gap: 8px; border-left: 2px solid var(--border-color); padding-left: 12px;">
+                <button class="btn btn-sm btn-edit-event hover-scale" data-id="${evt.ID}" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.15)); color: #d97706; border: none; width: 36px; height: 36px; border-radius: 12px; padding: 0; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: none;" title="Sửa sự kiện"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-sm btn-delete-event hover-scale" data-id="${evt.ID}" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15)); color: #ef4444; border: none; width: 36px; height: 36px; border-radius: 12px; padding: 0; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: none;" title="Xóa sự kiện"><i class="fa-solid fa-trash"></i></button>
+              </div>
             ` : ""}
           </div>
-          <div class="table-wrapper" id="regTable_${evt.ID}" style="display:none; margin-top:16px;"></div>
+          <div class="table-wrapper" id="regTable_${evt.ID}" style="display:none; margin-top:20px; border-radius: var(--radius-md); border: 1px solid var(--primary-glow); overflow: hidden; box-shadow: 0 10px 30px rgba(0, 102, 204, 0.08);"></div>
         </div>
-        <div class="qr-container-box">
-          <img src="${qrUrl}" alt="QR ${evt.Ten}" style="width:130px; height:130px; border-radius:8px; border:2px solid white;">
-          <span class="qr-label"><i class="fa-solid fa-qrcode"></i> Quét để đăng ký</span>
-          <a href="${qrUrl}" target="_blank" download="QR_${evt.ID}.png" class="btn btn-xs btn-secondary" style="font-size:0.75rem; width:100%; justify-content: center;"><i class="fa-solid fa-download"></i> Tải QR</a>
+        
+        <div class="qr-container-box" style="background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(248,250,252,0.9)); border: 1px solid rgba(0,0,0,0.05); padding: 24px; border-radius: 20px; min-width: 220px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div style="background: white; padding: 14px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.03);">
+            <img src="${qrUrl}" alt="QR ${evt.Ten}" style="width: 140px; height: 140px; border-radius: 8px; display: block;">
+          </div>
+          <span class="qr-label" style="font-size: 0.9rem; font-weight: 800; color: var(--text-main); margin-bottom: 14px; letter-spacing: 0.5px; text-align: center;"><i class="fa-solid fa-qrcode" style="color: var(--primary); margin-right: 6px;"></i> QUÉT ĐỂ ĐĂNG KÝ</span>
+          <a href="${qrUrl}" target="_blank" download="QR_${evt.ID}.png" class="btn btn-sm hover-scale" style="background: linear-gradient(135deg, var(--primary-glow), rgba(0,102,204,0.05)); color: var(--primary); font-weight: 700; border-radius: 12px; width: 100%; justify-content: center; padding: 10px 16px; border: 1px solid rgba(0,102,204,0.15); transition: all 0.3s ease;"><i class="fa-solid fa-download"></i> TẢI MÃ QR</a>
         </div>
       `;
       listEl.appendChild(card);
@@ -756,7 +791,7 @@ function initExtraEvents() {
               method: "POST",
               mode: "cors",
               headers: { "Content-Type": "text/plain" },
-              body: JSON.stringify({ action: "deleteExtraEvent", id: eventId })
+              body: JSON.stringify({ action: "deleteExtraEvent", id: eventId, eventId: eventId, ID: eventId })
             })
               .then(r => r.json())
               .then(res => {
@@ -797,36 +832,32 @@ function initExtraEvents() {
     title.innerHTML = `<i class="fa-solid fa-pen-to-square" style="color:#f59e0b; margin-right:8px;"></i> Chỉnh sửa hoạt động bổ sung`;
 
     body.innerHTML = `
-      <form id="editEventForm" style="display:grid; grid-template-columns:1fr; gap:12px;">
+      <form id="editEventForm" style="display:grid; grid-template-columns:1fr; gap:16px;">
         <div class="form-group">
-          <label class="form-label">Tên hoạt động <span class="required">*</span></label>
-          <input id="editEvtName" class="form-control form-control-lg" value="${evt.Ten || ""}" required>
+          <label class="form-label" style="font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: block;">Tên hoạt động <span class="required" style="color:#ef4444;">*</span></label>
+          <input id="editEvtName" class="form-control form-control-lg" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-main);" value="${evt.Ten || ""}" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Địa điểm</label>
-          <input id="editEvtLocation" class="form-control form-control-lg" value="${evt.DiaDiem || ""}">
+          <label class="form-label" style="font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: block;">Địa điểm</label>
+          <input id="editEvtLocation" class="form-control form-control-lg" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-main);" value="${evt.DiaDiem || ""}">
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <div class="form-group">
-            <label class="form-label">Bắt đầu</label>
-            <input id="editEvtStart" class="form-control form-control-lg" value="${evt.BatDau || ""}" required placeholder="Vd: 29-May-2026 09:00 PM">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Kết thúc</label>
-            <input id="editEvtEnd" class="form-control form-control-lg" value="${evt.KetThuc || ""}" required placeholder="Vd: 29-May-2026 11:00 PM">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="form-label" style="font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: block;">Thời gian bắt đầu</label>
+            <input id="editEvtStart" type="datetime-local" class="form-control form-control-lg" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-main);" value="${evt.BatDau || ""}" required>
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Giới hạn người tham gia</label>
-          <input id="editEvtLimit" type="number" class="form-control form-control-lg" value="${evt.GioiHan || ""}" placeholder="Để trống = không giới hạn">
+          <label class="form-label" style="font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: block;">Giới hạn người tham gia</label>
+          <input id="editEvtLimit" type="number" class="form-control form-control-lg" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-main);" value="${evt.GioiHan || ""}" placeholder="Để trống = không giới hạn">
         </div>
         <div class="form-group">
-          <label class="form-label">Mô tả hoạt động</label>
-          <textarea id="editEvtDesc" class="form-control form-control-lg" rows="3" style="resize:vertical;">${evt.MoTa || ""}</textarea>
+          <label class="form-label" style="font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: block;">Mô tả hoạt động</label>
+          <textarea id="editEvtDesc" class="form-control form-control-lg" rows="4" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-main); resize:vertical;">${evt.MoTa || ""}</textarea>
         </div>
-        <div style="display:flex; gap:10px; margin-top:14px; justify-content:flex-end;">
-          <button type="button" class="btn btn-secondary" id="btnCancelEditEvent" style="padding: 8px 16px;">Hủy</button>
-          <button type="submit" class="btn btn-success" style="padding: 8px 16px;"><i class="fa-solid fa-circle-check"></i> Lưu thay đổi</button>
+        <div style="display:flex; gap:12px; margin-top:20px; justify-content:flex-end; border-top: 1px solid var(--border-color); padding-top: 16px;">
+          <button type="button" class="btn btn-secondary" id="btnCancelEditEvent" style="padding: 10px 24px; border-radius: 50px; font-weight: 600;">Hủy</button>
+          <button type="submit" class="btn btn-primary" style="padding: 10px 24px; border-radius: 50px; font-weight: 600; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);"><i class="fa-solid fa-circle-check"></i> Lưu thay đổi</button>
         </div>
       </form>
     `;
@@ -849,11 +880,12 @@ function initExtraEvents() {
         body: JSON.stringify({
           action: "updateExtraEvent",
           id: evt.ID,
+          eventId: evt.ID,
           ten: document.getElementById("editEvtName").value.trim(),
           moTa: document.getElementById("editEvtDesc").value.trim(),
           batDau: document.getElementById("editEvtStart").value.trim(),
-          ketThuc: document.getElementById("editEvtEnd").value.trim(),
           diaDiem: document.getElementById("editEvtLocation").value.trim(),
+          ID: evt.ID, // Added to fix potential backend casing issues
           gioiHan: document.getElementById("editEvtLimit").value.trim()
         })
       })
