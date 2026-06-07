@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hoạt Động Đột Xuất - Cổng Thông Tin Sinh Hoạt Hè 2026</title>
+  <title>Hoạt Động Đột Xuất · Mùa Hè Xuân Hương 2026</title>
   <script>
     (function () {
       const user = localStorage.getItem("summer_user");
@@ -13,25 +13,1597 @@
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /*
+     * KHÔNG định nghĩa lại :root hay dark-theme ở đây
+     * Dùng hoàn toàn var() từ style.css
+     * Chỉ định nghĩa biến cục bộ với prefix --se- để tránh xung đột
+     */
+
+    /* ── Local color aliases (không ghi đè style.css) ── */
+    .se-page {
+      --se-brand: #e11d48;
+      --se-brand-soft: rgba(225, 29, 72, .1);
+      --se-brand-border: rgba(225, 29, 72, .2);
+    }
+
+    /* ── TOPBAR sticky override ── */
+    .se-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 28px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .se-topbar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .se-topbar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .75rem;
+      font-weight: 700;
+      background: rgba(225, 29, 72, .1);
+      color: #e11d48;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(225, 29, 72, .15);
+    }
+
+    /* ── PAGE BODY ── */
+    .se-body {
+      flex: 1;
+      padding: 28px 32px;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ── PAGE HEADER ── */
+    .se-page-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .se-page-hd-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .se-hd-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: rgba(225, 29, 72, .1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      color: #e11d48;
+      flex-shrink: 0;
+    }
+
+    .se-hd-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -.4px;
+      color: var(--text-main);
+    }
+
+    .se-hd-sub {
+      font-size: .82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── BTN overrides ── */
+    .btn-se-green {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, .25);
+    }
+
+    .btn-se-green:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .btn-se-red {
+      background: #e11d48;
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, .25);
+    }
+
+    .btn-se-red:hover {
+      background: #be123c;
+      transform: translateY(-1px);
+    }
+
+    .btn-se-ghost {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-se-ghost:hover {
+      background: var(--bg-main);
+    }
+
+    /* ── CREATE PANEL ── */
+    .se-create-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid #10b981;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm);
+      animation: seSlideDown .22s ease;
+    }
+
+    @keyframes seSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .se-create-hd {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .se-create-hd i {
+      color: #f59e0b;
+    }
+
+    .se-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .se-form-grid .se-full {
+      grid-column: 1 / -1;
+    }
+
+    .se-field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 7px;
+    }
+
+    .se-field label .req {
+      color: #e11d48;
+    }
+
+    .se-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: .9rem;
+      background: var(--input-bg);
+      color: var(--text-main);
+      transition: border .2s, box-shadow .2s;
+      outline: none;
+    }
+
+    .se-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    textarea.se-input {
+      height: auto;
+      padding: 12px 14px;
+      resize: vertical;
+    }
+
+    .se-form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    /* ── EVENT CARDS ── */
+    .se-events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .se-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      animation: seFadeUp .35s ease both;
+    }
+
+    .se-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    @keyframes seFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Accent stripe */
+    .se-card::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, #e11d48, #f59e0b, #10b981);
+    }
+
+    .se-card-top {
+      padding: 20px 22px 0;
+    }
+
+    .se-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .se-badge-sudden {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(225, 29, 72, .1);
+      color: #e11d48;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 20px;
+      border: 1px solid rgba(225, 29, 72, .15);
+    }
+
+    .se-badge-new {
+      background: rgba(16, 185, 129, .1);
+      color: #059669;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(16, 185, 129, .15);
+    }
+
+    .se-event-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .se-event-desc {
+      font-size: .88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      border-left: 3px solid rgba(225, 29, 72, .3);
+      padding-left: 12px;
+      margin-bottom: 18px;
+    }
+
+    /* ── INFO CHIPS ── */
+    .se-chips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .se-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .se-chip-ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .95rem;
+      flex-shrink: 0;
+    }
+
+    .ic-a {
+      background: rgba(245, 158, 11, .1);
+      color: #d97706;
+    }
+
+    .ic-b {
+      background: rgba(59, 130, 246, .1);
+      color: #2563eb;
+    }
+
+    .ic-g {
+      background: rgba(16, 185, 129, .1);
+      color: #059669;
+    }
+
+    .ic-v {
+      background: rgba(139, 92, 246, .1);
+      color: #7c3aed;
+    }
+
+    .se-chip-lbl {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-muted);
+      margin-bottom: 1px;
+    }
+
+    .se-chip-val {
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+
+    /* ── CARD ACTIONS ── */
+    .se-card-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px 22px;
+      border-top: 1px dashed var(--border-color);
+      background: var(--bg-main);
+    }
+
+    .se-admin-btns {
+      display: flex;
+      gap: 7px;
+      margin-left: auto;
+    }
+
+    .se-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      transition: all .2s;
+    }
+
+    .se-icon-btn.edit:hover {
+      background: rgba(245, 158, 11, .1);
+      color: #d97706;
+      border-color: rgba(245, 158, 11, .3);
+    }
+
+    .se-icon-btn.del:hover {
+      background: rgba(225, 29, 72, .1);
+      color: #e11d48;
+      border-color: rgba(225, 29, 72, .3);
+    }
+
+    /* ── REG TABLE ── */
+    .se-reg-wrap {
+      display: none;
+      padding: 0 22px 18px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .se-reg-inner {
+      margin-top: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .se-reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    .se-reg-table th {
+      text-align: left;
+      padding: 9px 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .se-reg-table td {
+      padding: 9px 12px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .se-reg-table tr:hover td {
+      background: var(--bg-main);
+    }
+
+    .se-reg-pill {
+      display: inline-block;
+      background: rgba(16, 185, 129, .1);
+      color: #059669;
+      font-size: .7rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 20px;
+    }
+
+    /* ── QR ROW ── */
+    .se-qr-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 22px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card);
+      flex-wrap: wrap;
+    }
+
+    .se-qr-img-wrap {
+      background: #ffffff;
+      padding: 7px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .se-qr-img {
+      width: 72px;
+      height: 72px;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .se-qr-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .se-qr-label {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .se-qr-link {
+      font-size: .72rem;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+
+    .se-qr-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      background: rgba(59, 130, 246, .08);
+      border: 1px solid rgba(59, 130, 246, .2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: .2s;
+    }
+
+    .se-qr-dl:hover {
+      background: rgba(59, 130, 246, .15);
+    }
+
+    /* ── EMPTY & SPINNER ── */
+    .se-empty {
+      text-align: center;
+      padding: 70px 24px;
+      color: var(--text-muted);
+    }
+
+    .se-empty i {
+      font-size: 2.8rem;
+      opacity: .25;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .se-empty p {
+      font-size: .95rem;
+    }
+
+    .se-spinner {
+      text-align: center;
+      padding: 50px;
+      color: var(--text-muted);
+    }
+
+    .se-spinner i {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* ── EDIT MODAL ── */
+    .se-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(15, 23, 42, .55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .se-modal-overlay.open {
+      display: flex;
+    }
+
+    .se-modal-box {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: var(--radius-md);
+      width: 100%;
+      max-width: 540px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: seModalIn .22s ease;
+    }
+
+    @keyframes seModalIn {
+      from {
+        opacity: 0;
+        transform: scale(.94) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .se-modal-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .se-modal-hd-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .se-modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-main);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .2s;
+    }
+
+    .se-modal-close:hover {
+      background: rgba(225, 29, 72, .1);
+      color: #e11d48;
+    }
+
+    .se-modal-body {
+      padding: 22px 24px 26px;
+    }
+
+    .se-modal-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .se-modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 992px) {
+      .se-body {
+        padding: 16px;
+      }
+
+      .se-topbar {
+        padding: 0 16px 0 56px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .se-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .se-chips {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .se-admin-btns {
+        margin-left: 0;
+      }
+
+      .se-page-hd {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .se-modal-overlay {
+        align-items: flex-end;
+      }
+
+      .se-modal-box {
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        max-height: 92vh;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .se-chips {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /*
+ * ============================================================
+ * SUDDEN EVENTS PAGE — Redesigned CSS
+ * Thay toàn bộ nội dung <style> trong sudden_events.html
+ * bằng đoạn CSS này.
+ * ============================================================
+ */
+
+    /* ── Local color aliases ── */
+    .se-page {
+      --se-brand: #e11d48;
+      --se-brand-soft: rgba(225, 29, 72, .08);
+      --se-brand-border: rgba(225, 29, 72, .18);
+      --se-green: #059669;
+      --se-green-soft: rgba(5, 150, 105, .08);
+      --se-radius: 14px;
+      --se-radius-sm: 9px;
+    }
+
+    /* ── TOPBAR ── */
+    .se-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 24px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .se-topbar-title {
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .se-topbar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .72rem;
+      font-weight: 700;
+      background: var(--se-brand-soft);
+      color: var(--se-brand);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--se-brand-border);
+      white-space: nowrap;
+    }
+
+    /* ── PAGE BODY ── */
+    .se-body {
+      flex: 1;
+      padding: 24px 24px 40px;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    /* ── PAGE HEADER ── */
+    .se-page-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .se-page-hd-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .se-hd-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--se-radius-sm);
+      background: var(--se-brand-soft);
+      border: 1px solid var(--se-brand-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--se-brand);
+      flex-shrink: 0;
+    }
+
+    .se-hd-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .se-hd-sub {
+      font-size: .78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-se-green {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff !important;
+      border: none;
+      box-shadow: 0 3px 10px rgba(16, 185, 129, .22);
+      border-radius: var(--se-radius-sm);
+      font-weight: 700;
+    }
+
+    .btn-se-green:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(16, 185, 129, .3);
+    }
+
+    .btn-se-red {
+      background: #e11d48;
+      color: #fff !important;
+      border: none;
+      box-shadow: 0 3px 10px rgba(225, 29, 72, .22);
+      border-radius: var(--se-radius-sm);
+      font-weight: 700;
+    }
+
+    .btn-se-red:hover {
+      background: #be123c;
+      transform: translateY(-1px);
+    }
+
+    .btn-se-ghost {
+      background: var(--bg-card);
+      color: var(--text-main) !important;
+      border: 1px solid var(--border-color);
+      border-radius: var(--se-radius-sm);
+      font-weight: 600;
+    }
+
+    .btn-se-ghost:hover {
+      background: var(--bg-main);
+    }
+
+    /* ── CREATE PANEL ── */
+    .se-create-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid #10b981;
+      border-radius: var(--se-radius);
+      padding: 22px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      animation: seSlideDown .22s ease;
+    }
+
+    @keyframes seSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .se-create-hd {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .se-create-hd i {
+      color: #f59e0b;
+    }
+
+    .se-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .se-form-grid .se-full {
+      grid-column: 1 / -1;
+    }
+
+    .se-field label {
+      display: block;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+
+    .se-field label .req {
+      color: var(--se-brand);
+    }
+
+    .se-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 13px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--se-radius-sm);
+      font-family: inherit;
+      font-size: .88rem;
+      background: var(--input-bg);
+      color: var(--text-main);
+      transition: border .18s, box-shadow .18s;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .se-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    textarea.se-input {
+      height: auto;
+      padding: 10px 13px;
+      resize: vertical;
+    }
+
+    .se-form-actions {
+      display: flex;
+      gap: 9px;
+      justify-content: flex-end;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    /* ── EVENT CARDS ── */
+    .se-events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .se-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--se-radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      animation: seFadeUp .32s ease both;
+    }
+
+    .se-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    @keyframes seFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Rainbow accent stripe */
+    .se-card::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, #e11d48, #f59e0b, #10b981);
+    }
+
+    .se-card-top {
+      padding: 18px 20px 0;
+    }
+
+    .se-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .se-badge-sudden {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--se-brand-soft);
+      color: var(--se-brand);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--se-brand-border);
+      white-space: nowrap;
+    }
+
+    .se-badge-new {
+      background: var(--se-green-soft);
+      color: var(--se-green);
+      font-size: .68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      border: 1px solid rgba(5, 150, 105, .15);
+      white-space: nowrap;
+    }
+
+    /* ── EVENT TITLE: KHÔNG CẮT CHỮ ── */
+    .se-event-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -.2px;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      line-height: 1.4;
+      /* đảm bảo không cắt chữ */
+      word-break: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      white-space: normal;
+    }
+
+    /* ── EVENT DESC: KHÔNG CẮT CHỮ ── */
+    .se-event-desc {
+      font-size: .86rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      border-left: 3px solid var(--se-brand-border);
+      padding-left: 11px;
+      margin-bottom: 16px;
+      /* đảm bảo không cắt chữ */
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      /* không giới hạn chiều cao */
+      max-height: none;
+      overflow: visible;
+    }
+
+    /* ── INFO CHIPS ── */
+    .se-chips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .se-chip {
+      display: flex;
+      align-items: flex-start;
+      /* flex-start để text dài không bị cắt */
+      gap: 9px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      padding: 10px 11px;
+      border-radius: var(--se-radius-sm);
+      min-width: 0;
+      /* quan trọng: cho phép thu nhỏ */
+    }
+
+    .se-chip-ico {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+      /* icon không bị thu nhỏ */
+    }
+
+    .ic-a {
+      background: rgba(245, 158, 11, .1);
+      color: #d97706;
+    }
+
+    .ic-b {
+      background: rgba(59, 130, 246, .1);
+      color: #2563eb;
+    }
+
+    .ic-g {
+      background: rgba(16, 185, 129, .1);
+      color: #059669;
+    }
+
+    .ic-v {
+      background: rgba(139, 92, 246, .1);
+      color: #7c3aed;
+    }
+
+    .se-chip-lbl {
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+      white-space: nowrap;
+    }
+
+    /* ── CHIP VALUE: KHÔNG CẮT CHỮ ── */
+    .se-chip-val {
+      font-size: .84rem;
+      font-weight: 700;
+      color: var(--text-main);
+      /* cho phép xuống dòng thay vì cắt với "..." */
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      line-height: 1.35;
+    }
+
+    /* ── CARD ACTIONS ── */
+    .se-card-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 13px 20px;
+      border-top: 1px dashed var(--border-color);
+      background: var(--bg-main);
+    }
+
+    .se-admin-btns {
+      display: flex;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .se-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .88rem;
+      transition: all .18s;
+      flex-shrink: 0;
+    }
+
+    .se-icon-btn.edit:hover {
+      background: rgba(245, 158, 11, .1);
+      color: #d97706;
+      border-color: rgba(245, 158, 11, .3);
+    }
+
+    .se-icon-btn.del:hover {
+      background: var(--se-brand-soft);
+      color: var(--se-brand);
+      border-color: var(--se-brand-border);
+    }
+
+    /* ── REGISTRATION TABLE ── */
+    .se-reg-wrap {
+      display: none;
+      padding: 0 20px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .se-reg-inner {
+      margin-top: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--se-radius-sm);
+      overflow: hidden;
+      overflow-x: auto;
+      /* scroll ngang cho bảng trên mobile */
+    }
+
+    .se-reg-table {
+      width: 100%;
+      min-width: 480px;
+      /* ngăn bảng quá nhỏ */
+      border-collapse: collapse;
+      font-size: .8rem;
+    }
+
+    .se-reg-table th {
+      text-align: left;
+      padding: 8px 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .se-reg-table td {
+      padding: 8px 11px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-main);
+      /* không cắt chữ trong bảng */
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .se-reg-table tr:hover td {
+      background: var(--bg-main);
+    }
+
+    .se-reg-pill {
+      display: inline-block;
+      background: var(--se-green-soft);
+      color: var(--se-green);
+      font-size: .68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* ── QR ROW ── */
+    .se-qr-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .se-qr-img-wrap {
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .se-qr-img {
+      width: 68px;
+      height: 68px;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .se-qr-info {
+      flex: 1;
+      min-width: 0;
+      /* quan trọng: cho phép co lại */
+    }
+
+    .se-qr-label {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ── QR LINK: KHÔNG TRÀN ── */
+    .se-qr-link {
+      font-size: .68rem;
+      color: var(--text-muted);
+      word-break: break-all;
+      /* link dài tự xuống dòng */
+      overflow-wrap: break-word;
+      line-height: 1.4;
+    }
+
+    .se-qr-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .76rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      background: rgba(59, 130, 246, .08);
+      border: 1px solid rgba(59, 130, 246, .2);
+      padding: 7px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: .18s;
+      white-space: nowrap;
+    }
+
+    .se-qr-dl:hover {
+      background: rgba(59, 130, 246, .14);
+    }
+
+    /* ── EMPTY STATE & SPINNER ── */
+    .se-empty {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-muted);
+    }
+
+    .se-empty i {
+      font-size: 2.5rem;
+      opacity: .22;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .se-empty p {
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+
+    .se-spinner {
+      text-align: center;
+      padding: 50px;
+      color: var(--text-muted);
+    }
+
+    .se-spinner i {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* ── EDIT MODAL OVERLAY ── */
+    .se-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(15, 23, 42, .55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .se-modal-overlay.open {
+      display: flex;
+    }
+
+    .se-modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--se-radius);
+      width: 100%;
+      max-width: 520px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: seModalIn .22s ease;
+    }
+
+    @keyframes seModalIn {
+      from {
+        opacity: 0;
+        transform: scale(.94) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .se-modal-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 10px;
+    }
+
+    .se-modal-hd-title {
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .se-modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-main);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: .18s;
+    }
+
+    .se-modal-close:hover {
+      background: var(--se-brand-soft);
+      color: var(--se-brand);
+    }
+
+    .se-modal-body {
+      padding: 20px 22px 24px;
+    }
+
+    .se-modal-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .se-modal-actions {
+      display: flex;
+      gap: 9px;
+      justify-content: flex-end;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    /* ── REQUIRED ASTERISK ── */
+    .req {
+      color: var(--se-brand);
+    }
+
+    /* ─────────────────────────────────────────
+   RESPONSIVE — MOBILE FIRST
+───────────────────────────────────────── */
+
+    /* Tablet & below */
+    @media (max-width: 992px) {
+      .se-body {
+        padding: 16px 14px 36px;
+      }
+
+      .se-topbar {
+        padding: 0 14px 0 56px;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .se-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .se-chips {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .se-card-actions {
+        gap: 6px;
+      }
+
+      .se-admin-btns {
+        margin-left: 0;
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .se-page-hd {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      /* Modal trượt từ dưới lên trên mobile */
+      .se-modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+      }
+
+      .se-modal-box {
+        border-radius: var(--se-radius) var(--se-radius) 0 0;
+        max-height: 94vh;
+      }
+
+      .se-qr-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .se-qr-info {
+        width: 100%;
+      }
+    }
+
+    /* Small mobile */
+    @media (max-width: 400px) {
+      .se-chips {
+        grid-template-columns: 1fr;
+      }
+
+      .se-hd-title {
+        font-size: 1.1rem;
+      }
+
+      .se-event-title {
+        font-size: 1rem;
+      }
+
+      /* Buttons trong card-actions xuống dòng gọn */
+      .se-card-actions .btn {
+        font-size: .75rem;
+        padding: 6px 10px;
+      }
+    }
+  </style>
 </head>
 
-<body>
+<body class="se-page">
+
+  <!-- ─── MOBILE HEADER ─── -->
   <div class="mobile-header">
     <div class="mobile-logo-area">
       <img src="image/logo_DTN.webp" alt="Logo" class="mobile-logo-img">
-      <span class="mobile-brand-title">MÙA HÈ XUÂN HƯƠNG - ĐÀ LẠT</span>
+      <span class="mobile-brand-title">MÙA HÈ XUÂN HƯƠNG</span>
     </div>
-    <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
+    <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Menu">
       <i class="fa-solid fa-bars"></i>
     </button>
   </div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+  <!-- ─── SIDEBAR ─── -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
@@ -43,10 +1615,10 @@
     <nav class="sidebar-menu">
       <a href="dashboard.html" class="sidebar-link" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Trang
         chủ</a>
-      <a href="event.html" class="sidebar-link" id="link-event"><i class="fa-solid fa-calendar-days"></i> Kế hoạch &
+      <a href="event.html" class="sidebar-link" id="link-event"><i class="fa-solid fa-calendar-days"></i> Kế hoạch &amp;
         Lịch trình</a>
-      <a href="sudden_events.html" class="sidebar-link active" id="link-sudden-events"><i class="fa-solid fa-bolt"></i>
-        Hoạt động đột xuất</a>
+      <a href="sudden_events.html" class="sidebar-link active" id="link-sudden"><i class="fa-solid fa-bolt"></i> Hoạt
+        động đột xuất</a>
       <a href="attendance.html" class="sidebar-link" id="link-attendance"><i class="fa-solid fa-clipboard-user"></i>
         Điểm danh chuyên cần</a>
       <a href="gallery.html" class="sidebar-link" id="link-gallery"><i class="fa-solid fa-images"></i> Thư viện hình
@@ -55,96 +1627,581 @@
     <div class="sidebar-footer">
       <div class="sidebar-theme-area">
         <span>Chế độ tối</span>
-        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Theme"><i
-            class="fa-solid fa-moon"></i></button>
+        <button id="themeToggle" class="theme-toggle-btn"><i class="fa-solid fa-moon"></i></button>
       </div>
-      <div class="sidebar-profile">
-        <div class="profile-avatar">BTC</div>
-        <div class="profile-info">
-          <span class="profile-name">Ban Chỉ Đạo Hè</span>
-          <span class="profile-role">Người điều hành</span>
-        </div>
-      </div>
+      <div class="sidebar-profile" id="sidebarProfile"></div>
     </div>
   </aside>
 
+  <!-- ─── MAIN ─── -->
   <main class="main-content">
-    <header class="topbar">
-      <h2 class="topbar-title">Hoạt Động Đột Xuất</h2>
-      <div class="topbar-meta">
-        <span><i class="fa-solid fa-bolt"></i> Sự kiện ngoài lịch</span>
-      </div>
+    <header class="se-topbar">
+      <h2 class="se-topbar-title">
+        <i class="fa-solid fa-bolt" style="color:#e11d48;margin-right:8px"></i>Hoạt Động Đột Xuất
+      </h2>
+      <span class="se-topbar-badge"><i class="fa-solid fa-bolt"></i> Sự kiện ngoài lịch</span>
     </header>
 
-    <div class="container-fluid">
-      
-      <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-        <div>
-          <h2 class="section-title"><i class="fa-solid fa-bolt text-orange"></i> Danh Sách Hoạt Động</h2>
-          <p class="section-subtitle">Xem chi tiết, đăng ký hoặc quản lý các sự kiện ngoài lịch</p>
+    <div class="se-body">
+
+      <!-- Page Header -->
+      <div class="se-page-hd">
+        <div class="se-page-hd-left">
+          <div class="se-hd-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <div class="se-hd-title">Danh Sách Hoạt Động</div>
+            <div class="se-hd-sub">Theo dõi, đăng ký và quản lý sự kiện ngoài lịch sinh hoạt hè</div>
+          </div>
         </div>
-        <button class="btn btn-primary" id="btnToggleCreateEvent" style="display:none;">
+        <button class="btn btn-se-green" id="btnToggleCreate" style="display:none">
           <i class="fa-solid fa-circle-plus"></i> Tạo hoạt động
         </button>
       </div>
 
-      <!-- Create box (Admin only) -->
-      <div id="extraEventCreateBox" class="glass-card" style="display:none; padding: 24px; margin-bottom: 24px;">
-        <h4 style="margin-bottom: 20px; font-size: 1.1rem; color: var(--text-main); font-weight: 700;"><i class="fa-solid fa-wand-magic-sparkles text-orange"></i> Tạo hoạt động đột xuất mới</h4>
-        
-        <form id="extraEventForm">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px;margin-bottom:20px;">
-            <div class="form-group" style="grid-column:1/-1;">
-              <label class="form-label" style="display:block; margin-bottom:8px; font-size: 0.9rem; font-weight: 600;">Tên hoạt động <span style="color:#ef4444;">*</span></label>
-              <input id="evtName" class="form-control" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background: var(--input-bg); color: var(--text-main);" placeholder="Ví dụ: Dọn vệ sinh đột xuất khu vực công viên..." required>
+      <!-- Create Panel (Admin only) -->
+      <div id="createPanelWrap" style="display:none">
+        <div class="se-create-panel">
+          <div class="se-create-hd">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Tạo hoạt động đột xuất mới
+          </div>
+          <form id="createForm">
+            <div class="se-form-grid">
+              <div class="se-field se-full">
+                <label>Tên hoạt động <span class="req">*</span></label>
+                <input id="evtName" class="se-input" placeholder="Ví dụ: Dọn vệ sinh đột xuất khu vực công viên..."
+                  required>
+              </div>
+              <div class="se-field">
+                <label>Thời gian bắt đầu <span class="req">*</span></label>
+                <input id="evtStart" type="datetime-local" class="se-input" required>
+              </div>
+              <div class="se-field">
+                <label>Thời gian kết thúc</label>
+                <input id="evtEnd" type="datetime-local" class="se-input">
+              </div>
+              <div class="se-field">
+                <label>Địa điểm</label>
+                <input id="evtLocation" class="se-input" placeholder="Nhập địa điểm...">
+              </div>
+              <div class="se-field">
+                <label>Giới hạn người tham gia</label>
+                <input id="evtLimit" type="number" class="se-input" placeholder="Để trống = không giới hạn">
+              </div>
+              <div class="se-field se-full">
+                <label>Mô tả chi tiết</label>
+                <textarea id="evtDesc" class="se-input" rows="3"
+                  placeholder="Mô tả nội dung, mục tiêu hoạt động..."></textarea>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label" style="display:block; margin-bottom:8px; font-size: 0.9rem; font-weight: 600;">Thời gian bắt đầu <span style="color:#ef4444;">*</span></label>
-              <input id="evtStart" type="datetime-local" class="form-control" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background: var(--input-bg); color: var(--text-main);" required>
+            <div class="se-form-actions">
+              <button type="button" class="btn btn-se-ghost btn-sm" id="btnCancelCreate">Hủy</button>
+              <button type="submit" class="btn btn-se-red btn-sm" id="btnSubmitCreate">
+                <i class="fa-solid fa-circle-plus"></i> Tạo hoạt động
+              </button>
             </div>
-            <div class="form-group">
-              <label class="form-label" style="display:block; margin-bottom:8px; font-size: 0.9rem; font-weight: 600;">Thời gian kết thúc</label>
-              <input id="evtEnd" type="datetime-local" class="form-control" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background: var(--input-bg); color: var(--text-main);">
+          </form>
+        </div>
+      </div>
+
+      <!-- Events List -->
+      <div id="eventsList"></div>
+    </div>
+  </main>
+
+  <!-- ─── EDIT MODAL ─── -->
+  <div class="se-modal-overlay" id="editModal">
+    <div class="se-modal-box">
+      <div class="se-modal-hd">
+        <div class="se-modal-hd-title">
+          <i class="fa-solid fa-pen-to-square" style="color:#f59e0b"></i> Chỉnh sửa hoạt động
+        </div>
+        <button class="se-modal-close" id="closeEditModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="se-modal-body">
+        <form id="editForm">
+          <div class="se-modal-grid">
+            <div class="se-field">
+              <label>Tên hoạt động <span class="req">*</span></label>
+              <input id="editEvtName" class="se-input" required>
             </div>
-            <div class="form-group">
-              <label class="form-label" style="display:block; margin-bottom:8px; font-size: 0.9rem; font-weight: 600;">Địa điểm</label>
-              <input id="evtLocation" class="form-control" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background: var(--input-bg); color: var(--text-main);" placeholder="Nhập địa điểm tổ chức...">
+            <div class="se-field">
+              <label>Địa điểm</label>
+              <input id="editEvtLocation" class="se-input" placeholder="Nhập địa điểm...">
             </div>
-            <div class="form-group">
-              <label class="form-label" style="display:block; margin-bottom:8px; font-size: 0.9rem; font-weight: 600;">Giới hạn người tham gia</label>
-              <input id="evtLimit" type="number" class="form-control" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background: var(--input-bg); color: var(--text-main);" placeholder="Để trống = không giới hạn">
+            <div class="se-field">
+              <label>Thời gian bắt đầu <span class="req">*</span></label>
+              <input id="editEvtStart" type="datetime-local" class="se-input" required>
             </div>
-            <div class="form-group" style="grid-column:1/-1;">
-              <label class="form-label" style="display:block; margin-bottom:8px; font-size: 0.9rem; font-weight: 600;">Mô tả chi tiết</label>
-              <textarea id="evtDesc" class="form-control" rows="3" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); resize:vertical;" placeholder="Mô tả nội dung, mục tiêu hoạt động..."></textarea>
+            <div class="se-field">
+              <label>Giới hạn người tham gia</label>
+              <input id="editEvtLimit" type="number" class="se-input" placeholder="Để trống = không giới hạn">
+            </div>
+            <div class="se-field">
+              <label>Mô tả hoạt động</label>
+              <textarea id="editEvtDesc" class="se-input" rows="4"></textarea>
             </div>
           </div>
-          <div style="display:flex;gap:10px;justify-content:flex-end;">
-            <button type="button" class="btn btn-secondary" id="btnCancelCreate">Hủy</button>
-            <button type="submit" class="btn btn-primary" id="btnSubmitCreateEvent">
-              <i class="fa-solid fa-circle-plus"></i> Tạo hoạt động
+          <div class="se-modal-actions">
+            <button type="button" class="btn btn-se-ghost btn-sm" id="btnCancelEdit">Hủy</button>
+            <button type="submit" class="btn btn-se-green btn-sm" id="btnSaveEdit">
+              <i class="fa-solid fa-circle-check"></i> Lưu thay đổi
             </button>
           </div>
         </form>
       </div>
-
-      <div id="extraEventList" class="feed-list" style="margin-top:0;"></div>
-    </div>
-  </main>
-
-  <!-- Modal cho edit -->
-  <div class="modal" id="weeklyModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title" id="weeklyModalTitle">Chi Tiết</h3>
-          <button class="modal-close" id="closeWeeklyModal">&times;</button>
-        </div>
-        <div class="modal-body" id="weeklyModalBody"></div>
-      </div>
     </div>
   </div>
 
+  <div id="toastContainer"></div>
+
   <script src="app.js"></script>
+  <script>
+    /*
+     * SUDDEN EVENTS MODULE
+     * Logic giữ nguyên từ code gốc (tạo được sự kiện)
+     * Bổ sung thêm: xóa sự kiện + sửa sự kiện
+     * API URL lấy từ window.CONFIG_API_URL (set bởi app.js)
+     */
+    (function () {
+
+      /* ── Lấy API URL sau khi app.js đã load ── */
+      function getAPI() {
+        return (typeof window.CONFIG_API_URL !== "undefined" && window.CONFIG_API_URL)
+          ? window.CONFIG_API_URL
+          : "https://script.google.com/macros/s/AKfycbyUM7HPf0huJzs9dZAbpK71t6Obi1I-clUjw_jkYUVzmmaCZpeGDNOirWqkZlPZphk9Fw/exec";
+      }
+
+      const userRaw = localStorage.getItem("summer_user");
+      const user = userRaw ? JSON.parse(userRaw) : null;
+      const isAdmin = user && user.quyen === "Admin";
+
+      let allEvents = [];
+      let editingId = null;
+
+      /* ── Toast ── */
+      function toast(msg, type = "success") {
+        let c = document.getElementById("toastContainer");
+        if (!c) { c = document.createElement("div"); c.id = "toastContainer"; document.body.appendChild(c); }
+        const t = document.createElement("div");
+        t.style.cssText = `background:${type === "success" ? "#059669" : "#e11d48"};color:#fff;
+          padding:11px 20px;border-radius:50px;font-size:.85rem;font-weight:700;
+          box-shadow:0 4px 16px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;
+          transform:translateX(120%);transition:.3s;white-space:nowrap;`;
+        t.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>${msg}`;
+        c.appendChild(t);
+        requestAnimationFrame(() => { t.style.transform = "translateX(0)"; });
+        setTimeout(() => { t.style.transform = "translateX(120%)"; setTimeout(() => t.remove(), 320); }, 3400);
+      }
+
+      /* ── Format datetime ── */
+      function fmtDT(s) {
+        if (!s) return "Chưa xác định";
+        try {
+          const d = new Date(s);
+          if (isNaN(d)) return s;
+          return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")} — ${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
+        } catch (e) { return s; }
+      }
+
+      /* ── POST helper ── */
+      async function apiPost(payload) {
+        const API = getAPI();
+        if (!API) throw new Error("Chưa có API URL");
+        const res = await fetch(API, {
+          method: "POST", mode: "cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(payload)
+        });
+        return res.json();
+      }
+
+      /* ════════════ CREATE PANEL ════════════ */
+      const btnToggle = document.getElementById("btnToggleCreate");
+      const createPanelWrap = document.getElementById("createPanelWrap");
+      const createForm = document.getElementById("createForm");
+
+      function closeCreatePanel() {
+        createPanelWrap.style.display = "none";
+        if (btnToggle) btnToggle.innerHTML = '<i class="fa-solid fa-circle-plus"></i> Tạo hoạt động';
+        if (createForm) createForm.reset();
+      }
+
+      if (isAdmin && btnToggle) {
+        btnToggle.style.display = "inline-flex";
+        btnToggle.addEventListener("click", () => {
+          const open = createPanelWrap.style.display !== "none";
+          if (open) { closeCreatePanel(); }
+          else {
+            createPanelWrap.style.display = "block";
+            btnToggle.innerHTML = '<i class="fa-solid fa-xmark"></i> Đóng';
+            createPanelWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      }
+
+      document.getElementById("btnCancelCreate")?.addEventListener("click", closeCreatePanel);
+
+      if (createForm) {
+        createForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const btn = document.getElementById("btnSubmitCreate");
+          const orig = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo...';
+          try {
+            const d = await apiPost({
+              action: "createExtraEvent",
+              ten: document.getElementById("evtName").value.trim(),
+              moTa: document.getElementById("evtDesc").value.trim(),
+              batDau: document.getElementById("evtStart").value,
+              ketThuc: document.getElementById("evtEnd").value,
+              diaDiem: document.getElementById("evtLocation").value.trim(),
+              gioiHan: document.getElementById("evtLimit").value.trim(),
+              taoBoi: user ? user.chiDoan : "Admin"
+            });
+            if (d.success) {
+              toast("Đã tạo hoạt động thành công!");
+              closeCreatePanel();
+              loadEvents();
+            } else {
+              toast(d.error || "Không tạo được sự kiện", "error");
+            }
+          } catch (err) {
+            toast("Lỗi kết nối khi tạo sự kiện: " + err.message, "error");
+          }
+          btn.disabled = false;
+          btn.innerHTML = orig;
+        });
+      }
+
+      /* ════════════ LOAD EVENTS ════════════ */
+      async function loadEvents() {
+        const list = document.getElementById("eventsList");
+        if (!list) return;
+        const API = getAPI();
+        if (!API) {
+          list.innerHTML = `<div class="se-empty"><i class="fa-solid fa-plug-circle-exclamation"></i><p>Chưa có API URL. Vui lòng kiểm tra cấu hình.</p></div>`;
+          return;
+        }
+        list.innerHTML = `<div class="se-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i><br><span style="font-size:.85rem">Đang tải danh sách...</span></div>`;
+        try {
+          const res = await fetch(API + "?action=getExtraEvents");
+          const data = await res.json();
+          if (!data.success) {
+            list.innerHTML = `<div class="se-empty"><p>${data.error || "Không tải được danh sách."}</p></div>`;
+            return;
+          }
+          allEvents = data.data || [];
+          renderEvents(allEvents);
+        } catch (e) {
+          list.innerHTML = `<div class="se-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>Không tải được danh sách hoạt động đột xuất.<br><small>${e.message}</small></p></div>`;
+        }
+      }
+
+      /* ════════════ RENDER EVENTS ════════════ */
+      function renderEvents(events) {
+        const list = document.getElementById("eventsList");
+        if (!events.length) {
+          list.innerHTML = `<div class="se-empty"><i class="fa-regular fa-calendar-minus"></i><p>Chưa có hoạt động bổ sung nào được tạo.</p></div>`;
+          return;
+        }
+
+        list.innerHTML = "";
+        const sorted = [...events].reverse();
+
+        sorted.forEach((evt, idx) => {
+          const baseUrl = window.location.origin + window.location.pathname.replace(/[^/]+$/, "");
+          const regLink = `${baseUrl}event-register.html?eventId=${encodeURIComponent(evt.ID)}`;
+          const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(regLink)}`;
+
+          const card = document.createElement("div");
+          card.className = "se-card";
+          card.style.animationDelay = `${idx * 60}ms`;
+          card.dataset.id = evt.ID;
+
+          card.innerHTML = `
+            <div class="se-card-top">
+              <div class="se-meta-row">
+                <span class="se-badge-sudden"><i class="fa-solid fa-bolt"></i> Sự kiện đột xuất</span>
+                <span class="se-badge-new"><i class="fa-regular fa-clock" style="font-size:.65rem"></i> Mới</span>
+              </div>
+              <div class="se-event-title">${evt.Ten || "Chưa có tên"}</div>
+              <div class="se-event-desc">${evt.MoTa || "<em>Chưa có mô tả chi tiết.</em>"}</div>
+              <div class="se-chips">
+                <div class="se-chip">
+                  <div class="se-chip-ico ic-a"><i class="fa-regular fa-clock"></i></div>
+                  <div>
+                    <div class="se-chip-lbl">Thời gian</div>
+                    <div class="se-chip-val" title="${fmtDT(evt.BatDau)}">${fmtDT(evt.BatDau)}</div>
+                  </div>
+                </div>
+                <div class="se-chip">
+                  <div class="se-chip-ico ic-b"><i class="fa-solid fa-location-dot"></i></div>
+                  <div>
+                    <div class="se-chip-lbl">Địa điểm</div>
+                    <div class="se-chip-val" title="${evt.DiaDiem || ''}">${evt.DiaDiem || "Chưa xác định"}</div>
+                  </div>
+                </div>
+                <div class="se-chip">
+                  <div class="se-chip-ico ic-g"><i class="fa-solid fa-user-group"></i></div>
+                  <div>
+                    <div class="se-chip-lbl">Giới hạn</div>
+                    <div class="se-chip-val">${evt.GioiHan ? evt.GioiHan + " người" : "Không giới hạn"}</div>
+                  </div>
+                </div>
+                <div class="se-chip">
+                  <div class="se-chip-ico ic-v"><i class="fa-regular fa-circle-user"></i></div>
+                  <div>
+                    <div class="se-chip-lbl">Người tạo</div>
+                    <div class="se-chip-val" title="${evt.TaoBoi || ''}">${evt.TaoBoi || "Admin"}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="se-card-actions">
+              <button class="btn btn-se-green btn-sm js-reg" data-id="${evt.ID}">
+                <i class="fa-solid fa-pen-nib"></i> Đăng ký
+              </button>
+              <button class="btn btn-se-ghost btn-sm js-view-reg" data-id="${evt.ID}">
+                <i class="fa-solid fa-list-ol" style="color:var(--accent-blue)"></i> DS Tham gia
+              </button>
+              <button class="btn btn-sm js-cancel-reg" data-id="${evt.ID}"
+                style="background:rgba(225,29,72,.08);color:#e11d48;border:1px solid rgba(225,29,72,.2)">
+                <i class="fa-solid fa-xmark"></i> Hủy đăng ký
+              </button>
+              ${isAdmin ? `
+              <div class="se-admin-btns">
+                <button class="se-icon-btn edit js-edit" data-id="${evt.ID}" title="Chỉnh sửa">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="se-icon-btn del js-delete" data-id="${evt.ID}" title="Xóa sự kiện">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>` : ""}
+            </div>
+
+            <div class="se-reg-wrap" id="regWrap_${evt.ID}"></div>
+
+            <div class="se-qr-row">
+              <div class="se-qr-img-wrap">
+                <img src="${qrUrl}" class="se-qr-img" alt="QR đăng ký" loading="lazy">
+              </div>
+              <div class="se-qr-info">
+                <div class="se-qr-label"><i class="fa-solid fa-qrcode" style="color:var(--accent-blue);margin-right:5px"></i>Quét để đăng ký tham gia</div>
+                <div class="se-qr-link">${regLink}</div>
+              </div>
+              <a href="${qrUrl}" download="QR_${evt.ID}.png" class="se-qr-dl">
+                <i class="fa-solid fa-download"></i> Tải QR
+              </a>
+            </div>
+          `;
+
+          list.appendChild(card);
+        });
+
+        bindCardActions();
+      }
+
+      /* ════════════ BIND CARD ACTIONS ════════════ */
+      function bindCardActions() {
+
+        /* ĐĂNG KÝ */
+        document.querySelectorAll(".js-reg").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            if (!user) return toast("Bạn cần đăng nhập để đăng ký!", "error");
+            const id = btn.dataset.id;
+            const orig = btn.innerHTML;
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            try {
+              const d = await apiPost({
+                action: "registerEvent", eventId: id,
+                hoTen: user.chiDoan + " - Đại diện", sdt: "",
+                chiDoan: user.chiDoan, ghiChu: "Đăng ký nhanh", nguon: "in-app"
+              });
+              if (d.success) { toast("Đăng ký đại diện Chi đoàn thành công!"); loadEvents(); }
+              else toast(d.error || "Không đăng ký được", "error");
+            } catch (e) { toast("Lỗi kết nối", "error"); }
+            btn.disabled = false; btn.innerHTML = orig;
+          });
+        });
+
+        /* HỦY ĐĂNG KÝ */
+        document.querySelectorAll(".js-cancel-reg").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            if (!user) return toast("Bạn cần đăng nhập!", "error");
+            if (!confirm("Hủy bỏ đăng ký tham gia hoạt động này của Chi đoàn bạn?")) return;
+            const id = btn.dataset.id;
+            const orig = btn.innerHTML;
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            try {
+              const d = await apiPost({ action: "cancelEventRegistration", eventId: id, hoTen: user.chiDoan + " - Đại diện", sdt: "" });
+              if (d.success) { toast("Đã hủy đăng ký thành công!"); loadEvents(); }
+              else toast(d.error || "Không hủy được", "error");
+            } catch (e) { toast("Lỗi kết nối", "error"); }
+            btn.disabled = false; btn.innerHTML = orig;
+          });
+        });
+
+        /* XEM DS ĐĂNG KÝ */
+        document.querySelectorAll(".js-view-reg").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            const wrap = document.getElementById(`regWrap_${id}`);
+            if (!wrap) return;
+            if (wrap.style.display === "block") { wrap.style.display = "none"; return; }
+            wrap.style.display = "block";
+            wrap.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải...</div>`;
+            try {
+              const API = getAPI();
+              const res = await fetch(API + `?action=getEventRegistrations&eventId=${encodeURIComponent(id)}`);
+              const d = await res.json();
+              const rows = d.data || [];
+              if (!rows.length) {
+                wrap.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:.85rem">Chưa có ai đăng ký tham gia.</div>`;
+                return;
+              }
+              wrap.innerHTML = `
+                <div class="se-reg-inner">
+                  <table class="se-reg-table">
+                    <thead><tr>
+                      <th>Họ tên</th><th>Chi đoàn / Đơn vị</th><th>Nguồn</th><th>Thời gian đăng ký</th>
+                    </tr></thead>
+                    <tbody>${rows.map(r => `
+                      <tr>
+                        <td><strong>${r.HoTen || ""}</strong></td>
+                        <td style="color:var(--text-muted)">${r.ChiDoan || ""}</td>
+                        <td><span class="se-reg-pill">${r.Nguon || "web"}</span></td>
+                        <td style="color:var(--text-muted);font-size:.78rem">${r.NgayDK || ""}</td>
+                      </tr>`).join("")}
+                    </tbody>
+                  </table>
+                </div>`;
+            } catch (e) {
+              wrap.innerHTML = `<div style="text-align:center;padding:16px;color:#e11d48;font-size:.85rem"><i class="fa-solid fa-triangle-exclamation"></i> Lỗi tải dữ liệu.</div>`;
+            }
+          });
+        });
+
+        /* ── ADMIN: XÓA ── */
+        if (isAdmin) {
+          document.querySelectorAll(".js-delete").forEach(btn => {
+            btn.addEventListener("click", async () => {
+              const id = btn.dataset.id;
+              const evt = allEvents.find(e => e.ID === id);
+              const name = evt ? `"${evt.Ten}"` : `ID: ${id}`;
+              if (!confirm(`Bạn có chắc muốn xóa hoạt động ${name}?\n\nThao tác này sẽ xóa vĩnh viễn sự kiện và toàn bộ danh sách đăng ký trên Google Sheets!`)) return;
+              const orig = btn.innerHTML;
+              btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+              try {
+                const d = await apiPost({ action: "deleteExtraEvent", id, eventId: id, ID: id });
+                if (d.success) {
+                  toast("Đã xóa hoạt động thành công!");
+                  // Xóa card ngay lập tức, mượt mà
+                  const card = document.querySelector(`.se-card[data-id="${id}"]`);
+                  if (card) {
+                    card.style.transition = "opacity .3s, transform .3s";
+                    card.style.opacity = "0";
+                    card.style.transform = "translateY(-6px)";
+                    setTimeout(() => {
+                      card.remove();
+                      allEvents = allEvents.filter(e => e.ID !== id);
+                      if (!document.querySelector(".se-card")) loadEvents();
+                    }, 320);
+                  } else {
+                    allEvents = allEvents.filter(e => e.ID !== id);
+                    loadEvents();
+                  }
+                } else {
+                  toast(d.error || "Không thể xóa sự kiện", "error");
+                  btn.disabled = false; btn.innerHTML = orig;
+                }
+              } catch (e) {
+                toast("Lỗi kết nối khi xóa", "error");
+                btn.disabled = false; btn.innerHTML = orig;
+              }
+            });
+          });
+
+          /* ── ADMIN: SỬA ── */
+          document.querySelectorAll(".js-edit").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const id = btn.dataset.id;
+              const evt = allEvents.find(e => e.ID === id);
+              if (!evt) return toast("Không tìm thấy dữ liệu sự kiện!", "error");
+              openEditModal(evt);
+            });
+          });
+        }
+      }
+
+      /* ════════════ EDIT MODAL ════════════ */
+      function openEditModal(evt) {
+        editingId = evt.ID;
+        document.getElementById("editEvtName").value = evt.Ten || "";
+        document.getElementById("editEvtLocation").value = evt.DiaDiem || "";
+        document.getElementById("editEvtStart").value = evt.BatDau || "";
+        document.getElementById("editEvtLimit").value = evt.GioiHan || "";
+        document.getElementById("editEvtDesc").value = evt.MoTa || "";
+        document.getElementById("editModal").classList.add("open");
+      }
+
+      function closeEditModal() {
+        document.getElementById("editModal").classList.remove("open");
+        editingId = null;
+      }
+
+      document.getElementById("closeEditModal")?.addEventListener("click", closeEditModal);
+      document.getElementById("btnCancelEdit")?.addEventListener("click", closeEditModal);
+      document.getElementById("editModal")?.addEventListener("click", e => {
+        if (e.target === document.getElementById("editModal")) closeEditModal();
+      });
+
+      const editForm = document.getElementById("editForm");
+      if (editForm) {
+        editForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!editingId) return;
+          const btn = document.getElementById("btnSaveEdit");
+          const orig = btn.innerHTML;
+          btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu...';
+          try {
+            const d = await apiPost({
+              action: "updateExtraEvent",
+              id: editingId, eventId: editingId, ID: editingId,
+              ten: document.getElementById("editEvtName").value.trim(),
+              moTa: document.getElementById("editEvtDesc").value.trim(),
+              batDau: document.getElementById("editEvtStart").value.trim(),
+              diaDiem: document.getElementById("editEvtLocation").value.trim(),
+              gioiHan: document.getElementById("editEvtLimit").value.trim()
+            });
+            if (d.success) {
+              toast("Đã cập nhật hoạt động thành công!");
+              closeEditModal();
+              loadEvents();
+            } else {
+              toast(d.error || "Không cập nhật được", "error");
+            }
+          } catch (err) {
+            toast("Lỗi kết nối máy chủ", "error");
+          }
+          btn.disabled = false; btn.innerHTML = orig;
+        });
+      }
+
+      /* ════════════ INIT ════════════ */
+      /*
+       * app.js set CONFIG_API_URL trong DOMContentLoaded.
+       * Ta dùng setTimeout 0 để chạy SAU khi app.js DOMContentLoaded hoàn tất.
+       */
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => setTimeout(loadEvents, 100));
+      } else {
+        setTimeout(loadEvents, 100);
+      }
+
+    })();
+  </script>
 </body>
+
 </html>
