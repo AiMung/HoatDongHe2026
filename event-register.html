@@ -547,7 +547,7 @@
   <div class="page-header">
     <div class="org-badge">
       <i class="fa-solid fa-star"></i>
-     Phường Xuân Hương - Đà Lạt · Chiến dịch Hè 2026
+      Phường
     </div>
   </div>
 
@@ -563,11 +563,14 @@
           <div class="event-tag"><i class="fa-solid fa-bolt" style="font-size:9px;"></i> Hoạt động đột xuất</div>
           <div class="event-name" id="eventTitlePublic">
             <span class="skeleton" style="display:block;height:18px;width:80%;border-radius:6px;"></span>
-            <span class="skeleton" style="display:block;height:18px;width:55%;border-radius:6px;margin-top:6px;"></span>
+          </div>
+          <div class="event-desc" id="eventDescPublic" style=" color:#E6F1FB;">
+            <span class="skeleton"
+              style="color:#E6F1FB;display:block;height:18px;width:70%;border-radius:6px;margin-top:6px;"></span>
           </div>
         </div>
       </div>
-      <div class="event-meta-chips" id="eventMetaChips" style="display:none;">
+      <div class="event-meta-chips" id="eventMetaChips">
         <!-- filled by JS -->
       </div>
     </div>
@@ -772,6 +775,11 @@
             if (evt) {
               titleEl.innerHTML = evt.Ten || 'Hoạt động đột xuất';
               titleEl.style.color = '#fff';
+              // Description
+              const descEl = document.getElementById('eventDescPublic');
+              if (descEl) {
+                descEl.textContent = evt.MoTa || '';
+              }
               chipsEl.style.display = 'flex';
               const chips = [];
               if (evt.BatDau) {
@@ -782,6 +790,7 @@
               if (evt.DiaDiem) chips.push(`<span class="event-chip"><i class="fa-solid fa-location-dot"></i> ${evt.DiaDiem}</span>`);
               if (evt.GioiHan) chips.push(`<span class="event-chip"><i class="fa-solid fa-user-group"></i> ${evt.GioiHan} người</span>`);
               chipsEl.innerHTML = chips.join('');
+
             } else {
               titleEl.textContent = 'Không tìm thấy sự kiện này.';
               titleEl.style.color = '#f87171';
