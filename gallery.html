@@ -152,17 +152,34 @@
     <!-- Thùng chứa full màn hình -->
     <div class="container-fluid-full">
 
-      <!-- Gallery Title Wrapper & Upload Button -->
-      <div class="gallery-title-wrapper">
-        <div class="section-header" style="margin-bottom: 0;">
-          <h3 class="section-title"><i class="fa-solid fa-camera-retro text-orange"></i> Góc kỷ niệm chiến dịch</h3>
-          <p class="section-subtitle">Ảnh do các chi đoàn tải lên sẽ được chia sẻ toàn hệ thống để tất cả đơn vị cùng
-            theo dõi.</p>
+      <div class="gallery-title-wrapper"
+        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div class="section-header" style="margin-bottom: 0; flex-grow: 1;">
+          <h3 class="section-title">
+            <i class="fa-solid fa-camera-retro text-orange"></i> Góc kỷ niệm chiến dịch
+          </h3>
+          <p class="section-subtitle" style="margin: 5px 0 0 0; color: #666;">Ảnh do các chi đoàn tải lên sẽ được chia
+            sẻ toàn hệ thống để tất cả đơn vị cùng theo dõi.</p>
         </div>
-        <div class="upload-simulation-area">
-          <input type="file" id="imageUploadInput" accept="image/*" style="display: none;">
+
+        <!-- Nút bấm phong cách hiện đại -->
+        <div class="action-button-wrapper" style="flex-shrink: 0;">
+          <a href="https://padlet.com/2212420_1/hoat-ong-he-phuong-xuan-huong-a-lat-2026-odw1te637zzmsbh1"
+            target="_blank"
+            style="display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; background: linear-gradient(135deg, #f724ad, #ff0000); color: #ffffff; text-decoration: none; border-radius: 30px; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer;"
+            onmouseover="this.style.transform='clientY(-2px) scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 107, 0.5)';"
+            onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 15px rgba(255, 107, 107, 0.3)';"
+            onmousedown="this.style.transform='scale(0.98)';"
+            onmouseup="this.style.transform='clientY(-2px) scale(1.05)';">
+
+            <!-- Thêm icon mũi tên cho sinh động -->
+            <span>Xem Chi Tiết</span>
+            <i class="fa-solid fa-arrow-right" style="margin-left: 8px; font-size: 12px;"></i>
+          </a>
         </div>
       </div>
+
+
 
       <!-- Padlet tràn toàn bộ phần còn lại của màn hình -->
       <div class="padlet-container-full">
