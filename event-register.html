@@ -774,7 +774,11 @@
               titleEl.style.color = '#fff';
               chipsEl.style.display = 'flex';
               const chips = [];
-              if (evt.BatDau) chips.push(`<span class="event-chip"><i class="fa-regular fa-clock"></i> ${evt.BatDau}</span>`);
+              if (evt.BatDau) {
+                const date = new Date(evt.BatDau);
+                const formatted = date.toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+                chips.push(`<span class="event-chip"><i class="fa-regular fa-clock"></i> ${formatted}</span>`);
+              }
               if (evt.DiaDiem) chips.push(`<span class="event-chip"><i class="fa-solid fa-location-dot"></i> ${evt.DiaDiem}</span>`);
               if (evt.GioiHan) chips.push(`<span class="event-chip"><i class="fa-solid fa-user-group"></i> ${evt.GioiHan} người</span>`);
               chipsEl.innerHTML = chips.join('');
