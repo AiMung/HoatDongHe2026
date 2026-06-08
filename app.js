@@ -5,7 +5,7 @@
 let WEEKLY_ACTIVITIES = [];
 
 const CONFIG_API_URL = "https://script.google.com/macros/s/AKfycbyUM7HPf0huJzs9dZAbpK71t6Obi1I-clUjw_jkYUVzmmaCZpeGDNOirWqkZlPZphk9Fw/exec";
-
+window.CONFIG_API_URL = CONFIG_API_URL;
 const DEFAULT_ATTENDANCE = [
   { date: "2026-06-01", week: "Tuần 1", name: "Nguyễn Văn An", status: "Có mặt", notes: "Đi đúng giờ", chiDoan: "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2" },
   { date: "2026-06-01", week: "Tuần 1", name: "Trần Thị Bình", status: "Có mặt", notes: "Hào hứng", chiDoan: "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2" },

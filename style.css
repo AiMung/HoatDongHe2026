@@ -266,7 +266,7 @@ textarea {
 .profile-avatar {
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-round);
+  border-radius: 50%;
   background-color: var(--primary);
   color: white;
   display: flex;
@@ -3563,6 +3563,20 @@ body.dark-theme .login-bg-blob {
     color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 16px;
+  }
+
+  .event-qr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .08);
+    padding: 10px;
+    border-radius: 14px;
+    width: 100px;
+    margin-left: auto; /* Align QR box to the right */
+    transition: all .3s;
   }
 
   .event-info {

@@ -9,42 +9,140 @@
   <!-- Google Fonts: Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Global stylesheet -->
   <link rel="stylesheet" href="style.css">
 
   <style>
-    :root{
+    :root {
       --accent: #ff7a18;
       --accent-2: #ffb703;
       --bg: #f7f9fc;
       --card: #ffffff;
       --muted: #6b7280;
       --radius-md: 12px;
-      --shadow-sm: 0 6px 18px rgba(16,24,40,0.06);
-      --glass-border: 1px solid rgba(255,255,255,0.06);
+      --shadow-sm: 0 6px 18px rgba(16, 24, 40, 0.06);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    html,body{height:100%;font-family:'Outfit',system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    .app-shell{display:flex;min-height:100vh;background:var(--bg)}
-    .sidebar{width:260px;background:linear-gradient(180deg,#fff,#fbfbff);padding:20px;border-right:1px solid rgba(0,0,0,0.04)}
-    .brand-logo{width:44px;height:44px;border-radius:8px;object-fit:cover}
-    .brand-title{display:block;font-weight:700;color:#0f172a;margin-top:6px}
-    .main-content{flex:1;padding:26px;}
-    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    .topbar-title{font-size:1.15rem;margin:0;color:#0f172a}
-    .container-fluid{max-width:1100px;margin:0 auto}
-    .card{background:var(--card);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:18px}
-    .welcome-banner{background:linear-gradient(90deg,#fff 0%, rgba(255,255,255,0.7) 100%);padding:22px;border-radius:12px;margin-bottom:20px}
-    .gradient-text{background:linear-gradient(90deg,#ff7a18,#ffb703);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
-    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .stat-card{display:flex;gap:12px;align-items:center;padding:14px;border-radius:10px}
-    .stat-icon-box{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center}
-    .countdown-card{padding:16px;border-radius:10px}
+    html,
+    body {
+      height: 100%;
+      font-family: 'Outfit', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial
+    }
 
-    @media(max-width:900px){.sidebar{display:none}.mobile-header{display:flex}}
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg)
+    }
+
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(180deg, #fff, #fbfbff);
+      padding: 20px;
+      border-right: 1px solid rgba(0, 0, 0, 0.04)
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover
+    }
+
+    .brand-title {
+      display: block;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 6px
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 26px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px
+    }
+
+    .topbar-title {
+      font-size: 1.15rem;
+      margin: 0;
+      color: #0f172a
+    }
+
+    .container-fluid {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 18px
+    }
+
+    .welcome-banner {
+      background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+      padding: 22px;
+      border-radius: 12px;
+      margin-bottom: 20px
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ff7a18, #ffb703);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px
+    }
+
+    .stat-card {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 10px
+    }
+
+    .stat-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .countdown-card {
+      padding: 16px;
+      border-radius: 10px
+    }
+
+    @media(max-width:900px) {
+      .sidebar {
+        display: none
+      }
+
+      .mobile-header {
+        display: flex
+      }
+    }
   </style>
 
   <script>
@@ -62,7 +160,7 @@
       <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
         <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
         <div>
-          <div class="brand-title">MÙA HÈ TÌNH NGUYỆN</div>
+          <div class="brand-title">MÙA HÈ XUÂN HƯƠNG - ĐÀ LẠT</div>
           <div style="font-size:12px;color:var(--muted)">Chiến Dịch Hè 2026</div>
         </div>
       </div>
@@ -76,7 +174,9 @@
 
       <div style="margin-top:auto;padding-top:14px;border-top:1px solid rgba(0,0,0,0.03);">
         <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:40px;height:40px;border-radius:8px;background:#eef2ff;display:flex;align-items:center;justify-content:center">BTC</div>
+          <div
+            style="width:40px;height:40px;border-radius:8px;background:#eef2ff;display:flex;align-items:center;justify-content:center">
+            BTC</div>
           <div>
             <div style="font-weight:600">Ban Chỉ Đạo Hè</div>
             <div style="font-size:12px;color:var(--muted)">Người điều hành</div>

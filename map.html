@@ -3,171 +3,669 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bản Đồ Điểm Sinh Hoạt Hè - Phường Xuân Hương - Đà Lạt</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bản Đồ Điểm Sinh Hoạt Hè - Phường Xuân Hương</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --primary: #0056b3;
-            --accent: #00d2ff;
             --bg-color: #0f172a;
-            /* Dark slate modern background */
-            --text-light: #ffffff;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --primary: #0ea5e9;
+            --primary-glow: rgba(14, 165, 233, 0.5);
+            --secondary: #38bdf8;
+            --accent: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body,
         html {
             width: 100%;
             height: 100%;
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
             background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden;
         }
 
-        /* --- LOADING INTRO --- */
-        #loader-wrapper {
+        /* Loading Screen */
+        #loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at center, #1e293b 0%, var(--bg-color) 100%);
-            z-index: 9999;
+            inset: 0;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            z-index: 99999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            overflow: hidden;
+        }
+
+        .loader-logo-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-logo {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            z-index: 10;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.6));
+        }
+
+        .loader-pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            animation: pulse-ring-expand 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring-expand {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .loader-title {
+            font-size: clamp(14px, 5vw, 2.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            white-space: nowrap;
+        }
+
+        .loader-subtitle {
+            font-size: clamp(10px, 2.5vw, 1.1rem);
+            color: #94a3b8;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            white-space: nowrap;
+        }
+
+        .loader-progress-bar {
+            width: 280px;
+            max-width: 80vw;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .loader-text {
+            font-size: 0.85rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            font-family: monospace;
+        }
+
+        /* App Layout */
+        #app {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #app.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 400px;
+            height: 100%;
+            background: var(--surface-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .header-title {
+            font-size: clamp(16px, 5.5vw, 1.45rem);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(14, 165, 233, 0.4);
+            white-space: nowrap;
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .location-list {
+            flex: 1;
+            overflow-y: auto;
             padding: 20px;
         }
 
-        .logo-container {
-            position: relative;
-            margin-bottom: 2.5rem;
-            animation: float 4s ease-in-out infinite;
+        /* Custom Scrollbar */
+        .location-list::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .logo {
-            width: 180px;
-            height: 180px;
-            object-fit: contain;
+        .location-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .location-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .location-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .location-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+        }
+
+        .location-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(14, 165, 233, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .location-card.active {
+            background: rgba(14, 165, 233, 0.1);
+            border-color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-contact {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .card-contact i {
+            color: var(--secondary);
+            width: 16px;
+            text-align: center;
+        }
+
+        .special-event-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f43f5e, #fb923c);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(244, 63, 94, 0.4);
+        }
+
+        /* Map Container */
+        #map-wrapper {
+            flex: 1;
+            position: relative;
+            background: #111;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mobile Toggle Button */
+        .mobile-toggle {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.5);
+            z-index: 2000;
+            cursor: pointer;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-toggle:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        /* Leaflet Customizations */
+        .leaflet-container {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Dark popup */
+        .leaflet-popup-content-wrapper {
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 16px !important;
+            color: #fff !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        .leaflet-popup-tip-container {
+            display: none;
+            /* Hide standard tip */
+        }
+
+        .leaflet-popup-content {
+            margin: 0 !important;
+            width: 280px !important;
+        }
+
+        .custom-popup {
+            padding: 20px;
+        }
+
+        .popup-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .popup-detail {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .popup-detail i {
+            color: var(--primary);
+            margin-top: 3px;
+        }
+
+        .popup-action {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white !important;
+            text-align: center;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .popup-action:hover {
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Search Box */
+        .search-container {
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        /* Custom Logo Marker CSS */
+        .logo-marker-container {
+            position: relative;
+            width: 50px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-wrapper {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 3px var(--primary);
             z-index: 2;
-            /* Dùng drop-shadow để viền sáng ôm sát theo đường nét tách nền của logo */
-            filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.7));
-            animation: logo-glow-pulse 2s infinite alternate;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Glow effect phía sau logo (bỏ bớt để drop-shadow tỏa sáng, nhưng giữ lại một chút ánh hào quang) */
-        .logo-glow {
+        .logo-wrapper img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .logo-marker-container:hover .logo-wrapper {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 3px var(--secondary);
+        }
+
+        /* Marker Arrow */
+        .marker-arrow {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid var(--primary);
+            position: relative;
+            top: -2px;
+            z-index: 1;
+            filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.4));
+            transition: border-top-color 0.3s;
+        }
+
+        .logo-marker-container:hover .marker-arrow {
+            border-top-color: var(--secondary);
+        }
+
+        /* Special Event Marker */
+        .logo-marker-container.special .logo-wrapper {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 3px var(--accent);
+        }
+
+        .logo-marker-container.special .marker-arrow {
+            border-top-color: var(--accent);
+        }
+
+        .logo-marker-container.special:hover .logo-wrapper {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 4px #fb923c;
+        }
+
+        .logo-pulse {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            z-index: 0;
+            top: -8px;
+            opacity: 0;
+            animation: pulse-ring 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .logo-marker-container.special .logo-pulse {
+            background: var(--accent);
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.7);
+                opacity: 0.8;
+            }
+
+            80% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* User Location Marker */
+        .user-marker {
+            width: 20px;
+            height: 20px;
+            background-color: #22c55e;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.8);
+        }
+
+        .user-pulse {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(34, 197, 94, 0.6);
+            border-radius: 50%;
+            z-index: -1;
+            left: 50%;
+            top: 50%;
+            margin: -20px 0 0 -20px;
+            animation: pulse-anim 2s ease-out infinite;
+        }
+
+        /* Fireworks Effect for Special Marker */
+        .firework-container {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .firework {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 150px;
-            height: 150px;
-            background: var(--accent);
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
-            filter: blur(55px);
-            opacity: 0.5;
-            animation: pulse-glow 2s infinite alternate;
-            z-index: 1;
+            box-shadow:
+                0 -35px 0 #ff0040,
+                25px -25px 0 #ff0040,
+                35px 0 0 #ff0040,
+                25px 25px 0 #ff0040,
+                0 35px 0 #ff0040,
+                -25px 25px 0 #ff0040,
+                -35px 0 0 #ff0040,
+                -25px -25px 0 #ff0040;
+            animation: explode 1.5s ease-out infinite;
         }
 
-        .title-text {
-            color: var(--text-light);
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            white-space: nowrap;
-            text-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
-            background: linear-gradient(90deg, #fff, var(--accent), #fff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
+        .firework:nth-child(2) {
+            animation-delay: 0.4s;
+            box-shadow:
+                0 -45px 0 #00ffff,
+                32px -32px 0 #00ffff,
+                45px 0 0 #00ffff,
+                32px 32px 0 #00ffff,
+                0 45px 0 #00ffff,
+                -32px 32px 0 #00ffff,
+                -45px 0 0 #00ffff,
+                -32px -32px 0 #00ffff;
         }
 
-        .subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.2rem;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-bottom: 3.5rem;
-            text-transform: uppercase;
+        .firework:nth-child(3) {
+            animation-delay: 0.8s;
+            box-shadow:
+                0 -25px 0 #ffff00,
+                18px -18px 0 #ffff00,
+                25px 0 0 #ffff00,
+                18px 18px 0 #ffff00,
+                0 25px 0 #ffff00,
+                -18px 18px 0 #ffff00,
+                -25px 0 0 #ffff00,
+                -18px -18px 0 #ffff00;
         }
 
-        /* Modern Progress Bar */
-        .progress-container {
-            width: 280px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #0056b3, var(--accent));
-            box-shadow: 0 0 15px var(--accent);
-            transition: width 0.3s ease;
-            border-radius: 10px;
-        }
-
-        .loading-text {
-            margin-top: 1.2rem;
-            color: var(--accent);
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            animation: blink 1.5s infinite;
-        }
-
-        /* Animations */
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
+        @keyframes explode {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
             }
 
             50% {
-                transform: translateY(-20px);
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0;
             }
         }
 
-        @keyframes pulse-glow {
-            from {
-                transform: translate(-50%, -50%) scale(0.9);
-                opacity: 0.3;
+        /* Animations */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
 
-            to {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 0.6;
-            }
-        }
-
-        @keyframes logo-glow-pulse {
-            from {
-                filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.5));
-            }
-
-            to {
-                filter: drop-shadow(0 0 35px rgba(0, 210, 255, 0.9));
+            100% {
+                transform: rotate(360deg);
             }
         }
 
@@ -177,137 +675,90 @@
             }
         }
 
-        @keyframes blink {
-
-            0%,
-            100% {
+        @keyframes pulse-anim {
+            0% {
+                transform: scale(0.5);
                 opacity: 1;
             }
 
-            50% {
-                opacity: 0.5;
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
             }
         }
 
-        /* --- MAP CONTAINER --- */
-        .map-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            opacity: 0;
-            transform: scale(0.98);
-            transition: opacity 1s ease-in, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .map-container.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Header Overlay for Map */
-        .map-header {
+        .mobile-search-container {
+            display: none;
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 12px 30px;
-            border-radius: 50px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            backdrop-filter: blur(15px);
-            pointer-events: none;
-            /* Let clicks pass through to map */
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            width: auto;
-            white-space: nowrap;
-        }
-
-        .map-header img {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-
-        .map-header h1 {
-            font-size: 1.1rem;
-            color: #1e293b;
-            font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            z-index: 9999;
         }
 
         /* Responsive */
-        @media (max-width: 600px) {
-            .title-text {
-                font-size: clamp(0.8rem, 5vw, 1.4rem);
+        @media (max-width: 768px) {
+            .mobile-search-container {
+                display: block;
             }
 
-            .subtitle {
-                font-size: 1rem;
-                margin-bottom: 2.5rem;
+            .mobile-search-container .search-input {
+                background: rgba(15, 23, 42, 0.95);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(10px);
             }
 
-            .logo {
-                width: 140px;
-                height: 140px;
+            .sidebar .search-container {
+                display: none;
             }
 
-            .logo-glow {
-                width: 120px;
-                height: 120px;
+            #app {
+                flex-direction: column-reverse;
             }
 
-            .progress-container {
-                width: 80%;
+            .sidebar {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 60vh;
+                border-right: none;
+                border-top: 1px solid var(--glass-border);
+                border-radius: 30px 30px 0 0;
+                transform: translateY(100%);
             }
 
-            .map-header {
-                width: 90%;
-                padding: 10px 20px;
-                justify-content: center;
-                white-space: normal;
-                text-align: center;
+            .sidebar.active {
+                transform: translateY(0);
             }
 
-            .map-header h1 {
-                font-size: 0.95rem;
+            .sidebar-header {
+                border-radius: 30px 30px 0 0;
+                padding: 20px;
             }
-        }
 
-        .title-text {
-            /* Chữ sẽ tự co giãn từ 20px đến 32px tùy theo kích thước màn hình */
-            font-size: clamp(20px, 5vw, 32px);
-            font-weight: bold;
-            text-align: center;
-            /* Tự động ngắt từ xuống dòng mới nếu chữ quá dài, tránh tràn viền */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
+            .header-title {
+                font-size: clamp(14px, 5.2vw, 1.2rem);
+                white-space: nowrap;
+            }
 
-        .subtitle {
-            /* Chữ phụ nhỏ hơn, co giãn từ 14px đến 20px */
-            font-size: clamp(14px, 3vw, 20px);
-            text-align: center;
-        }
+            .mobile-toggle {
+                display: flex;
+            }
 
-        /* Đảm bảo khung chứa không bị vượt quá chiều rộng màn hình */
-        .container {
-            width: 100%;
-            max-width: 100vw;
-            padding: 0 15px;
-            box-sizing: border-box;
+            /* Handle bar for dragging (visual only) */
+            .sidebar-header::before {
+                content: '';
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 4px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 2px;
+            }
         }
     </style>
 </head>
@@ -315,87 +766,429 @@
 <body>
 
     <!-- Loading Screen -->
-    <div id="loader-wrapper">
-        <div class="logo-container">
-            <div class="logo-glow"></div>
-            <img src="./image/logo_DTN.webp" alt="Logo Đoàn Thanh Niên" class="logo"
+    <div id="loader">
+        <div class="loader-logo-wrapper">
+            <img src="./image/logo_DTN.webp" alt="Logo DTN" class="loader-logo"
                 onerror="this.src='https://upload.wikimedia.org/wikipedia/vi/a/a2/Huy_hieu_Doan.png';">
+            <div class="loader-pulse-ring"></div>
         </div>
-        <h1 class="title-text">Phường Xuân Hương - Đà Lạt</h1>
-        <p class="subtitle">Bản đồ điểm sinh hoạt hè</p>
-
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
+        <div class="loader-title">Phường Xuân Hương - Đà Lạt</div>
+        <div class="loader-subtitle">Bản Đồ Điểm Sinh Hoạt Hè 2026</div>
+        <div class="loader-progress-bar">
+            <div class="loader-progress" id="loader-progress"></div>
         </div>
-        <div class="loading-text" id="loading-text">ĐANG KHỞI TẠO BẢN ĐỒ... 0%</div>
+        <div class="loader-text" id="loader-text">Khởi tạo hệ thống...</div>
     </div>
 
-    <!-- Map Content -->
-    <div class="map-container" id="map-container">
+    <div id="app">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="header-title" style="text-align: center;">Phường Xuân Hương - Đà Lạt</div>
+                <div class="header-subtitle" style="text-align: center;"><i class="fa-solid fa-map-location-dot"></i>
+                    Bản Đồ Sinh Hoạt Hè 2026</div>
+                <div class="search-container">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" id="search-input" class="search-input"
+                        placeholder="Tìm kiếm chi đoàn, tên, địa chỉ...">
+                </div>
+            </div>
+            <div class="location-list" id="location-list">
+                <!-- Location cards will be generated here -->
+            </div>
+        </div>
 
-        <iframe id="map-iframe"
-            src="https://www.google.com/maps/d/embed?mid=1tQajVx8IbEv31Tiko3t1spI112mH4J0&hl=vi&ehbc=2E312F"
-            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+        <!-- Map Area -->
+        <div id="map-wrapper">
+            <!-- Mobile Floating Search -->
+            <div class="mobile-search-container">
+                <div class="search-container" style="margin-top: 0;">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" id="mobile-search-input" class="search-input"
+                        placeholder="Tìm kiếm điểm sinh hoạt, chi đoàn...">
+                </div>
+            </div>
+
+            <div id="map"></div>
+            <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebarState()">
+                <i class="fa-solid fa-list"></i> Tìm Kiếm
+            </button>
+        </div>
     </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const progressBar = document.getElementById('progress-bar');
-            const loadingText = document.getElementById('loading-text');
-            const loaderWrapper = document.getElementById('loader-wrapper');
-            const mapContainer = document.getElementById('map-container');
-            const iframe = document.getElementById('map-iframe');
+        const locations = [
+            {
+                id: 23,
+                name: "Khai Mạc Hè Phường Xuân Hương - Đà Lạt",
+                person: "Đoàn Phường Xuân Hường - Đà Lạt",
+                phone: "0868203799",
+                lat: 11.93857,
+                lng: 108.44300,
+                desc: "Lễ Khai mạc hè dành cho các em học sinh trên địa bàn sẽ diễn ra vào lúc 07h30 sáng ngày 07/06/2026 tại Đài phun nước Quảng trường Lâm Viên.",
+                special: true
+            },
+            { id: 1, name: "Hội Trường Trường Tiểu Học Đoàn Kết", person: "Nguyễn Tuấn", phone: "0979891194", lat: 11.94311, lng: 108.43363, groups: ["TDP Đồi Dinh", "TDP Nguyễn Văn Trỗi", "TDP Phan Bội Châu (Cụm trưởng)", "TDP Đoàn Kết", "TDP Hòa Bình", "TDP Nam Kỳ Khởi Nghĩa", "TDP Ánh Sáng"] },
+            { id: 2, name: "Đình Nguyễn Thị Nghĩa", person: "Nguyễn Phú Quý", phone: "0964978546", lat: 11.95058, lng: 108.43979, groups: ["TDP Nguyễn Thị Nghĩa (Cụm trưởng)", "TDP Bùi Thị Xuân 2"] },
+            { id: 3, name: "Hội Trường Nguyễn Lương Bằng", person: "Hoàng Kiều Trinh", phone: "0363887598", lat: 11.95243, lng: 108.43639, groups: ["TDP Mỹ Lộc (Cụm trưởng)", "TDP Nguyễn Lương Bằng", "TDP Nguyễn Du", "TDP Cổ Loa"] },
+            { id: 4, name: "Hội Trường Trường Tiểu Học Trưng Vương", person: "Hàng Như Quỳnh", phone: "0332868784", lat: 11.952674, lng: 108.433076, groups: ["TDP An Dương Vương (Cụm trưởng)", "TDP Phan Đình Phùng 1", "TDP Phan Đình Phùng 2", "TDP Nguyễn Công Trứ"] },
+            { id: 5, name: "Hội Trường Tổ Dân Phố Lê Đại Hành", person: "Ka Thắm Thịu", phone: "0977796844", lat: 11.9385, lng: 108.43889, groups: ["TDP Lê Đại Hành (Cụm trưởng)", "TDP Phạm Ngũ Lão"] },
+            { id: 6, name: "Hội Trường Tổ Dân Phố Nguyễn Trung Trực 2", person: "Nguyễn Ái Mừng", phone: "0359910341", lat: 11.93015, lng: 108.43689, groups: ["TDP An Bình 1 (Cụm trưởng)", "TDP An Bình 2", "TDP Nguyễn Trung Trực 2"] },
+            { id: 7, name: "Hội Trường Tổ Dân Phố Nguyễn Trung Trực 1", person: "Hồ Đan Phượng", phone: "0919530003", lat: 11.9301, lng: 108.43245, groups: ["TDP Nguyễn Trung Trực 1 (Cụm trưởng)", "TDP An Sơn 1", "TDP An Sơn 2"] },
+            { id: 8, name: "Hội trường UBMTTQ phường", person: "Nguyễn Thị Quỳnh", phone: "0797074391", lat: 11.95, lng: 108.43487, addr: "238 Phan Đình Phùng", groups: ["TDP Đa Hòa (Cụm trưởng)", "TDP Mimosa", "TDP Hàm Nghi", "TDP Trưng Vương", "TDP Tô Ngọc Vân"] },
+            { id: 9, name: "Hội Trường Tổ Dân Phố Đa Lợi", person: "Lê Thị Minh Huyền", phone: "0342960930", lat: 11.93112, lng: 108.46426, groups: ["TDP Đa Lợi (Cụm trưởng)", "TDP Hoàng Hoa Thám"] },
+            { id: 10, name: "Hội Trường Khu Phố 3", person: "Lê Phạm Duy Thịnh", phone: "0325336026", lat: 11.93684, lng: 108.42234, addr: "17 Huyền Trân Công Chúa", groups: ["TDP Đồng Thiện (Cụm trưởng)", "TDP Thiện Mỹ", "TDP Ngô Thì Nhậm", "TDP Nam Thiên", "TDP Huyền Trân Công Chúa", "TDP Ngô Thì Sỹ"] },
+            { id: 11, name: "Hội Trường Tổ Dân Phố Huỳnh Thúc Kháng", person: "Nguyễn Hữu Cảnh", phone: "0916823306", lat: 11.93526, lng: 108.42813, addr: "28 Đ. Huỳnh Thúc Kháng", groups: ["TDP Huỳnh Thúc Kháng (Cụm trưởng)", "TDP Trường Chinh", "TDP Thiên Thành", "TDP Mạc Đĩnh Chi 1", "TDP Mạc Đĩnh Chi 2", "TDP Trần Lê"] },
+            { id: 12, name: "Hội Trường Tổ Dân Phố Sở Lăng", person: "Phạm Thị Mai Quyên", phone: "0772069640", lat: 11.92817, lng: 108.45944, groups: ["TDP Sở Lăng (Cụm trưởng)", "TDP Prenn"] },
+            { id: 13, name: "Hội Trường Tổ Dân Phố An Lạc 1 + An Lạc 2", person: "Ngô Thị Yến Mai", phone: "0949238614", lat: 11.9341, lng: 108.43383, addr: "32 Đào Duy Từ", groups: ["TDP An Lạc 1 (Cụm trưởng)", "TDP Lê Hồng Phong", "TDP An Lạc 2", "TDP Trần Phú"] },
+            { id: 14, name: "Hội Trường Tổ Dân Phố Trần Quang Diệu", person: "Nguyễn Đoàn Minh Thương", phone: "0797250803", lat: 11.94091, lng: 108.46954, addr: "D1 Trần Quang Diệu", groups: ["TDP Trần Quang Diệu (Cụm trưởng)", "TDP Yên Thế", "TDP Trần Thái Tông"] },
+            { id: 15, name: "Hội Trường Chung Cư Vàng 11 Khe Sanh", person: "Phan Hoàng Mai Trang", phone: "0917342878", lat: 11.9345, lng: 108.46012, addr: "11 Khe Sanh", groups: ["TDP Khe Sanh (Cụm trưởng)", "TDP Lê Văn Tám"] },
+            { id: 16, name: "Hội Trường Tổ dân phố Suối Cát", person: "Nguyễn Hoàng Đình Vũ", phone: "0357497469", lat: 11.93466, lng: 108.43807, addr: "4 Đường Nhà Chung", groups: ["TDP Suối Cát (Cụm trưởng)", "TDP Xuân An"] },
+            { id: 17, name: "Hội Trường Tổ Dân Phố Hà Huy Tập 2 - Tân Bình", person: "Nguyễn Thị Thuý", phone: "0988464101", lat: 11.93588, lng: 108.44377, groups: ["TDP Hà Huy Tập 2 (Cụm trưởng)", "TDP Nhà Chung", "TDP Hà Huy Tập 1", "TDP Tân Bình", "TDP Lương Thế Vinh"] },
+            { id: 18, name: "Hội Trường Tổ Dân Phố Ba Tháng Tư", person: "Nguyễn Hoàng An Vinh", phone: "0949112870", lat: 11.93362, lng: 108.44498, groups: ["TDP Đặng Thái Thân (Cụm trưởng)", "TDP Ba Tháng Tư", "TDP Nguyễn Tri Phương"] },
+            { id: 19, name: "Hội Trường Liên Tổ 7-8-9", person: "Nguyễn Khải Hoàng", phone: "0799080195", lat: 11.94604, lng: 108.44292, groups: ["TDP Bùi Thị Xuân 1 (Cụm trưởng)", "TDP Võ Thị Sáu", "TDP Lý Tự Trọng"] },
+            { id: 20, name: "Hội trường Tổ Dân Phố Khởi Nghĩa Bắc Sơn - Trần Hưng Đạo", person: "Lưu Vũ Phương Thảo", phone: "0387174668", lat: 11.9371, lng: 108.44738, groups: ["TDP Hồng Lạc (Cụm trưởng)", "TDP Trần Hưng Đạo", "TDP Khởi Nghĩa Bắc Sơn", "TDP Trần Quý Cáp"] },
+            { id: 21, name: "Hội Trường Tổ Dân Phố Nhất Thống", person: "Lê Nguyễn Bảo An", phone: "0786092104", lat: 11.94146, lng: 108.45066, groups: ["TDP Nhất Thống (Cụm trưởng)", "TDP Phạm Hồng Thái", "TDP Yersin"] },
+            { id: 22, name: "Hội Trường Tổ Dân Phố Tô Hiến Thành", person: "Nguyễn Thị Thắm", phone: "0344300628", lat: 11.92881, lng: 108.44326, groups: ["TDP Tô Hiến Thành (Cụm trưởng)", "TDP Tân Lạc"] }
+        ];
 
+        let map;
+        let markers = {};
+        let sidebarOpen = false;
+
+        function toggleSidebarState(forceState) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.getElementById('mobile-toggle');
+            if (forceState !== undefined) sidebarOpen = forceState;
+            else sidebarOpen = !sidebarOpen;
+
+            if (sidebarOpen) {
+                sidebar.classList.add('active');
+                mobileToggle.innerHTML = '<i class="fa-solid fa-map"></i> Hiện bản đồ';
+            } else {
+                sidebar.classList.remove('active');
+                mobileToggle.innerHTML = '<i class="fa-solid fa-list"></i> Tìm Kiếm';
+            }
+        }
+
+        // Custom Icons
+        const createCustomIcon = (isSpecial) => {
+            let innerHtml = '';
+            if (isSpecial) {
+                innerHtml = `
+                    <div class="logo-marker-container special">
+                        <div class="firework-container">
+                            <div class="firework"></div>
+                            <div class="firework"></div>
+                            <div class="firework"></div>
+                        </div>
+                        <div class="logo-pulse"></div>
+                        <div class="logo-wrapper" style="background: linear-gradient(135deg, #f43f5e, #fb923c);">
+                            <i class="fa-solid fa-flag-checkered" style="color: white; font-size: 20px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));"></i>
+                        </div>
+                        <div class="marker-arrow"></div>
+                    </div>`;
+            } else {
+                innerHtml = `
+                    <div class="logo-marker-container">
+                        <div class="logo-pulse"></div>
+                        <div class="logo-wrapper">
+                            <img src="./image/logo_DTN.webp" alt="Logo DTN" onerror="this.src='https://upload.wikimedia.org/wikipedia/vi/a/a2/Huy_hieu_Doan.png';">
+                        </div>
+                        <div class="marker-arrow"></div>
+                    </div>`;
+            }
+
+            return L.divIcon({
+                className: 'custom-div-icon',
+                html: innerHtml,
+                iconSize: [50, 60],
+                iconAnchor: [25, 54],
+                popupAnchor: [0, -50]
+            });
+        };
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simulate 3-second pro loading intro
             let progress = 0;
-            // Fake loading logic to ensure the cool intro is seen
-            const duration = 2500; // 2.5 seconds minimum intro duration
-            const intervalTime = 40;
-            const steps = duration / intervalTime;
-            const increment = 100 / steps;
+            const progressBar = document.getElementById('loader-progress');
+            const loaderText = document.getElementById('loader-text');
+            const steps = [
+                "Khởi tạo hệ thống bản đồ...",
+                "Đang tải vệ tinh phân giải cao...",
+                "Đồng bộ tọa độ 22 chi đoàn...",
+                "Tìm tuyến đường ngắn nhất đến các điểm",
+                "Hoàn tất. Đang mở giao diện..."
+            ];
 
-            let iframeLoaded = false;
+            const interval = setInterval(() => {
+                progress += Math.random() * 4 + 1.5; // ~3 seconds total
+                if (progress > 100) progress = 100;
+                progressBar.style.width = progress + '%';
 
-            const progressInterval = setInterval(() => {
-                progress += increment;
+                if (progress < 20) loaderText.innerText = steps[0];
+                else if (progress < 45) loaderText.innerText = steps[1];
+                else if (progress < 70) loaderText.innerText = steps[2];
+                else if (progress < 90) loaderText.innerText = steps[3];
+                else loaderText.innerText = steps[4];
 
-                // If intro is almost done but iframe isn't loaded, hold at 90%
-                if (progress >= 90 && !iframeLoaded) {
-                    progress = 90;
-                    loadingText.innerText = `ĐANG TẢI DỮ LIỆU BẢN ĐỒ... 90%`;
-                } else if (progress >= 100) {
-                    progress = 100;
-                    finishLoading();
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('loader').style.opacity = '0';
+                        document.getElementById('loader').style.visibility = 'hidden';
+                        document.getElementById('app').classList.add('visible');
+                        initMap();
+                        renderList();
+                    }, 400); // 400ms pause at 100% before fading out
                 }
+            }, 100);
 
-                if (progress < 100) {
-                    progressBar.style.width = `${progress}%`;
-                    loadingText.innerText = `ĐANG KHỞI TẠO BẢN ĐỒ... ${Math.floor(progress)}%`;
+            // Search logic shared between desktop and mobile search bars
+            const searchInput = document.getElementById('search-input');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+
+            const handleSearch = (term) => {
+                filteredLocations = locations.filter(loc =>
+                    loc.name.toLowerCase().includes(term) ||
+                    (loc.person && loc.person.toLowerCase().includes(term)) ||
+                    (loc.addr && loc.addr.toLowerCase().includes(term))
+                );
+                renderList(filteredLocations);
+
+                // Open sidebar on mobile when typing
+                if (window.innerWidth <= 768 && term.trim() !== '' && !sidebarOpen) {
+                    toggleSidebarState(true);
                 }
-            }, intervalTime);
-
-            iframe.onload = () => {
-                iframeLoaded = true;
-                // If progress was stuck at 90, it will now continue to 100 on next tick
             };
 
-            function finishLoading() {
-                clearInterval(progressInterval);
-                progressBar.style.width = `100%`;
-                loadingText.innerText = `ĐÃ SẴN SÀNG! 100%`;
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                if (mobileSearchInput.value !== val) mobileSearchInput.value = val;
+                handleSearch(val);
+            });
 
-                // Fade out loader
-                setTimeout(() => {
-                    loaderWrapper.style.opacity = '0';
-                    loaderWrapper.style.visibility = 'hidden';
-
-                    // Show map with a nice scale-in animation
-                    setTimeout(() => {
-                        mapContainer.classList.add('visible');
-                    }, 200);
-                }, 400);
-            }
+            mobileSearchInput.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                if (searchInput.value !== val) searchInput.value = val;
+                handleSearch(val);
+            });
         });
+
+        function initMap() {
+            // Center map roughly around Da Lat (center of all points)
+            map = L.map('map', {
+                zoomControl: false
+            }).setView([11.93857, 108.44300], 14);
+
+            // Google Maps Hybrid (Satellite + Labels)
+            L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                attribution: '&copy; Google Maps',
+                maxZoom: 21
+            }).addTo(map);
+
+            // Add zoom control to right
+            L.control.zoom({ position: 'topright' }).addTo(map);
+
+            // Add markers
+            locations.forEach(loc => {
+                const marker = L.marker([loc.lat, loc.lng], {
+                    icon: createCustomIcon(loc.special)
+                }).addTo(map);
+
+                // Formatted phone link
+                const phoneHtml = loc.phone ? `<a href="tel:${loc.phone}" style="color:var(--secondary); text-decoration:none;">${loc.phone}</a>` : '';
+
+                // Generate groups HTML for popup
+                let popupGroupsHtml = '';
+                if (loc.groups && loc.groups.length > 0) {
+                    popupGroupsHtml = '<div class="popup-detail" style="flex-direction: column; gap: 6px; align-items: flex-start; margin-top: 5px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.1);"><div style="color: #cbd5e1; font-weight: 600; font-size: 0.8rem;"><i class="fa-solid fa-users" style="color:var(--primary); margin-right:5px;"></i>Bao gồm các Tổ Dân Phố:</div><div style="display: flex; flex-wrap: wrap; gap: 5px; padding-left: 5px;">';
+                    loc.groups.forEach(g => {
+                        const isLeader = g.includes("(Cụm trưởng)");
+                        const name = g.replace("(Cụm trưởng)", "").trim();
+                        popupGroupsHtml += `<span style="font-size: 0.75rem; padding: 3px 8px; border-radius: 12px; ${isLeader ? 'background: linear-gradient(135deg, rgba(14,165,233,0.3), rgba(2,132,199,0.3)); border: 1px solid #0ea5e9; color: #fff;' : 'background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #e2e8f0;'}">${name}${isLeader ? ' <i class="fa-solid fa-star" style="color: #fb923c; margin-left:3px;" title="Cụm trưởng"></i>' : ''}</span>`;
+                    });
+                    popupGroupsHtml += '</div></div>';
+                }
+
+                // Popup content
+                const popupContent = `
+                    <div class="custom-popup">
+                        ${loc.special ? `
+                        <div class="special-event-badge" style="display: block; text-align: center; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 1px;">
+                            <i class="fa-solid fa-flag-checkered"></i> Lễ Khai Mạc Hè 2026
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(244,63,94,0.15), rgba(251,146,60,0.15)); border: 1px solid rgba(251,146,60,0.3); padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+                            <div style="text-align:center; font-size:0.75rem; color:#e2e8f0; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; font-weight:600;"><i class="fa-regular fa-clock"></i> Đếm ngược đến sự kiện</div>
+                            <div id="countdown-timer" style="min-height: 45px;">
+                                <div style="text-align:center; color:#94a3b8; font-size:0.8rem; margin-top:5px;"><i class="fa-solid fa-spinner fa-spin"></i> Đang đồng bộ thời gian...</div>
+                            </div>
+                        </div>` : ''}
+                        <div class="popup-title">${loc.name}</div>
+                        ${loc.desc ? `<div class="popup-detail" style="font-style:italic;"><i class="fa-solid fa-info-circle"></i> ${loc.desc}</div>` : ''}
+                        <div class="popup-detail"><i class="fa-solid fa-user-tie"></i> <span>Phụ trách: <strong>${loc.person}</strong></span></div>
+                        ${loc.phone ? `<div class="popup-detail"><i class="fa-solid fa-phone"></i> <span>SĐT: ${phoneHtml}</span></div>` : ''}
+                        ${loc.addr ? `<div class="popup-detail"><i class="fa-solid fa-location-dot"></i> <span>Đ/c: ${loc.addr}</span></div>` : ''}
+                        ${popupGroupsHtml}
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}" target="_blank" class="popup-action" style="margin-top: 10px;">
+                            <i class="fa-solid fa-diamond-turn-right"></i> Chỉ đường Google Maps
+                        </a>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent, { minWidth: 280, maxWidth: 300 });
+                markers[loc.id] = marker;
+
+                // On click marker, update active state in list
+                marker.on('click', () => {
+                    highlightCard(loc.id);
+                    if (window.innerWidth <= 768) {
+                        // Close sidebar on mobile when marker clicked
+                        document.getElementById('sidebar').classList.remove('active');
+                        document.getElementById('mobile-toggle').innerHTML = '<i class="fa-solid fa-list"></i> Tìm Kiếm';
+                    }
+                });
+            });
+
+            // Add user location if possible
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+
+                    const userIcon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div class="user-marker"><div class="user-pulse"></div></div>`,
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+
+                    L.marker([userLat, userLng], { icon: userIcon, zIndexOffset: 1000 })
+                        .addTo(map)
+                        .bindPopup('<div style="color:black; font-weight:bold; padding:5px;">Vị trí của bạn</div>');
+                });
+            }
+
+            // Global Countdown Logic for Special Popup
+            const targetDate = new Date("2026-06-07T07:30:00").getTime();
+            setInterval(() => {
+                const timerEl = document.getElementById('countdown-timer');
+                if (timerEl) {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+
+                    if (distance < 0) {
+                        timerEl.innerHTML = '<div style="text-align:center; font-weight:bold; color:#4ade80; font-size:1.1rem; padding: 10px 0; text-shadow: 0 0 10px rgba(74,222,128,0.5);">ĐÃ ĐẾN GIỜ KHAI MẠC! 🎉</div>';
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    timerEl.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; gap: 4px; text-align:center;">
+                            <div style="background:rgba(0,0,0,0.3); padding:6px 0; border-radius:6px; flex:1; border: 1px solid rgba(255,255,255,0.05);">
+                                <div style="font-size:1.1rem; font-weight:bold; color:#fb923c;">${days}</div>
+                                <div style="font-size:0.6rem; text-transform:uppercase; color:#cbd5e1; margin-top:2px;">Ngày</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3); padding:6px 0; border-radius:6px; flex:1; border: 1px solid rgba(255,255,255,0.05);">
+                                <div style="font-size:1.1rem; font-weight:bold; color:#fb923c;">${hours < 10 ? '0' + hours : hours}</div>
+                                <div style="font-size:0.6rem; text-transform:uppercase; color:#cbd5e1; margin-top:2px;">Giờ</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3); padding:6px 0; border-radius:6px; flex:1; border: 1px solid rgba(255,255,255,0.05);">
+                                <div style="font-size:1.1rem; font-weight:bold; color:#fb923c;">${minutes < 10 ? '0' + minutes : minutes}</div>
+                                <div style="font-size:0.6rem; text-transform:uppercase; color:#cbd5e1; margin-top:2px;">Phút</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3); padding:6px 0; border-radius:6px; flex:1; border: 1px solid rgba(255,255,255,0.05);">
+                                <div style="font-size:1.1rem; font-weight:bold; color:#38bdf8; text-shadow: 0 0 8px rgba(56,189,248,0.5);">${seconds < 10 ? '0' + seconds : seconds}</div>
+                                <div style="font-size:0.6rem; text-transform:uppercase; color:#cbd5e1; margin-top:2px;">Giây</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }, 1000);
+        }
+
+        // Search state
+        let filteredLocations = [...locations];
+
+        function renderList(data = locations) {
+            const listContainer = document.getElementById('location-list');
+            listContainer.innerHTML = '';
+
+            if (data.length === 0) {
+                listContainer.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-muted);">Không tìm thấy kết quả phù hợp.</div>';
+                return;
+            }
+
+            data.forEach(loc => {
+                const card = document.createElement('div');
+                card.className = 'location-card';
+                card.id = `card-${loc.id}`;
+
+                const specialBadge = loc.special ? `<div class="special-event-badge"><i class="fa-solid fa-award"></i> Khai mạc</div>` : '';
+
+                // Generate groups HTML for sidebar card
+                let groupsHtml = '';
+                if (loc.groups && loc.groups.length > 0) {
+                    groupsHtml = '<div class="card-groups" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px;">';
+                    loc.groups.forEach(g => {
+                        const isLeader = g.includes("(Cụm trưởng)");
+                        const name = g.replace("(Cụm trưởng)", "").trim();
+                        groupsHtml += `<span style="font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; ${isLeader ? 'background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(14,165,233,0.3);' : 'background: rgba(255,255,255,0.05); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);'}">${name}${isLeader ? ' <i class="fa-solid fa-star" style="font-size: 0.55rem; color: #fb923c;" title="Cụm trưởng"></i>' : ''}</span>`;
+                    });
+                    groupsHtml += '</div>';
+                }
+
+                card.innerHTML = `
+                    ${specialBadge}
+                    <div class="card-title">${loc.name}</div>
+                    <div class="card-contact">
+                        <i class="fa-solid fa-user-tie"></i> ${loc.person} ${loc.phone ? `- ${loc.phone}` : ''}
+                    </div>
+                    ${loc.addr ? `<div class="card-contact"><i class="fa-solid fa-map-pin"></i> ${loc.addr}</div>` : ''}
+                    ${groupsHtml}
+                `;
+
+                card.addEventListener('click', () => {
+                    // Fly to location
+                    map.flyTo([loc.lat, loc.lng], 16, {
+                        duration: 1.5
+                    });
+
+                    // Open popup after flying
+                    setTimeout(() => {
+                        markers[loc.id].openPopup();
+                    }, 1500);
+
+                    highlightCard(loc.id);
+
+                    // Close sidebar on mobile
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('active');
+                        document.getElementById('mobile-toggle').innerHTML = '<i class="fa-solid fa-list"></i> Tìm Kiếm';
+                    }
+                });
+
+                listContainer.appendChild(card);
+            });
+        }
+
+        function highlightCard(id) {
+            document.querySelectorAll('.location-card').forEach(el => el.classList.remove('active'));
+            const activeCard = document.getElementById(`card-${id}`);
+            if (activeCard) {
+                activeCard.classList.add('active');
+                activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
     </script>
 </body>
 

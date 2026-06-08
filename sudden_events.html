@@ -1989,7 +1989,7 @@
               </div>
               <div class="se-qr-info">
                 <div class="se-qr-label"><i class="fa-solid fa-qrcode" style="color:var(--accent-blue);margin-right:5px"></i>Quét để đăng ký tham gia</div>
-                
+                 <div class="se-qr-link">${regLink}</div>
               </div>
               <a href="${qrUrl}" download="QR_${evt.ID}.png" class="se-qr-dl">
                 <i class="fa-solid fa-download"></i> Tải QR
@@ -2090,7 +2090,7 @@
               const id = btn.dataset.id;
               const evt = allEvents.find(e => e.ID === id);
               const name = evt ? `"${evt.Ten}"` : `ID: ${id}`;
-              if (!confirm(`Bạn có chắc muốn xóa hoạt động ${name}?\n\nThao tác này sẽ xóa vĩnh viễn sự kiện và toàn bộ danh sách đăng ký`)) return;
+              if (!confirm(`Bạn có chắc muốn xóa hoạt động ${name}?\n\nThao tác này sẽ xóa vĩnh viễn sự kiện và toàn bộ danh sách đăng ký `)) return;
               const orig = btn.innerHTML;
               btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
               try {
