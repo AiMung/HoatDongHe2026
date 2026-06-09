@@ -2116,9 +2116,11 @@
       <div class="nav-title">MÙA HÈ XUÂN HƯƠNG<small>Phường Xuân Hương · Đà Lạt 2026</small></div>
     </div>
     <div class="nav-links">
+      <a href="#map" class="nav-link">Bản đồ</a>
       <a href="#schedule" class="nav-link">Lịch trình</a>
       <a href="#events" class="nav-link">Sự kiện</a>
       <a href="#gallery" class="nav-link">Hình ảnh</a>
+
       <a href="login.html" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập </a>
     </div>
     <button class="nav-hamburger" id="hamburgerBtn" aria-label="Mở menu">
@@ -2143,7 +2145,8 @@
       <a href="#gallery" class="nav-link" onclick="closeDrawer()">
         <span class="di"><i class="fa-solid fa-images" style="color:var(--green)"></i></span>Hình ảnh
       </a>
-      <a href="map.html" class="nav-link" onclick="closeDrawer()">
+      <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" class="nav-link"
+        onclick="closeDrawer()">
         <span class="di"><i class="fa-solid fa-map" style="color:var(--blue-light)"></i></span>Bản đồ điểm sinh hoạt
       </a>
     </div>
@@ -2183,6 +2186,72 @@
   </section>
 
   <div class="divider"></div>
+  <!--MAP SECTION-->
+  <section style="padding: 0 20px 80px; position: relative; z-index: 1;" id="map">
+    <div style="max-width: 1100px; margin: 0 auto;">
+
+      <div class="map-cta-wrap">
+        <div class="map-bg-grid"></div>
+        <div class="map-bg-fade"></div>
+
+        <!-- LEFT: text -->
+        <div class="map-left">
+          <div class="map-chip">
+            <i class="fa-solid fa-map-location-dot" style="font-size:.72rem"></i>
+            Bản đồ sinh hoạt hè
+          </div>
+          <div class="map-title">Tìm Điểm Sinh Hoạt<br>Gần Nhất</div>
+          <div class="map-desc">Xem bản đồ 22 điểm sinh hoạt hè trên địa bàn phường, có chỉ đường và thông tin liên lạc
+            trực tiếp.</div>
+          <div class="map-stats">
+            <div class="map-stat">
+              <span class="map-stat-n" id="cnt22">22</span>
+              <span class="map-stat-l">Điểm sinh hoạt</span>
+            </div>
+            <div class="map-stat">
+              <span class="map-stat-n" id="cnt77">77</span>
+              <span class="map-stat-l">Chi đoàn</span>
+            </div>
+            <div class="map-stat">
+              <span class="map-stat-n" id="cnt10">10</span>
+              <span class="map-stat-l">Tuần hè</span>
+            </div>
+          </div>
+          <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" class="map-btn">
+            <i class="fa-solid fa-location-dot"></i> Mở bản đồ
+          </a>
+        </div>
+
+        <!-- RIGHT: Map Preview -->
+        <div class="map-preview-panel">
+          <div class="map-preview-corner tl"></div>
+          <div class="map-preview-corner tr"></div>
+          <div class="map-preview-corner bl"></div>
+          <div class="map-preview-corner br"></div>
+
+          <!-- Click overlay -->
+          <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" class="map-preview-overlay"
+            title="Mở bản đồ đầy đủ"></a>
+
+          <iframe src="map.html" class="map-preview-iframe" loading="lazy" title="Preview bản đồ điểm sinh hoạt hè 2026"
+            sandbox="allow-scripts allow-same-origin"></iframe>
+
+          <!-- Status bar -->
+          <div class="map-preview-bar">
+            <div class="map-preview-bar-left">
+              <span class="map-preview-dot"></span>
+              22 điểm sinh hoạt · Phường Xuân Hương
+            </div>
+            <a href="map.html" class="map-preview-bar-right">
+              Mở toàn màn hình <i class="fa-solid fa-up-right-and-down-left-from-center" style="font-size:.65rem"></i>
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /.map-cta-wrap -->
+    </div>
+  </section>
+
 
   <!-- ═══ LỊCH TRÌNH ═══ -->
   <section class="section" id="schedule">
@@ -2271,70 +2340,6 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <section style="padding: 0 20px 80px; position: relative; z-index: 1;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-
-      <div class="map-cta-wrap">
-        <div class="map-bg-grid"></div>
-        <div class="map-bg-fade"></div>
-
-        <!-- LEFT: text -->
-        <div class="map-left">
-          <div class="map-chip">
-            <i class="fa-solid fa-map-location-dot" style="font-size:.72rem"></i>
-            Bản đồ sinh hoạt hè
-          </div>
-          <div class="map-title">Tìm Điểm Sinh Hoạt<br>Gần Nhất</div>
-          <div class="map-desc">Xem bản đồ 22 điểm sinh hoạt hè trên địa bàn phường, có chỉ đường và thông tin liên lạc
-            trực tiếp.</div>
-          <div class="map-stats">
-            <div class="map-stat">
-              <span class="map-stat-n" id="cnt22">22</span>
-              <span class="map-stat-l">Điểm sinh hoạt</span>
-            </div>
-            <div class="map-stat">
-              <span class="map-stat-n" id="cnt77">77</span>
-              <span class="map-stat-l">Chi đoàn</span>
-            </div>
-            <div class="map-stat">
-              <span class="map-stat-n" id="cnt10">10</span>
-              <span class="map-stat-l">Tuần hè</span>
-            </div>
-          </div>
-          <a href="map.html" class="map-btn">
-            <i class="fa-solid fa-location-dot"></i> Mở bản đồ
-          </a>
-        </div>
-
-        <!-- RIGHT: Map Preview -->
-        <div class="map-preview-panel">
-          <div class="map-preview-corner tl"></div>
-          <div class="map-preview-corner tr"></div>
-          <div class="map-preview-corner bl"></div>
-          <div class="map-preview-corner br"></div>
-
-          <!-- Click overlay -->
-          <a href="map.html" class="map-preview-overlay" title="Mở bản đồ đầy đủ"></a>
-
-          <iframe src="map.html" class="map-preview-iframe" loading="lazy" title="Preview bản đồ điểm sinh hoạt hè 2026"
-            sandbox="allow-scripts allow-same-origin"></iframe>
-
-          <!-- Status bar -->
-          <div class="map-preview-bar">
-            <div class="map-preview-bar-left">
-              <span class="map-preview-dot"></span>
-              22 điểm sinh hoạt · Phường Xuân Hương
-            </div>
-            <a href="map.html" class="map-preview-bar-right">
-              Mở toàn màn hình <i class="fa-solid fa-up-right-and-down-left-from-center" style="font-size:.65rem"></i>
-            </a>
-          </div>
-        </div>
-
-      </div><!-- /.map-cta-wrap -->
-    </div>
-  </section>
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
     <img src="./image/logo_DTN.webp" alt="Logo DTN"
@@ -2344,11 +2349,12 @@
       Cổng thông tin công khai · Chiến dịch Hè 2026<br>
       <a href="login.html"><i class="fa-solid fa-lock"></i> Đăng nhập hệ thống quản lý</a>
       &nbsp;·&nbsp;
-      <a href="map.html"><i class="fa-solid fa-map"></i> Bản đồ điểm sinh hoạt</a>
+      <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/"><i class="fa-solid fa-map"></i> Bản
+        đồ điểm sinh hoạt</a>
     </p>
   </footer>
 
-  
+
 
   <script>
     /* ── PRELOADER ── */
