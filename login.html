@@ -64,30 +64,36 @@
       <form id="loginForm" class="login-form">
 
         <div class="login-group" style="position: relative;">
-          <label for="loginChiDoan"><i class="fa-solid fa-building-flag"></i> Chọn đơn vị Chi đoàn <span
+          <label for="loginChiDoan"><i class="fa-solid fa-building-flag"></i> Chọn đơn vị<span
               style="color: var(--secondary);">*</span></label>
           <select id="loginChiDoan" required class="login-select"
             style="position: absolute; opacity: 0; pointer-events: none; height: 0; width: 0; border: none; padding: 0; margin: 0;">
             <option value="" disabled selected>-- Chọn đơn vị Chi đoàn --</option>
-            <option value="Chi đoàn TDP Nguyễn Trung Trực 1">Chi đoàn TDP Nguyễn Trung Trực 1</option>
-            <option value="Chi đoàn TDP Phan Bội Châu">Chi đoàn TDP Phan Bội Châu</option>
-            <option value="Chi đoàn TDP Đa Hòa">Chi đoàn TDP Đa Hòa</option>
-            <option value="Chi đoàn TDP Bùi Thị Xuân 1">Chi đoàn TDP Bùi Thị Xuân 1</option>
-            <option value="Chi đoàn TDP An Dương Vương">Chi đoàn TDP An Dương Vương</option>
-            <option value="Chi đoàn TDP Lê Đại Hành">Chi đoàn TDP Lê Đại Hành</option>
-            <option value="Chi đoàn TDP An Lạc 1">Chi đoàn TDP An Lạc 1</option>
-            <option value="Chi đoàn TDP Suối Cát">Chi đoàn TDP Suối Cát</option>
-            <option value="Chi đoàn TDP Hà Huy Tập 2">Chi đoàn TDP Hà Huy Tập 2</option>
-            <option value="Chi đoàn TDP An Bình 1">Chi đoàn TDP An Bình 1</option>
-            <option value="Chi đoàn TDP Tô Hiến Thành">Chi đoàn TDP Tô Hiến Thành</option>
-            <option value="Chi đoàn TDP Sở Lăng">Chi đoàn TDP Sở Lăng</option>
-            <option value="Chi đoàn TDP Đồng Thiện">Chi đoàn TDP Đồng Thiện</option>
-            <option value="Chi đoàn TDP Đa Lợi">Chi đoàn TDP Đa Lợi</option>
-            <option value="Chi đoàn TDP Hồng Lạc">Chi đoàn TDP Hồng Lạc</option>
-            <option value="Chi đoàn TDP Khe Sanh">Chi đoàn TDP Khe Sanh</option>
-            <option value="Chi đoàn TDP Nhất Thống">Chi đoàn TDP Nhất Thống</option>
-            <option value="Chi đoàn TDP Trần Quang Diệu">Chi đoàn TDP Trần Quang Diệu</option>
-            <option value="Ban Chỉ Đạo Hè Phường">Ban Chỉ Đạo Hè Phường</option>
+            <option value="Chi đoàn TDP Phan Bội Châu">Chi đoàn TDP Cụm 1</option>
+            <option value="Chi đoàn TDP Đa Hòa">Chi đoàn TDP Cụm 2</option>
+            <option value="Chi đoàn TDP Bùi Thị Xuân 1">Chi đoàn TDP Cụm 3</option>
+            <option value="Chi đoàn TDP Nguyễn Thị Nghĩa">Chi đoàn TDP Cụm 4</option>
+            <option value="Chi đoàn TDP Mỹ Lộc">Chi đoàn TDP Cụm 5</option>
+            <option value="Chi đoàn TDP An Dương Vương">Chi đoàn TDP Cụm 6</option>
+            <option value="Chi đoàn TDP Lê Đại Hành">Chi đoàn TDP Cụm 7</option>
+            <option value="Chi đoàn TDP An Lạc 1">Chi đoàn TDP Cụm 8</option>
+            <option value="Chi đoàn TDP Suối Cát">Chi đoàn TDP Cụm 9</option>
+            <option value="Chi đoàn TDP Hà Huy Tập 2">Chi đoàn TDP Cụm 10</option>
+            <option value="Chi đoàn TDP Đặng Thái Thân">Chi đoàn TDP Cụm 11</option>
+
+            <option value="Chi đoàn TDP An Bình 1">Chi đoàn TDP Cụm 12</option>
+            <option value="Chi đoàn TDP Tô Hiến Thành">Chi đoàn TDP Cụm 13</option>
+            <option value="Chi đoàn TDP Sở Lăng">Chi đoàn TDP Cụm 14</option>
+            <option value="Chi đoàn TDP Huỳnh Thúc Kháng">Chi đoàn TDP Cụm 15</option>
+
+            <option value="Chi đoàn TDP Đồng Thiện">Chi đoàn TDP Cụm 16</option>
+            <option value="Chi đoàn TDP Đa Lợi">Chi đoàn TDP Cụm 17</option>
+            <option value="Chi đoàn TDP Trần Quang Diệu">Chi đoàn TDP Cụm 18</option>
+            <option value="Chi đoàn TDP Hồng Lạc">Chi đoàn TDP Cụm 19</option>
+            <option value="Chi đoàn TDP Khe Sanh">Chi đoàn TDP Cụm 20</option>
+            <option value="Chi đoàn TDP Nhất Thống">Chi đoàn TDP Cụm 21</option>
+            <option value="Chi đoàn TDP Nguyễn Trung Trực 1">Chi đoàn TDP Cụm 22</option>
+            <option value="Ban Chỉ Đạo Hè Phường">Ban Chỉ Đạo Hè Phường (Admin)</option>
 
           </select>
 
@@ -343,7 +349,7 @@
         const errorMsg = document.getElementById('errorMessage');
         if (errorBox && errorMsg) {
           errorBox.style.display = 'flex';
-          errorMsg.textContent = 'Vui lòng chọn đơn vị Chi đoàn!';
+          errorMsg.textContent = 'Vui lòng chọn đơn vị!';
         }
       });
 
