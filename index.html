@@ -2084,6 +2084,351 @@
         bottom: 46px;
       }
     }
+
+    /* ════ KẾ HOẠCH KHAI MẠC HÈ TỔ DÂN PHỐ ════ */
+    .opening-search-wrapper {
+      position: relative;
+      max-width: 600px;
+      margin: 30px auto 40px auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .opening-search-wrapper i {
+      position: absolute;
+      left: 20px;
+      color: var(--cyan);
+      font-size: 1rem;
+      pointer-events: none;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .opening-search-wrapper input {
+      width: 100%;
+      padding: 15px 24px 15px 50px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(0, 210, 255, 0.15);
+      border-radius: 50px;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .opening-search-wrapper input:focus {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .opening-search-wrapper input:focus+i {
+      color: var(--white);
+      text-shadow: 0 0 8px var(--cyan);
+    }
+
+    .opening-search-wrapper input::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .opening-table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .opening-table-container:hover {
+      border-color: rgba(0, 210, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 210, 255, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .opening-table-wrapper {
+      overflow-x: auto;
+    }
+
+    .opening-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 1000px;
+    }
+
+    .opening-table th {
+      background: rgba(12, 26, 58, 0.9);
+      color: var(--cyan);
+      padding: 18px 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .opening-table td {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      vertical-align: top;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .opening-table tbody tr {
+      transition: all 0.2s ease;
+    }
+
+    .opening-table tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.02);
+      transform: scale(1.002);
+    }
+
+    .tdp-list {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .tdp-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .tdp-list li::before {
+      content: '▪';
+      position: absolute;
+      left: 2px;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 0.8rem;
+    }
+
+    .tdp-list li.tdp-highlight {
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .tdp-list li.tdp-highlight::before {
+      content: '✦';
+      color: var(--gold);
+      left: 0;
+      font-size: 0.9rem;
+      text-shadow: 0 0 8px rgba(245, 200, 66, 0.5);
+    }
+
+    .datetime-geo-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .time-badge {
+      background: rgba(0, 210, 255, 0.08);
+      color: var(--cyan);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      box-shadow: 0 2px 8px rgba(0, 210, 255, 0.05);
+    }
+
+    .location-text {
+      font-size: 0.88rem;
+      color: var(--white);
+      font-weight: 500;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .location-text i {
+      color: var(--cyan);
+      margin-top: 3px;
+      font-size: 0.95rem;
+    }
+
+    /* Hiệu ứng countdown phân đoạn cho lịch khai mạc TDP */
+    .opening-countdown-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 6px 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .opening-countdown-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .opening-countdown-boxes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .opening-countdown-item {
+      background: linear-gradient(135deg, rgba(6, 12, 30, 0.85), rgba(12, 26, 58, 0.95));
+      border: 1px solid rgba(0, 210, 255, 0.22);
+      border-radius: 8px;
+      padding: 5px 8px;
+      text-align: center;
+      min-width: 42px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .opening-countdown-item:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(6, 12, 30, 0.95));
+      transform: translateY(-2px);
+    }
+
+    .opening-countdown-item .num {
+      font-family: 'Space Grotesk', 'Be Vietnam Pro', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--cyan);
+      line-height: 1;
+      text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+    }
+
+    .opening-countdown-item .unit {
+      font-size: 0.55rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+    }
+
+    .opening-expired-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 16px;
+      border-radius: 30px;
+      width: fit-content;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .map-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.08);
+      color: #34d399;
+      text-decoration: none;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 30px;
+      transition: all 0.25s ease;
+      width: fit-content;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.04);
+    }
+
+    .map-link-btn:hover {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: #34d399;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+
+    .manager-name {
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .phone-link {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+      transition: opacity 0.2s;
+    }
+
+    .phone-link:hover {
+      text-decoration: underline;
+      opacity: 0.85;
+    }
+
+    .duty-text {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .opening-table-wrapper::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .opening-table-wrapper::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: var(--radius-sm);
+    }
+
+    .opening-table-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+    }
+
+    .opening-table-wrapper::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 210, 255, 0.3);
+    }
+
+    .search-wrapper {
+      display: flex;
+      justify-content: center;
+      /* Căn giữa theo chiều ngang */
+      align-items: center;
+      /* Căn giữa theo chiều dọc nếu cần */
+      width: 100%;
+      /* Chiếm toàn bộ chiều rộng màn hình/khung chứa */
+    }
+
+    /* =======================================CSS */
   </style>
 </head>
 
@@ -2117,6 +2462,7 @@
     </div>
     <div class="nav-links">
       <a href="#map" class="nav-link">Bản đồ</a>
+      <a href="#plan-opening" class="nav-link">Khai mạc</a>
       <a href="#schedule" class="nav-link">Lịch trình</a>
       <a href="#events" class="nav-link">Sự kiện</a>
       <a href="#gallery" class="nav-link">Hình ảnh</a>
@@ -2136,6 +2482,9 @@
       <button class="nav-drawer-close" id="drawerCloseBtn"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="nav-drawer-body">
+      <a href="#plan-opening" class="nav-link" onclick="closeDrawer()">
+        <span class="di"><i class="fa-solid fa-calendar-plus" style="color:var(--cyan)"></i></span>Khai mạc hè
+      </a>
       <a href="#schedule" class="nav-link" onclick="closeDrawer()">
         <span class="di"><i class="fa-solid fa-calendar-days" style="color:var(--cyan)"></i></span>Lịch trình
       </a>
@@ -2251,6 +2600,686 @@
       </div><!-- /.map-cta-wrap -->
     </div>
   </section>
+
+  <!-- ═══ KẾ HOẠCH KHAI MẠC HÈ TỔ DÂN PHỐ ═══ -->
+  <section class="section" id="plan-opening" style="padding: 0 20px 80px; position: relative; z-index: 1;">
+    <div class="section-inner" style="max-width: 1100px; margin: 0 auto;">
+      <div class="reveal">
+
+        <div class="section-label"><i class="fa-solid fa-calendar-plus"></i> Khai mạc</div>
+        <h2 class="section-title">Lịch Khai Mạc Các Tổ Dân Phố</h2>
+        <p class="section-desc">Theo dõi lịch trình khai mạc hè của 22 cụm tổ dân phố trên địa bàn Phường Xuân Hương năm
+          2026.</p>
+      </div>
+
+      <div class="opening-search-wrapper reveal">
+        <input type="text" id="openingSearchInput" onkeyup="filterOpeningTable()"
+          placeholder="Tìm nhanh tổ dân phố hoặc cán bộ phụ trách...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <div class="opening-table-container reveal">
+        <div class="opening-table-wrapper">
+          <table class="opening-table" id="openingSummerTable">
+            <thead>
+              <tr>
+                <th style="width: 6%; text-align: center;">STT</th>
+                <th style="width: 26%;">Danh sách Tổ dân phố</th>
+                <th style="width: 34%;">Thời gian, Địa điểm & Đếm ngược</th>
+                <th style="width: 18%;">Cán bộ phụ trách</th>
+                <th style="width: 16%;">Từ BCĐ phường</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Cụm 1 -->
+              <tr data-date="2026-06-10T18:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">1</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Đồi Dinh</li>
+                    <li>Tổ dân phố Nguyễn Văn Trỗi</li>
+                    <li>Tổ dân phố Phan Bội Châu</li>
+                    <li>Tổ dân phố Đoàn Kết</li>
+                    <li>Tổ dân phố Hòa Bình</li>
+                    <li>Tổ dân phố Nam Kỳ Khởi Nghĩa</li>
+                    <li>Tổ dân phố Ánh Sáng</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 18h00 - Thứ tư, 10/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường trường tiểu học Đoàn
+                      Kết</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Mở bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Tuấn</span><br>
+                  <a href="tel:0979891194" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0979891194</a>
+                </td>
+                <td class="duty-text">Trưởng phòng Văn hóa - Xã hội phường</td>
+              </tr>
+
+              <!-- Cụm 2 -->
+              <tr data-date="2026-06-13T08:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">2</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Đa Hòa</li>
+                    <li>Tổ dân phố Mimosa</li>
+                    <li>Tổ dân phố Hàm Nghi</li>
+                    <li>Tổ dân phố Trưng Vương</li>
+                    <li>Tổ dân phố Tô Ngọc Vân</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 08h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường cơ quan UBMTTQ phường
+                      (238 Phan Đình Phùng)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Thị Quỳnh</span><br>
+                  <a href="tel:0797074391" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0797074391</a>
+                </td>
+                <td class="duty-text">Giám đốc Trung tâm Dịch vụ Tổng hợp phường</td>
+              </tr>
+
+              <!-- Cụm 3 -->
+              <tr data-date="2026-06-13T14:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">3</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Bùi Thị Xuân 1</li>
+                    <li>Tổ dân phố Võ Thị Sáu</li>
+                    <li>Tổ dân phố Lý Tự Trọng</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường liên tổ 7-8-9 (Đường
+                      Đinh Tiên Hoàng)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Khải Hoàng</span><br>
+                  <a href="tel:0799080195" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0799080195</a>
+                </td>
+                <td class="duty-text">Giám đốc Trung tâm Dịch vụ Tổng hợp phường</td>
+              </tr>
+
+              <!-- Cụm 4 -->
+              <tr data-date="2026-06-13T14:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">4</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Nguyễn Thị Nghĩa</li>
+                    <li>Tổ dân phố Bùi Thị Xuân 2</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Đình Nguyễn Thị Nghĩa (76 Nguyễn
+                      Thị Nghĩa)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Phú Quý</span><br>
+                  <a href="tel:0964978546" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0964978546</a>
+                </td>
+                <td class="duty-text">Chủ tịch Ủy ban MTTQ Việt Nam phường</td>
+              </tr>
+
+              <!-- Cụm 5 -->
+              <tr data-date="2026-06-14T08:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">5</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Nguyễn Lương Bằng</li>
+                    <li>Tổ dân phố Nguyễn Du</li>
+                    <li>Tổ dân phố Mỹ Lộc</li>
+                    <li>Tổ dân phố Cổ Loa</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 08h00 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Nguyễn Lương Bằng
+                    </div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Hoàng Kiều Trinh</span><br>
+                  <a href="tel:0363887598" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0363887598</a>
+                </td>
+                <td class="duty-text">Chánh Văn phòng HĐND & UBND phường</td>
+              </tr>
+
+              <!-- Cụm 6 -->
+              <tr data-date="2026-06-07T14:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">6</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố An Dương Vương</li>
+                    <li>Tổ dân phố Phan Đình Phùng 1</li>
+                    <li>Tổ dân phố Phan Đình Phùng 2</li>
+                    <li>Tổ dân phố Nguyễn Công Trứ</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Chủ nhật, 07/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TH Trưng Vương</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Hàng Như Quỳnh</span><br>
+                  <a href="tel:0332868784" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0332868784</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Bí thư Đoàn Thanh niên phường</td>
+              </tr>
+
+              <!-- Cụm 7 -->
+              <tr data-date="2026-06-13T19:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">7</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Phạm Ngũ Lão</li>
+                    <li>Tổ dân phố Lê Đại Hành</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 19h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Lê Đại Hành</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Ka Thắm Thịu</span><br>
+                  <a href="tel:0977796844" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0977796844</a>
+                </td>
+                <td class="duty-text">Chánh Văn phòng HĐND & UBND phường</td>
+              </tr>
+
+              <!-- Cụm 8 -->
+              <tr data-date="2026-06-14T18:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">8</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Lê Hồng Phong</li>
+                    <li>Tổ dân phố An Lạc 1</li>
+                    <li>Tổ dân phố An Lạc 2</li>
+                    <li>Tổ dân phố Trần Phú</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 18h00 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP An Lạc 1 + An Lạc
+                      2 (32 Đào Duy Từ)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Ngô Thị Yến Mai</span><br>
+                  <a href="tel:0949238614" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0949238614</a>
+                </td>
+                <td class="duty-text">Trưởng trạm Y tế phường</td>
+              </tr>
+
+              <!-- Cụm 9 -->
+              <tr data-date="2026-06-21T08:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">9</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Xuân An</li>
+                    <li>Tổ dân phố Suối Cát</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 08h00 - Chủ nhật, 21/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Trường THCS Quang Trung</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Hoàng Đình Vũ</span><br>
+                  <a href="tel:0357497469" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0357497469</a>
+                </td>
+                <td class="duty-text">Trưởng phòng Văn hóa - Xã hội phường</td>
+              </tr>
+
+              <!-- Cụm 10 -->
+              <tr data-date="2026-06-14T19:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">10</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Nhà Chung</li>
+                    <li>Tổ dân phố Hà Huy Tập 1</li>
+                    <li>Tổ dân phố Hà Huy Tập 2</li>
+                    <li>Tổ dân phố Tân Bình</li>
+                    <li>Tổ dân phố Lương Thế Vinh</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 19h00 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TH Lê Quý Đôn</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Thị Thuý</span><br>
+                  <a href="tel:0988464101" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0988464101</a>
+                </td>
+                <td class="duty-text">Trưởng trạm Y tế phường</td>
+              </tr>
+
+              <!-- Cụm 11 -->
+              <tr data-date="2026-06-14T08:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">11</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Ba Tháng Tư</li>
+                    <li>Tổ dân phố Đặng Thái Thân</li>
+                    <li>Tổ dân phố Nguyễn Tri Phương</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 08h00 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Ba Tháng Tư</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Hoàng An Vinh</span><br>
+                  <a href="tel:0949112870" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0949112870</a>
+                </td>
+                <td class="duty-text">Chỉ huy trưởng Ban Chỉ huy Quân sự phường</td>
+              </tr>
+
+              <!-- Cụm 12 -->
+              <tr data-date="2026-06-13T18:30:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">12</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố An Bình 1</li>
+                    <li>Tổ dân phố An Bình 2</li>
+                    <li>Tổ dân phố Nguyễn Trung Trực 2</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 18h30 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nguyễn Trung Trực
+                      2</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Ái Mừng</span><br>
+                  <a href="tel:0359910341" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0359910341</a>
+                </td>
+                <td class="duty-text">Chỉ huy trưởng Ban Chỉ huy Quân sự phường</td>
+              </tr>
+
+              <!-- Cụm 13 -->
+              <tr data-date="2026-06-12T14:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">13</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Tô Hiến Thành</li>
+                    <li>Tổ dân phố Tân Lạc</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Thứ sáu, 12/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Tô Hiến Thành
+                    </div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Thị Thắm</span><br>
+                  <a href="tel:0344300628" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0344300628</a>
+                </td>
+                <td class="duty-text">Chủ tịch Ủy ban MTTQ Việt Nam phường</td>
+              </tr>
+
+              <!-- Cụm 14 -->
+              <tr data-date="2026-06-13T13:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">14</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Prenn</li>
+                    <li>Tổ dân phố Sở Lăng</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 13h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Sở Lăng</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Phạm Thị Mai Quyên</span><br>
+                  <a href="tel:0772069640" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0772069640</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Bí thư Đoàn Thanh niên phường</td>
+              </tr>
+
+              <!-- Cụm 15 -->
+              <tr data-date="2026-06-11T18:30:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">15</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Trường Chinh</li>
+                    <li>Tổ dân phố Thiên Thành</li>
+                    <li>Tổ dân phố Mạc Đĩnh Chi 1</li>
+                    <li>Tổ dân phố Mạc Đĩnh Chi 2</li>
+                    <li>Tổ dân phố Huỳnh Thúc Kháng</li>
+                    <li>Tổ dân phố Trần Lê</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 18h30 - Thứ năm, 11/06/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Huỳnh Thúc Kháng
+                      (Số 28 Huỳnh Thúc Kháng)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Hữu Cảnh</span><br>
+                  <a href="tel:0916823306" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0916823306</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Chủ tịch Hội LHPN phường</td>
+              </tr>
+
+              <!-- Cụm 16 -->
+              <tr data-date="2026-06-13T18:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">16</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Thiện Mỹ</li>
+                    <li>Tổ dân phố Đồng Thiện</li>
+                    <li>Tổ dân phố Ngô Thì Nhậm</li>
+                    <li>Tổ dân phố Nam Thiên</li>
+                    <li>Tổ dân phố Huyền Trân Công Chúa</li>
+                    <li>Tổ dân phố Ngô Thì Sỹ</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 18h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường khu phố 3 (P4 cũ) -
+                      17 Huyền Trân Công Chúa</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Lê Phạm Duy Thịnh</span><br>
+                  <a href="tel:0325336026" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0325336026</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Chủ tịch Hội LHPN phường</td>
+              </tr>
+
+              <!-- Cụm 17 -->
+              <tr data-date="2026-06-14T14:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">17</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Đa Lợi</li>
+                    <li>Tổ dân phố Hoàng Hoa Thám</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Trần Quang Diệu (D1
+                      Trần Quang Diệu)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Lê Thị Minh Huyền</span><br>
+                  <a href="tel:0342960930" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0342960930</a>
+                </td>
+                <td class="duty-text">Trưởng Công an phường</td>
+              </tr>
+
+              <!-- Cụm 18 -->
+              <tr data-date="2026-06-14T14:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">18</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Yên Thế</li>
+                    <li>Tổ dân phố Trần Quang Diệu</li>
+                    <li>Tổ dân phố Trần Thái Tông</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Trần Quang Diệu (D1
+                      Trần Quang Diệu)</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Nguyễn Đoàn Minh Thương</span><br>
+                  <a href="tel:0797250803" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0797250803</a>
+                </td>
+                <td class="duty-text">Trưởng Công an phường</td>
+              </tr>
+
+              <!-- Cụm 19 -->
+              <tr data-date="2026-06-12T08:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">19</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Trần Hưng Đạo</li>
+                    <li>Tổ dân phố Khởi Nghĩa Bắc Sơn</li>
+                    <li>Tổ dân phố Trần Quý Cáp</li>
+                    <li>Tổ dân phố Hồng Lạc</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 08h00 - Thứ sáu, 12/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP KNBS - Trần Hưng
+                      Đạo</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Lưu Vũ Phương Thảo</span><br>
+                  <a href="tel:0387174668" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0387174668</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Chủ tịch Hội Nông dân phường</td>
+              </tr>
+
+              <!-- Cụm 20 -->
+              <tr data-date="2026-06-14T13:30:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">20</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Lê Văn Tám</li>
+                    <li>Tổ dân phố Khe Sanh</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 13h30 - Chủ nhật, 14/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Chung Cư Vàng 11 Khe
+                      Sanh</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Phan Hoàng Mai Trang</span><br>
+                  <a href="tel:0917342878" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0917342878</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Chủ tịch Hội Nông dân phường</td>
+              </tr>
+
+              <!-- Cụm 21 -->
+              <tr data-date="2026-06-16T08:30:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">21</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Nhất Thống</li>
+                    <li>Tổ dân phố Phạm Hồng Thái</li>
+                    <li>Tổ dân phố Yersin</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 08h30 - Thứ ba, 16/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nhất Thống</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Lê Nguyễn Bảo An</span><br>
+                  <a href="tel:0786092104" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0786092104</a>
+                </td>
+                <td class="duty-text">PCT Ủy ban MTTQ, Chủ tịch Hội Cựu Chiến binh phường</td>
+              </tr>
+
+              <!-- Cụm 22 -->
+              <tr data-date="2026-06-13T18:00:00">
+                <td style="text-align: center; font-weight: 700; color: var(--cyan);">22</td>
+                <td>
+                  <ul class="tdp-list">
+                    <li class="tdp-highlight">Tổ dân phố Nguyễn Trung Trực 1</li>
+                    <li>Tổ dân phố An Sơn 1</li>
+                    <li>Tổ dân phố An Sơn 2</li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="datetime-geo-block">
+                    <div><span class="time-badge"><i class="fa-regular fa-clock"></i> 18h00 - Thứ bảy, 13/6/2026</span>
+                    </div>
+                    <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nguyễn Trung Trực
+                      1</div>
+                    <div class="opening-countdown"></div>
+                    <a href="https://aimung.github.io/DiemSinhHoatHePhuongXuanHuong-DaLat-2026/" target="_blank"
+                      class="map-link-btn"><i class="fa-solid fa-map-location-dot"></i> Bản đồ</a>
+                  </div>
+                </td>
+                <td>
+                  <span class="manager-name">Hồ Đan Phượng</span><br>
+                  <a href="tel:0919530003" class="phone-link"><i class="fa-solid fa-phone"
+                      style="font-size:0.72rem"></i> 0919530003</a>
+                </td>
+                <td class="duty-text">Trưởng phòng Kinh tế, Hạ tầng và Đô thị phường</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
 
 
   <!-- ═══ LỊCH TRÌNH ═══ -->
@@ -2619,6 +3648,73 @@
         list.innerHTML = '<div class="events-empty"><i class="fa-solid fa-wifi"></i><p>Không thể tải danh sách sự kiện. Vui lòng thử lại sau.</p></div>';
       });
     }
+
+    /* ── SEARCH & COUNTDOWN FOR OPENING SCHEDULE ── */
+    function filterOpeningTable() {
+      var input = document.getElementById("openingSearchInput");
+      var filter = input.value.toUpperCase();
+      var table = document.getElementById("openingSummerTable");
+      var tr = table.getElementsByTagName("tr");
+
+      for (var i = 1; i < tr.length; i++) {
+        var found = false;
+        var tds = tr[i].getElementsByTagName("td");
+        for (var j = 0; j < tds.length; j++) {
+          if (tds[j]) {
+            var txtValue = tds[j].textContent || tds[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              found = true;
+              break;
+            }
+          }
+        }
+        tr[i].style.display = found ? "" : "none";
+      }
+    }
+
+    function updateOpeningCountdowns() {
+      var rows = document.querySelectorAll("#openingSummerTable tbody tr");
+      var now = new Date().getTime();
+
+      rows.forEach(function (row) {
+        var dateString = row.getAttribute("data-date");
+        if (!dateString) return;
+
+        var targetDate = new Date(dateString).getTime();
+        var distance = targetDate - now;
+        var countdownDiv = row.querySelector(".opening-countdown");
+        if (!countdownDiv) return;
+
+        if (distance < 0) {
+          countdownDiv.innerHTML = "<span class='opening-expired-badge'><i class='fa-solid fa-clock-rotate-left'></i> Đã diễn ra</span>";
+        } else {
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          days = days < 10 ? "0" + days : days;
+          hours = hours < 10 ? "0" + hours : hours;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          countdownDiv.innerHTML =
+            "<div class='opening-countdown-wrap'>" +
+            "<span class='opening-countdown-label'><i class='fa-solid fa-hourglass-half' style='color: var(--cyan); animation: pulse-icon 2s infinite ease-in-out;'></i></span>" +
+            "<div class='opening-countdown-boxes'>" +
+            "<div class='opening-countdown-item'><span class='num'>" + days + "</span><span class='unit'>ngày</span></div>" +
+            "<div class='opening-countdown-item'><span class='num'>" + hours + "</span><span class='unit'>giờ</span></div>" +
+            "<div class='opening-countdown-item'><span class='num'>" + minutes + "</span><span class='unit'>phút</span></div>" +
+            "<div class='opening-countdown-item'><span class='num'>" + seconds + "</span><span class='unit'>giây</span></div>" +
+            "</div>" +
+            "</div>";
+        }
+      });
+    }
+
+    // Kích hoạt countdown cho lịch khai mạc ngay lập tức
+    updateOpeningCountdowns();
+    setInterval(updateOpeningCountdowns, 1000);
   </script>
 
   <script>
