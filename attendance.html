@@ -780,7 +780,7 @@
   <div class="mobile-header">
     <div class="mobile-logo-area">
       <img src="image/logo_DTN.webp" alt="Logo" class="mobile-logo-img">
-      <span class="mobile-brand-title">MÙA HÈ XUÂN HƯƠNG - ĐÀ LẠT</span>
+      <span class="mobile-brand-title">MÙA HÈ TÌNH NGUYỆN</span>
     </div>
     <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
       <i class="fa-solid fa-bars"></i>
@@ -792,7 +792,7 @@
     <div class="sidebar-brand">
       <img src="image/logo_DTN.webp" alt="Logo" class="brand-logo">
       <div class="brand-info">
-        <span class="brand-title">MÙA HÈ XUÂN HƯƠNG - ĐÀ LẠT</span>
+        <span class="brand-title">MÙA HÈ TÌNH NGUYỆN</span>
         <span class="brand-subtitle">Chiến Dịch Hè 2026</span>
       </div>
     </div>
@@ -920,7 +920,7 @@
   </div>
 
   <script src="app.js"></script>
-
+  <script src="import_attendance.js"></script>
   <script>
     window.initBulkWeeklyAttendance = function () { };
 
@@ -1122,6 +1122,9 @@
       </div>
       <button class="tb-btn success" id="attBtnAdd"><i class="fa-solid fa-user-plus"></i> Thêm</button>
       <button class="tb-btn" id="attBtnLoadPrev" title="Sao chép từ tuần trước"><i class="fa-solid fa-copy"></i> Chép tuần trước</button>
+      <button class="tb-btn" id="attBtnImport" title="Import từ Excel/CSV">
+  <i class="fa-solid fa-file-import"></i> Import Excel
+</button>
       <button class="tb-btn primary" id="attBtnSave"><i class="fa-solid fa-floppy-disk"></i> Lưu ngay</button>
       <button class="tb-btn" id="attBtnExport"><i class="fa-solid fa-file-excel"></i> Xuất CSV</button>
     </div>
@@ -1237,6 +1240,10 @@
       });
 
       document.getElementById('attBtnExport')?.addEventListener('click', exportCSV);
+      // Rebind nút import sau mỗi render
+      document.getElementById('attBtnImport')?.addEventListener('click', () => {
+        if (typeof window.openImportModal === 'function') window.openImportModal();
+      });
     }
 
     function updateStatsOnly() {
@@ -1365,10 +1372,34 @@
           setSyncBadge('saved', 'Đã đồng bộ');
         }
       });
+      // Gắn reload helper cho import module
+      window._reloadAttWidget = function () {
+        try {
+          const stored = localStorage.getItem(getRosterKey());
+          if (stored) {
+            rosterData = JSON.parse(stored);
+            const user = getUser();
+            if (user && user.quyen !== 'Admin') {
+              rosterData = rosterData.filter(r =>
+                !r.group || (r.group || '').trim() === (user.chiDoan || '').trim()
+              );
+            }
+            if (rosterData.length > 0)
+              nextRid = Math.max(...rosterData.map(d => d.id), 0) + 1;
+          }
+        } catch { rosterData = []; }
+        renderWidget();
+      };
     }
 
-    document.addEventListener('DOMContentLoaded', () => setTimeout(initAttWidget, 300));
-
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        initAttWidget();
+        if (typeof initImportAttendance === 'function') {
+          initImportAttendance();
+        }
+      }, 300);
+    });
     const _orig = window.syncWeeklyActivitiesWithServer;
     window.syncWeeklyActivitiesWithServer = function () {
       const p = _orig ? _orig() : Promise.resolve();
@@ -1379,6 +1410,7 @@
       }) : p;
     };
   </script>
+
 </body>
 
 </html>
