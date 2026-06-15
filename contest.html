@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giải Bơi Thiếu Niên, Nhi Đồng – Phường Xuân Hương 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --primary: #00e5ff;
+      /* Cyan nước hồ bơi năng động */
+      --primary-dark: #00b8d4;
+      --primary-glow: rgba(0, 229, 255, 0.35);
+
+      --secondary: #0076ff;
+      /* Màu xanh nước biển sâu */
+      --secondary-dark: #0056b3;
+      --secondary-glow: rgba(0, 118, 255, 0.25);
+
+      --dark-navy: #09122c;
+      /* Màu xanh thẳm của đêm/nước sâu */
+      --medium-navy: #111e47;
+      --light-navy: #1a2c66;
+
+      --foam-white: #ebf6fc;
+      /* Bọt nước trắng */
+      --accent-gold: #ffc107;
+      /* Huy chương Vàng / Nút nhấn chính */
+      --accent-gold-glow: rgba(255, 193, 7, 0.45);
+
+      --silver-medal: #b0c4d4;
+      --bronze-medal: #cd7f32;
+
+      --bg-page: #f4f8fb;
+      /* Màu xám xanh nước nhẹ nhõm */
+      --text-main: #0c1630;
+      --text-muted: #4e5d7c;
+
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 10px 30px -10px rgba(9, 18, 44, 0.08);
+
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── CUSTOM SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-page);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--light-navy);
+      border-radius: 5px;
+      border: 2px solid var(--bg-page);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary);
+    }
+
+    /* ── NAVIGATION BAR ── */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(9, 18, 44, 0.75);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all var(--transition-speed);
+    }
+
+    .navbar.scrolled {
+      background: rgba(9, 18, 44, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-logo .swim-icon {
+      font-size: 24px;
+      filter: drop-shadow(0 0 8px var(--primary));
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14.5px;
+      font-weight: 600;
+      transition: color var(--transition-speed);
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2.5px;
+      background: var(--primary);
+      transition: width var(--transition-speed);
+      border-radius: 2px;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 10px 22px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-speed);
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    .nav-pdf-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+      filter: brightness(1.1);
+    }
+
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .mobile-toggle span {
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+      border-radius: 2px;
+      transition: all var(--transition-speed);
+    }
+
+    .nav-pdf-btn-mobile {
+      display: none;
+    }
+
+    /* ── HERO SECTION ── */
+    .hero {
+      position: relative;
+      background: linear-gradient(180deg, rgba(9, 18, 44, 0.88) 0%, rgba(9, 18, 44, 0.7) 100%), url('public/swimming_hero_bg.png') center/cover no-repeat;
+      min-height: 620px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 160px;
+      overflow: hidden;
+    }
+
+    /* Bọt bong bóng nước trôi nổi trong hero */
+    .bubbles {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -20px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      animation: bubbleRise 12s infinite ease-in;
+    }
+
+    .bubble:nth-child(1) {
+      left: 10%;
+      width: 25px;
+      height: 25px;
+      animation-duration: 9s;
+      animation-delay: 0.5s;
+    }
+
+    .bubble:nth-child(2) {
+      left: 25%;
+      width: 12px;
+      height: 12px;
+      animation-duration: 12s;
+      animation-delay: 2s;
+    }
+
+    .bubble:nth-child(3) {
+      left: 40%;
+      width: 30px;
+      height: 30px;
+      animation-duration: 10s;
+      animation-delay: 0s;
+    }
+
+    .bubble:nth-child(4) {
+      left: 55%;
+      width: 18px;
+      height: 18px;
+      animation-duration: 14s;
+      animation-delay: 4s;
+    }
+
+    .bubble:nth-child(5) {
+      left: 70%;
+      width: 24px;
+      height: 24px;
+      animation-duration: 11s;
+      animation-delay: 1.5s;
+    }
+
+    .bubble:nth-child(6) {
+      left: 85%;
+      width: 15px;
+      height: 15px;
+      animation-duration: 13s;
+      animation-delay: 3s;
+    }
+
+    .bubble:nth-child(7) {
+      left: 92%;
+      width: 20px;
+      height: 20px;
+      animation-duration: 8s;
+      animation-delay: 1s;
+    }
+
+    @keyframes bubbleRise {
+      0% {
+        bottom: -30px;
+        transform: translateX(0) scale(1);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.6;
+      }
+
+      90% {
+        opacity: 0.6;
+      }
+
+      100% {
+        bottom: 110%;
+        transform: translateX(80px) scale(0.4);
+        opacity: 0;
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 30px;
+      margin-bottom: 28px;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .hero h1 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 900;
+      font-size: clamp(32px, 6vw, 56px);
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      letter-spacing: -0.5px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--primary), #00a8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: clamp(15px, 2vw, 17px);
+      max-width: 650px;
+      line-height: 1.65;
+      margin: 0 auto 40px;
+      font-weight: 400;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--accent-gold), #ffb300);
+      color: var(--dark-navy);
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 16px 36px;
+      border-radius: 12px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-speed);
+      box-shadow: 0 6px 25px var(--accent-gold-glow);
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 193, 7, 0.5);
+      filter: brightness(1.05);
+    }
+
+    .btn-primary svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ── SÓNG NƯỚC SVG HOẠT HỌA ── */
+    .waves-container {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      z-index: 3;
+    }
+
+    .waves {
+      position: relative;
+      width: 100%;
+      height: 60px;
+      min-height: 40px;
+      max-height: 80px;
+    }
+
+    .parallax>use {
+      animation: moveWaves 25s cubic-bezier(.55, .5, .45, .5) infinite;
+    }
+
+    .parallax>use:nth-child(1) {
+      animation-delay: -2s;
+      animation-duration: 7s;
+    }
+
+    .parallax>use:nth-child(2) {
+      animation-delay: -3s;
+      animation-duration: 10s;
+    }
+
+    .parallax>use:nth-child(3) {
+      animation-delay: -4s;
+      animation-duration: 13s;
+    }
+
+    .parallax>use:nth-child(4) {
+      animation-delay: -5s;
+      animation-duration: 20s;
+    }
+
+    @keyframes moveWaves {
+      0% {
+        transform: translate3d(-90px, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(85px, 0, 0);
+      }
+    }
+
+    /* ── FLOATING STATS BAR ── */
+    .stats {
+      position: relative;
+      z-index: 10;
+      margin-top: -45px;
+      padding: 0 24px;
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(9, 18, 44, 0.08);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 24px 10px;
+      gap: 10px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 10px 16px;
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: rgba(9, 18, 44, 0.1);
+    }
+
+    .stat-item .num {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 900;
+      color: var(--secondary);
+      display: block;
+      line-height: 1.1;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-item .lbl {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── SECTION DESIGN SYSTEM ── */
+    .section {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 85px 24px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      background: rgba(0, 118, 255, 0.06);
+      color: var(--secondary);
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 30px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 118, 255, 0.12);
+    }
+
+    .section h2 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 900;
+      color: var(--dark-navy);
+      margin-bottom: 45px;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+
+    /* ── INFO CARDS (PURPOSE & REGISTRATION) ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 28px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 36px 30px;
+      box-shadow: var(--glass-shadow);
+      transition: all var(--transition-speed) cubic-bezier(0.1, 0.8, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity var(--transition-speed);
+    }
+
+    .info-card:hover {
+      transform: translateY(-6px);
+      background: #fff;
+      box-shadow: 0 20px 40px -10px rgba(9, 18, 44, 0.12);
+      border-color: rgba(0, 229, 255, 0.25);
+    }
+
+    .info-card:hover::before {
+      opacity: 1;
+    }
+
+    .info-card .icon-wrapper {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(0, 118, 255, 0.12));
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 24px;
+      box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+      transition: transform var(--transition-speed);
+    }
+
+    .info-card:hover .icon-wrapper {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .info-card h3 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--dark-navy);
+      margin-bottom: 16px;
+      letter-spacing: -0.2px;
+    }
+
+    .info-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .info-card ul li {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .info-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary-dark);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .info-card .highlight-box {
+      background: rgba(0, 229, 255, 0.06);
+      border-left: 4px solid var(--primary);
+      padding: 12px 18px;
+      border-radius: 0 12px 12px 0;
+      font-size: 13.5px;
+      color: var(--secondary-dark);
+      font-weight: 700;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-card .highlight-box.warning {
+      background: rgba(255, 193, 7, 0.08);
+      border-left-color: var(--accent-gold);
+      color: #a07200;
+    }
+
+    /* ── AGE GROUPS (SWIMMING LANES TAB) ── */
+    .school-level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 6px 18px;
+      border-radius: 30px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .school-level-badge.primary {
+      background: rgba(0, 229, 255, 0.08);
+      color: var(--primary-dark);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+    }
+
+    .school-level-badge.secondary {
+      background: rgba(255, 193, 7, 0.1);
+      color: #b88600;
+      border: 1px solid rgba(255, 193, 7, 0.25);
+    }
+
+    .age-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 20px;
+    }
+
+    .age-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid rgba(9, 18, 44, 0.05);
+      box-shadow: 0 4px 15px rgba(9, 18, 44, 0.02);
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-speed);
+    }
+
+    .age-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transition: transform var(--transition-speed);
+    }
+
+    .age-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(9, 18, 44, 0.08);
+      border-color: rgba(0, 229, 255, 0.25);
+    }
+
+    .age-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .age-card .group {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--secondary);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .age-card .age {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--dark-navy);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .age-card .born {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .age-card .dist {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--secondary-dark);
+      background: var(--foam-white);
+      padding: 6px 14px;
+      border-radius: 30px;
+      display: inline-block;
+    }
+
+    .age-card.thcs::after {
+      background: var(--accent-gold);
+    }
+
+    .age-card.thcs .group {
+      color: #b88600;
+    }
+
+    .age-card.thcs .dist {
+      color: var(--dark-navy);
+      background: rgba(255, 193, 7, 0.1);
+    }
+
+    /* ── RULES NOTE CARD ── */
+    .rules-note-card {
+      margin-top: 35px;
+      background: rgba(0, 229, 255, 0.04);
+      border: 1px solid rgba(0, 229, 255, 0.18);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .rules-note-card h3 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark-navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rules-note-card ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .rules-note-card ul li {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .rules-note-card ul li::before {
+      content: '🏊';
+      position: absolute;
+      left: 0;
+      top: 1px;
+      font-size: 12px;
+    }
+
+    /* ── TIMELINE (POOL FLOAT DIVIDER) ── */
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    /* Tạo dải phao phân làn bể bơi đỏ - trắng - xanh */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      background: repeating-linear-gradient(to bottom,
+          #ff4d4d 0px, #ff4d4d 20px,
+          #ffffff 20px, #ffffff 40px,
+          var(--secondary) 40px, var(--secondary) 60px,
+          #ffffff 60px, #ffffff 80px);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(9, 18, 44, 0.08);
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      padding-bottom: 45px;
+      position: relative;
+    }
+
+    .tl-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .tl-dot {
+      width: 62px;
+      height: 62px;
+      min-width: 62px;
+      background: linear-gradient(135deg, var(--secondary), var(--light-navy));
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.1;
+      z-index: 5;
+      border: 4px solid #fff;
+      box-shadow: 0 10px 25px rgba(9, 18, 44, 0.15);
+      transition: all var(--transition-speed);
+    }
+
+    .tl-dot span.time {
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    .tl-item:hover .tl-dot {
+      transform: scale(1.1);
+      box-shadow: 0 10px 30px var(--secondary-glow);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .tl-content {
+      padding-top: 8px;
+    }
+
+    .tl-content strong {
+      display: block;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark-navy);
+      margin-bottom: 6px;
+    }
+
+    .tl-content span {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── AWARDS PODIUM (BỤC NHẬN GIẢI) ── */
+    .awards-podium {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 30px;
+      margin-top: 50px;
+      padding-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .medal-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 24px 30px;
+      text-align: center;
+      box-shadow: var(--glass-shadow);
+      border: 1px solid rgba(9, 18, 44, 0.05);
+      position: relative;
+      width: 250px;
+      transition: all var(--transition-speed) cubic-bezier(0.1, 0.8, 0.3, 1);
+    }
+
+    .medal-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(9, 18, 44, 0.12);
+    }
+
+    .medal-card.gold {
+      height: 320px;
+      border-top: 6px solid var(--accent-gold);
+      box-shadow: 0 10px 30px rgba(255, 193, 7, 0.15);
+    }
+
+    .medal-card.silver {
+      height: 280px;
+      border-top: 6px solid var(--silver-medal);
+    }
+
+    .medal-card.bronze {
+      height: 260px;
+      border-top: 6px solid var(--bronze-medal);
+    }
+
+    .medal-card .circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .medal-card.gold .circle {
+      background: linear-gradient(135deg, #ffe082, var(--accent-gold));
+      box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+    }
+
+    .medal-card.silver .circle {
+      background: linear-gradient(135deg, #f0f4f8, var(--silver-medal));
+      box-shadow: 0 8px 20px rgba(176, 196, 212, 0.3);
+    }
+
+    .medal-card.bronze .circle {
+      background: linear-gradient(135deg, #ffcc80, var(--bronze-medal));
+      box-shadow: 0 8px 20px rgba(205, 127, 50, 0.3);
+    }
+
+    .medal-card h4 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--dark-navy);
+      margin-bottom: 8px;
+    }
+
+    .medal-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .podium-step {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--dark-navy);
+      color: #fff;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .medal-card.gold .podium-step {
+      background: var(--accent-gold);
+      color: var(--dark-navy);
+    }
+
+    .medal-card.silver .podium-step {
+      background: var(--silver-medal);
+    }
+
+    .medal-card.bronze .podium-step {
+      background: var(--bronze-medal);
+    }
+
+    .violation-note {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 32px;
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* ── CONTACT SECTION ── */
+    .contact-section {
+      background: linear-gradient(180deg, var(--dark-navy) 0%, #050a18 100%);
+      padding: 85px 24px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-section h2 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .contact-section p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 15px;
+      margin-bottom: 40px;
+    }
+
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 28px 36px;
+      min-width: 260px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all var(--transition-speed);
+    }
+
+    .contact-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.1);
+    }
+
+    .contact-card .name {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .contact-card .phone {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      margin: 6px 0;
+      letter-spacing: 0.5px;
+    }
+
+    .contact-card .role {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 500;
+    }
+
+    .address-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 229, 255, 0.06);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      border-radius: 14px;
+      padding: 16px 28px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 14px;
+      max-width: 780px;
+      margin: 0 auto 40px;
+      text-align: left;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .address-box span:first-child {
+      font-size: 22px;
+      filter: drop-shadow(0 0 6px var(--primary));
+    }
+
+    .pdf-btn-wrap .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 2px solid rgba(0, 229, 255, 0.5);
+      color: #fff;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 36px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition-speed);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+    }
+
+    .pdf-btn-wrap .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--dark-navy);
+      border-color: var(--primary);
+      box-shadow: 0 0 30px var(--primary-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0, 118, 255, 0.12), transparent);
+      margin: 0 24px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #040814;
+      color: rgba(255, 255, 255, 0.45);
+      text-align: center;
+      padding: 30px 24px;
+      font-size: 13.5px;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* ── BACK TO TOP ── */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-speed);
+    }
+
+    #back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 229, 255, 0.6);
+    }
+
+    #back-to-top svg {
+      stroke-width: 3;
+      transition: transform var(--transition-speed);
+    }
+
+    #back-to-top:hover svg {
+      transform: translateY(-2px);
+    }
+
+    /* ── PDF MODAL ── */
+    #pdf-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 18, 44, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #pdf-modal.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 950px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.1, 0.8, 0.3, 1);
+    }
+
+    #pdf-modal.open .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 28px;
+      background: var(--dark-navy);
+      color: #fff;
+    }
+
+    .modal-header h3 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-header .close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-speed);
+    }
+
+    .modal-header .close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow: hidden;
+      background: var(--bg-page);
+      padding: 12px;
+    }
+
+    .modal-footer {
+      padding: 18px 28px;
+      border-top: 1px solid rgba(9, 18, 44, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #fff;
+    }
+
+    .modal-footer .info-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .modal-footer a.download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--secondary);
+      color: #fff;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all var(--transition-speed);
+    }
+
+    .modal-footer a.download-btn:hover {
+      background: var(--dark-navy);
+      box-shadow: 0 4px 15px rgba(9, 18, 44, 0.15);
+    }
+
+    /* ── RESPONSIVE RESPONSIVENESS ── */
+    @media (max-width: 992px) {
+      .navbar {
+        background: rgba(9, 18, 44, 0.9);
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 290px;
+        height: 100vh;
+        background: rgba(9, 18, 44, 0.98);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        flex-direction: column;
+        padding: 100px 32px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 22px;
+        transition: right 0.4s cubic-bezier(0.1, 0.8, 0.3, 1);
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 1000;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .mobile-toggle {
+        display: flex;
+      }
+
+      .mobile-toggle.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+
+      .mobile-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .mobile-toggle.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+
+      .nav-pdf-btn {
+        display: none;
+      }
+
+      .nav-pdf-btn-mobile {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #fff;
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 12px 24px;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        margin-top: 16px;
+        box-shadow: 0 4px 15px var(--primary-glow);
+      }
+
+      .stats-inner {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: -30px;
+      }
+
+      .stat-item:nth-child(3)::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 60px 24px;
+      }
+
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+      }
+
+      .stat-item::after {
+        display: none !important;
+      }
+
+      .awards-podium {
+        flex-direction: column;
+        align-items: center;
+        gap: 35px;
+      }
+
+      .medal-card {
+        width: 100%;
+        max-width: 300px;
+        height: auto !important;
+        padding: 30px 20px;
+      }
+
+      .podium-step {
+        top: -15px;
+        bottom: auto;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .stats-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .age-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .rules-note-card ul {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .age-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Animations Utility */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── PREMIUM FOOTER ── */
+    .footer-premium {
+      background: var(--dark-navy);
+      color: #fff;
+      padding: 60px 24px 30px;
+      position: relative;
+      overflow: hidden;
+      border-top: 4px solid var(--primary);
+    }
+
+    .footer-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.1), transparent 50%),
+        radial-gradient(circle at bottom left, rgba(0, 118, 255, 0.15), transparent 50%);
+      pointer-events: none;
+    }
+
+    .footer-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+
+    .footer-info h3 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .address-box-premium,
+    .contact-box-premium {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .address-box-premium:hover,
+    .contact-box-premium:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 229, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .icon-map,
+    .icon-phone {
+      font-size: 24px;
+      background: rgba(0, 229, 255, 0.1);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      flex-shrink: 0;
+      color: var(--primary);
+    }
+
+    .address-text,
+    .contact-text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .address-text strong,
+    .contact-text strong {
+      color: #fff;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .footer-map-wrapper {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(0, 229, 255, 0.3);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 229, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 300px;
+    }
+
+    .footer-map-wrapper:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 229, 255, 0.4);
+      border-color: var(--primary);
+    }
+
+    .footer-map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 25px;
+      text-align: center;
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .footer-bottom span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 992px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-map-wrapper {
+        height: 250px;
+      }
+    }
+
+    /* ── TOUCH INTERACTIVITY (MOBILE) ── */
+    @media (hover: none) {
+
+      .btn-primary:active,
+      .btn-secondary:active,
+      .nav-pdf-btn-mobile:active,
+      .download-btn:active,
+      .map-link-btn:active {
+        transform: scale(0.96) translateY(2px) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        opacity: 0.9;
+        transition: all 0.1s ease;
+      }
+
+      .info-card:active,
+      .stat-item:active,
+      .rules-note-card:active,
+      .tl-item:active,
+      .medal-card:active {
+        transform: scale(0.98);
+        background: rgba(255, 255, 255, 0.95);
+        transition: transform 0.1s ease;
+      }
+
+      .address-box-premium:active,
+      .contact-box-premium:active {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(0, 229, 255, 0.3);
+        transform: scale(0.98);
+        transition: all 0.1s;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAVIGATION BAR ── -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="swim-icon">🏊</span>
+        <span>XUÂN HƯƠNG 2026</span>
+      </a>
+      <div class="nav-links">
+        <a href="#intro" class="nav-link">Giới Thiệu</a>
+        <a href="#events" class="nav-link">Nội Dung Thi</a>
+        <a href="#register" class="nav-link">Quy Định Đăng Ký</a>
+        <a href="#schedule" class="nav-link">Lịch Trình</a>
+        <a href="#awards" class="nav-link">Giải Thưởng</a>
+        <a href="public/documents/dieu_le_giai_boi_2026.pdf" target="_blank" class="nav-pdf-btn-mobile">Xem Điều Lệ
+          PDF</a>
+      </div>
+      <a href="public/documents/dieu_le_giai_boi_2026.pdf" target="_blank" class="nav-pdf-btn"
+        style="text-decoration:none;">
+        <span>Xem Điều Lệ PDF</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
+      </a>
+      <button class="mobile-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── HERO SECTION ── -->
+  <header class="hero">
+    <div class="bubbles">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🏊 Phường Xuân Hương · Đà Lạt · 2026</div>
+      <h1>Giải Bơi <span>Thiếu Niên</span> &<br><span>Nhi Đồng 2026</span></h1>
+      <p class="hero-sub">Sân chơi thể thao lành mạnh – phát triển toàn diện kỹ năng bơi lội an toàn và tích cực phòng
+        chống đuối nước cho trẻ em phường Xuân Hương</p>
+      <a href="public/documents/dieu_le_giai_boi_2026.pdf" target="_blank" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <polyline points="10 9 9 9 8 9" />
+        </svg>
+        Xem Văn Bản Điều Lệ
+      </a>
+    </div>
+    <div class="waves-container">
+      <svg class="waves" viewBox="0 24 150 28" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(244, 248, 251, 0.7)" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(244, 248, 251, 0.5)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(244, 248, 251, 0.3)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="var(--bg-page)" />
+        </g>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats">
+    <div class="stats-inner">
+      <div class="stat-item"><span class="num">7–15</span><span class="lbl">Độ Tuổi</span></div>
+      <div class="stat-item"><span class="num">7</span><span class="lbl">Nhóm Tuổi</span></div>
+      <div class="stat-item"><span class="num">2</span><span class="lbl">Nội Dung Bơi</span></div>
+      <div class="stat-item"><span class="num">22/6</span><span class="lbl">Ngày Thi Đấu</span></div>
+      <div class="stat-item"><span class="num">17/6</span><span class="lbl">Hạn Đăng Ký</span></div>
+    </div>
+  </div>
+
+  <!-- ── MỤC ĐÍCH ── -->
+  <section id="intro" class="section">
+    <span class="section-label">Mục Đích & Ý Nghĩa</span>
+    <h2>Vì sao tổ chức giải bơi này?</h2>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="icon-wrapper">🏋️</div>
+        <h3>Phong trào rèn luyện thân thể</h3>
+        <ul>
+          <li>Đẩy mạnh Cuộc vận động "Toàn dân rèn luyện thân thể theo gương Bác Hồ vĩ đại" giai đoạn 2021–2030 trên địa
+            bàn toàn tỉnh Lâm Đồng</li>
+          <li>Phát triển mạnh mẽ phong trào tập luyện bơi lội thanh thiếu nhi trên địa bàn phường Xuân Hương</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="icon-wrapper">🎉</div>
+        <h3>Sân chơi lành mạnh</h3>
+        <ul>
+          <li>Tạo không gian vui chơi, tranh tài bổ ích cho thiếu niên, nhi đồng dịp hè</li>
+          <li>Phát hiện và bồi dưỡng kịp thời tài năng bơi lội trẻ đóng góp cho thể thao địa phương</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── NỘI DUNG THI ĐẤU ── -->
+  <section id="events" class="section">
+    <span class="section-label">Nội Dung Thi Đấu</span>
+    <h2>Bơi Tự Do & Bơi Ếch – Theo 7 Nhóm Tuổi</h2>
+
+    <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 15px; font-weight: 500;">
+      Nội dung tranh tài cá nhân Nam &amp; Nữ. Chi tiết các cự ly thi đấu theo từng nhóm tuổi dưới đây:
+    </p>
+
+    <div class="school-level-badge primary">Cấp Tiểu học</div>
+    <div class="age-grid" style="margin-bottom: 35px;">
+      <div class="age-card">
+        <div class="group">Nhóm 1</div>
+        <div class="age">7 tuổi</div>
+        <div class="born">Sinh năm 2019</div>
+        <div class="dist">25m / nội dung</div>
+      </div>
+      <div class="age-card">
+        <div class="group">Nhóm 2</div>
+        <div class="age">8 tuổi</div>
+        <div class="born">Sinh năm 2018</div>
+        <div class="dist">50m / nội dung</div>
+      </div>
+      <div class="age-card">
+        <div class="group">Nhóm 3</div>
+        <div class="age">9 tuổi</div>
+        <div class="born">Sinh năm 2017</div>
+        <div class="dist">50m / nội dung</div>
+      </div>
+      <div class="age-card">
+        <div class="group">Nhóm 4</div>
+        <div class="age">10 tuổi</div>
+        <div class="born">Sinh năm 2016</div>
+        <div class="dist">50m / nội dung</div>
+      </div>
+      <div class="age-card">
+        <div class="group">Nhóm 5</div>
+        <div class="age">11 tuổi</div>
+        <div class="born">Sinh năm 2015</div>
+        <div class="dist">50m / nội dung</div>
+      </div>
+    </div>
+
+    <div class="school-level-badge secondary">Cấp Trung học cơ sở</div>
+    <div class="age-grid">
+      <div class="age-card thcs">
+        <div class="group">Nhóm 6</div>
+        <div class="age">12–13 tuổi</div>
+        <div class="born">Sinh 2013, 2014</div>
+        <div class="dist">50m & 100m</div>
+      </div>
+      <div class="age-card thcs">
+        <div class="group">Nhóm 7</div>
+        <div class="age">14–15 tuổi</div>
+        <div class="born">Sinh 2011, 2012</div>
+        <div class="dist">50m & 100m</div>
+      </div>
+    </div>
+
+    <div class="rules-note-card">
+      <h3>📋 Thể thức thi đấu ban tổ chức quy định</h3>
+      <ul>
+        <li>Áp dụng nghiêm chỉnh Luật Bơi hiện hành của Tổng cục Thể dục Thể thao.</li>
+        <li>Vòng loại chọn ra <strong>04 vận động viên (VĐV)</strong> có thành tích xuất sắc nhất vào thi đấu
+          <strong>Chung kết</strong>.
+        </li>
+        <li>Nếu nội dung thi đấu có ≤ 6 VĐV: BTC tiến hành tính thời gian trực tiếp để xếp hạng, không thi vòng Chung
+          kết.</li>
+        <li>Mỗi nội dung thi đấu cần ít nhất 4 VĐV đăng ký tham gia từ 3 đơn vị khác nhau mới tổ chức tranh tài giải
+          đấu.</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── ĐĂNG KÝ THAM DỰ ── -->
+  <section id="register" class="section">
+    <span class="section-label">Đăng Ký Tham Dự</span>
+    <h2>Hồ Sơ & Quy Định Đăng Ký</h2>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="icon-wrapper">📄</div>
+        <h3>Hồ sơ cần chuẩn bị</h3>
+        <ul>
+          <li>Danh sách đăng ký thi đấu chuẩn theo mẫu (đầy đủ chữ ký Trưởng đoàn, HLV, VĐV)</li>
+          <li>CCCD của VĐV (nếu có) hoặc Giấy khai sinh bản photo công chứng chính xác</li>
+        </ul>
+        <div class="highlight-box warning">
+          <span>⏰</span> Hạn nộp: trước ngày 17/6/2026
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="icon-wrapper">⚠️</div>
+        <h3>Lưu ý quan trọng</h3>
+        <ul>
+          <li>Mỗi VĐV chỉ được đăng ký tối đa <strong>01 nội dung</strong> thi đấu ở đúng <strong>01 nhóm tuổi</strong>
+          </li>
+          <li>Số lượng tối đa: <strong>04 VĐV / nhóm tuổi / đơn vị</strong> tham gia</li>
+          <li>Mỗi đơn vị chính thức cử 01 đội tham gia thi đấu giải bơi</li>
+          <li>VĐV tự trang bị đồ bơi, kính bơi và mũ bơi đạt chuẩn an toàn cá nhân</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="icon-wrapper">📍</div>
+        <h3>Nơi nộp hồ sơ</h3>
+        <ul>
+          <li>Trung tâm Dịch vụ tổng hợp Ủy ban nhân dân phường Xuân Hương</li>
+          <li>Số 28 Phan Như Thạch, Phường Xuân Hương - Đà Lạt, Lâm Đồng</li>
+        </ul>
+        <div class="highlight-box">
+          <span>📞</span> 0983 173 404 · 0913 332 730
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── LỊCH TRÌNH ── -->
+  <section id="schedule" class="section">
+    <span class="section-label">Lịch Trình</span>
+    <h2>Các Mốc Thời Gian Quan Trọng</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span>17/6</span>
+        </div>
+        <div class="tl-content">
+          <strong>Hạn đăng ký hồ sơ</strong>
+          <span>Nộp hồ sơ hoàn chỉnh trước ngày 17/6/2026 tại Số 28 Phan Như Thạch</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span>19/6</span>
+          <span class="time">09:00</span>
+        </div>
+        <div class="tl-content">
+          <strong>Họp chuyên môn và bốc thăm</strong>
+          <span>Bắt đầu từ 09h00 tại Trung tâm Dịch vụ tổng hợp – Số 28 Phan Như Thạch, Phường Xuân Hương - Đà
+            Lạt</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span>22/6</span>
+          <span class="time">07:30</span>
+        </div>
+        <div class="tl-content">
+          <strong>Khai mạc giải bơi & Thi đấu chính thức</strong>
+          <span>Từ 7h30 tại Hồ Bơi Phù Đổng – Số 02 Trần Nhân Tông, Phường Lâm Viên - Đà Lạt</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ── KHEN THƯỞNG ── -->
+  <section id="awards" class="section">
+    <span class="section-label">Khen Thưởng</span>
+    <h2>Giải Thưởng Danh Giá Cho Từng Nội Dung</h2>
+
+    <div class="awards-podium">
+      <div class="medal-card gold">
+        <div class="circle">🥇</div>
+        <h4>Hạng Nhất</h4>
+        <p>Huy chương Vàng<br>+ Giấy chứng nhận giải đấu</p>
+        <div class="podium-step">1</div>
+      </div>
+      <div class="medal-card silver">
+        <div class="circle">🥈</div>
+        <h4>Hạng Nhì</h4>
+        <p>Huy chương Bạc<br>+ Giấy chứng nhận giải đấu</p>
+        <div class="podium-step">2</div>
+      </div>
+
+      <div class="medal-card bronze">
+        <div class="circle">🥉</div>
+        <h4>Hạng Ba</h4>
+        <p>Huy chương Đồng<br>+ Giấy chứng nhận giải đấu</p>
+        <div class="podium-step">3</div>
+      </div>
+    </div>
+
+    <p class="violation-note">⚠️ Mọi vi phạm quy chế giải đấu sẽ được xử lý nghiêm theo Nghị định 46/2019/NĐ-CP ngày
+      27/5/2019 của Chính phủ.</p>
+  </section>
+
+  <!-- ── LIÊN HỆ BAN TỔ CHỨC ── -->
+  <div id="contact" class="contact-section">
+    <div class="bubbles">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+    </div>
+    <h2>Liên Hệ Ban Tổ Chức</h2>
+    <p>Mọi thắc mắc cần tư vấn chi tiết về giải đấu bơi lội, vui lòng liên hệ:</p>
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="name">Chị Yến</div>
+        <div class="phone">0983 173 404</div>
+        <div class="role">Thành viên Ban Tổ Chức</div>
+      </div>
+      <div class="contact-card">
+        <div class="name">Anh Tuấn Anh</div>
+        <div class="phone">0913 332 730</div>
+        <div class="role">Thành viên Ban Tổ Chức</div>
+      </div>
+    </div>
+
+    <div class="pdf-btn-wrap">
+      <a href="public/documents/ĐIỀU LỆ GIẢI BƠI 2026.pdf" target="_blank" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
+        Xem Văn Bản Điều Lệ Đầy Đủ
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer-premium">
+    <div class="footer-container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3>Ban Tổ Chức Giải Bơi</h3>
+          <div class="address-box-premium">
+            <div class="icon-map">📍</div>
+            <div class="address-text">
+              <strong>Trung tâm Dịch vụ tổng hợp phường Xuân Hương</strong>
+              Số 28 Phan Như Thạch, Phường Xuân Hương - Đà Lạt, Lâm Đồng
+            </div>
+          </div>
+
+        </div>
+        <div class="footer-map-wrapper">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d371.8359794861862!2d108.4342927581143!3d11.941907375887752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3171132e8e1f2569%3A0x150eb17c1bd743b5!2zMjggUGhhbiBOaMawIFRo4bqhY2gsIFh1w6JuIEjGsMahbmcgLSDEkMOgIEzhuqF0LCBMw6JtIMSQ4buTbmcsIFZp4buHdCBOYW0!5e1!3m2!1svi!2s!4v1781500961686!5m2!1svi!2s"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 <span>Trung tâm Dịch vụ tổng hợp Phường Xuân Hương – Đà Lạt</span> · UBND Phường Xuân Hương · Tỉnh Lâm
+          Đồng</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── BACK TO TOP BUTTON ── -->
+  <button id="back-to-top" title="Cuộn lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <!-- ── PDF MODAL ── -->
+  <div id="pdf-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>📄 Điều Lệ Giải Bơi – Phường Xuân Hương 2026</h3>
+        <button class="close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <iframe src="public/documents/dieu_le_giai_boi_2026.pdf"
+          style="width: 100%; height: 100%; border: none; border-radius: 12px;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <span class="info-text">Văn bản chính thức của UBND Phường Xuân Hương – Đà Lạt, năm 2026</span>
+        <a href="public/documents/dieu_le_giai_boi_2026.pdf" download class="download-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Tải Xuống PDF
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Hiệu ứng thanh Navbar khi cuộn trang
+    window.addEventListener('scroll', function () {
+      const navbar = document.querySelector('.navbar');
+      const backToTop = document.getElementById('back-to-top');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+
+    // Nút Back to Top hoạt động cuộn lên
+    document.getElementById('back-to-top').addEventListener('click', function () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Đóng mở Hamburger Menu trên điện thoại
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    mobileToggle.addEventListener('click', function () {
+      mobileToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Đóng menu khi người dùng click vào link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Hàm điều khiển hiển thị Modal PDF
+    function openModal() {
+      document.getElementById('pdf-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('pdf-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('pdf-modal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+
+</html>
