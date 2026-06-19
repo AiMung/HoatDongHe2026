@@ -3416,65 +3416,424 @@
 
   <!-- ═══ PHẢN HỒI Ý KIẾN ═══ -->
   <section class="section" id="feedback">
-    <div class="section-inner" style="max-width: 700px;">
+    <div class="section-inner" style="max-width: 1000px;">
       <div class="reveal">
         <div class="section-label"><i class="fa-solid fa-comment-dots"></i> Phản hồi ý kiến</div>
         <h2 class="section-title">Đóng Góp Ý Kiến</h2>
         <p class="section-desc">Chúng tôi luôn lắng nghe để cải thiện chất lượng các hoạt động hè tốt hơn.</p>
       </div>
 
-      <div class="form-wrapper reveal"
-        style="background: var(--card-bg); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 30px; backdrop-filter: blur(12px);">
-        <!-- THAY ID VÀ ACTION CỦA GOOGLE FORM VÀO ĐÂY -->
-        <!-- URL form có dạng: https://docs.google.com/forms/u/0/d/e/[FORM_ID]/formResponse -->
-        <form action="#" method="POST" target="_blank" id="feedbackForm">
+      <div class="feedback-container reveal"
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+        <!-- Cột Form -->
+        <div class="form-wrapper"
+          style="background: var(--card-bg); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); backdrop-filter: blur(12px); display: flex; flex-direction: column;">
+          <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.2rem;"><i class="fa-solid fa-pen-to-square"></i> Gửi
+            phản hồi mới</h3>
+          <!-- Hidden iframe for silent submission -->
+          <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
+            onload="if(submitted) { handleFeedbackSuccess(); }"></iframe>
+          <form
+            action="https://docs.google.com/forms/d/e/1FAIpQLSdvDE3HIMrE5K1b95g-e7_yW-2_aqCCwqtPxrA2ogFWllq7Vg/formResponse"
+            method="POST" target="hidden_iframe" id="feedbackForm" onsubmit="submitted=true; saveLocalFeedback(event);">
 
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Họ và tên</label>
-            <!-- THAY NAME THÀNH ENTRY ID CỦA HỌ TÊN (vd: entry.123456789) -->
-            <input type="text" name="entry_ho_ten" placeholder="Nhập họ và tên của bạn" required
-              style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Họ và tên</label>
+              <input type="text" name="entry.937139264" id="fbName" placeholder="Nhập họ và tên của bạn" required
+                style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Số điện
+                thoại</label>
+              <input type="tel" name="entry.1588842821" id="fbPhone" placeholder="Nhập số điện thoại" required
+                style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Lĩnh vực phản
+                hồi</label>
+              <select name="entry.1024181987" id="fbCategory" required
+                style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; appearance: none; cursor: pointer;">
+                <option value="" disabled selected style="color: rgba(255,255,255,0.5);">-- Chọn lĩnh vực --</option>
+                <option value="Công tác tổ chức" style="color: #000;">Công tác tổ chức</option>
+                <option value="Nội dung hoạt động" style="color: #000;">Nội dung hoạt động</option>
+                <option value="Cơ sở vật chất" style="color: #000;">Cơ sở vật chất</option>
+                <option value="Thái độ cán bộ quản lý" style="color: #000;">Thái độ cán bộ quản lý</option>
+                <option value="Khác" style="color: #000;">Khác (Ghi rõ bên dưới)</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Nội dung đóng góp
+                / ý kiến</label>
+              <textarea name="entry.505578770" id="fbContent"
+                placeholder="Nhập chi tiết ý kiến hoặc đóng góp của bạn..." rows="5" required
+                style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" id="fbSubmitBtn"
+              style="width: 100%; justify-content: center; padding: 14px; margin-top: auto;">
+              <i class="fa-solid fa-paper-plane"></i> Gửi Ý Kiến
+            </button>
+          </form>
+        </div>
+
+        <!-- Cột Hiển thị Phản hồi (Tabs) -->
+        <div class="feedback-display"
+          style="background: rgba(9, 18, 44, 0.6); padding: 25px; border-radius: var(--radius); border: 1px solid var(--border); backdrop-filter: blur(12px); display: flex; flex-direction: column; max-height: 550px;">
+          <h3
+            style="color: #fff; margin-bottom: 15px; font-size: 1.2rem; display: flex; align-items: center; justify-content: space-between;">
+            <span><i class="fa-solid fa-list-check"></i> Ý kiến gần đây</span>
+            <span
+              style="font-size: 0.8rem; background: rgba(0, 229, 255, 0.15); color: #00e5ff; padding: 4px 10px; border-radius: 20px;">Trực
+              tiếp</span>
+          </h3>
+
+          <!-- Tabs -->
+          <div class="fb-tabs"
+            style="display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;">
+            <button class="fb-tab active" onclick="filterFeedback('all', this)">Tất cả</button>
+            <button class="fb-tab" onclick="filterFeedback('Công tác tổ chức', this)">Tổ chức</button>
+            <button class="fb-tab" onclick="filterFeedback('Nội dung hoạt động', this)">Nội dung</button>
+            <button class="fb-tab" onclick="filterFeedback('Cơ sở vật chất', this)">CSVC</button>
           </div>
 
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Số điện
-              thoại</label>
-            <!-- THAY NAME THÀNH ENTRY ID CỦA SĐT -->
-            <input type="tel" name="entry_sdt" placeholder="Nhập số điện thoại" required
-              style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+          <!-- Danh sách scrollable -->
+          <div id="feedbackList"
+            style="flex: 1; overflow-y: auto; padding-right: 10px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: thin; scrollbar-color: var(--cyan) rgba(255,255,255,0.1);">
+            <div style="text-align: center; color: rgba(255,255,255,0.5); padding: 40px 0; font-size: 0.9rem;">
+              <i class="fa-regular fa-folder-open" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+              Chưa có phản hồi nào. Hãy là người đầu tiên đóng góp ý kiến!
+            </div>
           </div>
-
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Lĩnh vực phản
-              hồi</label>
-            <!-- THAY NAME THÀNH ENTRY ID CỦA LĨNH VỰC -->
-            <select name="entry_linh_vuc" id="feedbackCategory" required
-              style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; appearance: none; cursor: pointer;">
-              <option value="" disabled selected style="color: rgba(255,255,255,0.5);">-- Chọn lĩnh vực --</option>
-              <option value="Công tác tổ chức" style="color: #000;">Công tác tổ chức</option>
-              <option value="Nội dung hoạt động" style="color: #000;">Nội dung hoạt động</option>
-              <option value="Cơ sở vật chất" style="color: #000;">Cơ sở vật chất</option>
-              <option value="Thái độ cán bộ quản lý" style="color: #000;">Thái độ cán bộ quản lý</option>
-              <option value="Khác" style="color: #000;">Khác (Ghi rõ bên dưới)</option>
-            </select>
-          </div>
-
-          <div style="margin-bottom: 24px;">
-            <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;">Nội dung đóng góp /
-              ý kiến</label>
-            <!-- THAY NAME THÀNH ENTRY ID CỦA NỘI DUNG -->
-            <textarea name="entry_noi_dung" placeholder="Nhập chi tiết ý kiến hoặc đóng góp của bạn..." rows="5"
-              required
-              style="width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; resize: vertical;"></textarea>
-          </div>
-
-          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px;">
-            <i class="fa-solid fa-paper-plane"></i> Gửi Ý Kiến
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   </section>
+
+  <style>
+    .fb-tab {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .fb-tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .fb-tab.active {
+      background: var(--cyan);
+      color: #09122c;
+      border-color: var(--cyan);
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+
+    .fb-item {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--cyan);
+      padding: 16px;
+      border-radius: 8px;
+      animation: slideInFb 0.4s ease forwards;
+    }
+
+    @keyframes slideInFb {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fb-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .fb-item-name {
+      font-weight: 600;
+      color: #fff;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fb-item-time {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .fb-item-cat {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--cyan);
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .fb-item-content {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    /* Mobile responsive for feedback */
+    @media (max-width: 768px) {
+      .feedback-container {
+        grid-template-columns: 1fr !important;
+      }
+
+      .feedback-display {
+        max-height: 400px !important;
+      }
+    }
+  </style>
+
+  <script>
+    var submitted = false;
+
+    // Google Visualization API - hỗ trợ "anyone with link" không cần publish
+    var SHEET_ID = '17cYWn68pX-n1j1BH_wCQUJgcZp-0-hUxroDf1vaSbPo';
+
+    function loadFeedbacksFromSheets() {
+      var callbackName = 'gvizCallback_' + Date.now();
+      var script = document.createElement('script');
+      var timeout = setTimeout(function () {
+        fallbackToLocal();
+        delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }, 8000);
+
+      window[callbackName] = function (response) {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        try {
+          var table = response.table;
+          if (!table || !table.rows || table.rows.length === 0) {
+            fallbackToLocal(); return;
+          }
+          // Helper: lấy giá trị an toàn, không bị null
+          function getCellVal(row, colIdx) {
+            if (!row || !row.c || !row.c[colIdx]) return '';
+            var cell = row.c[colIdx];
+            return (cell.v != null) ? String(cell.v) : '';
+          }
+          // Helper: lấy formatted value (cho timestamp)
+          function getCellFormatted(row, colIdx) {
+            if (!row || !row.c || !row.c[colIdx]) return '';
+            var cell = row.c[colIdx];
+            return (cell.f != null) ? String(cell.f) : getCellVal(row, colIdx);
+          }
+
+          var feedbacks = [];
+          // Đọc từ cuối lên đầu (ý kiến mới nhất trước)
+          for (var i = table.rows.length - 1; i >= 0; i--) {
+            var row = table.rows[i];
+            var rawTime = getCellVal(row, 0);
+            var formattedTime = getCellFormatted(row, 0);
+
+            // Parse timestamp dạng "Date(2026,5,18,10,30,0)" sang ISO
+            var parsedTime = '';
+            if (rawTime) {
+              var dateMatch = rawTime.match(/Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)/);
+              if (dateMatch) {
+                parsedTime = new Date(
+                  parseInt(dateMatch[1]), parseInt(dateMatch[2]),
+                  parseInt(dateMatch[3]), parseInt(dateMatch[4]),
+                  parseInt(dateMatch[5]), parseInt(dateMatch[6])
+                ).toISOString();
+              } else {
+                // Thử parse trực tiếp từ formatted value (dạng "6/18/2026 13:47:06")
+                if (formattedTime) {
+                  var dt = new Date(formattedTime);
+                  parsedTime = isNaN(dt.getTime()) ? formattedTime : dt.toISOString();
+                } else {
+                  parsedTime = rawTime;
+                }
+              }
+            }
+
+            var name = getCellVal(row, 1);
+            var phone = getCellVal(row, 2);
+            var category = getCellVal(row, 3);
+            var content = getCellVal(row, 4);
+
+            // Bỏ qua hàng rỗng
+            if (!name && !content) continue;
+
+            feedbacks.push({
+              id: i,
+              time: parsedTime,
+              name: name,
+              phone: phone,
+              category: category,
+              content: content
+            });
+          }
+          renderFeedbacks(feedbacks);
+        } catch (e) {
+          console.error('Lỗi parse dữ liệu Sheet:', e);
+          fallbackToLocal();
+        }
+      };
+
+      script.src = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+        '/gviz/tq?tqx=out:json;responseHandler:' + callbackName +
+        '&headers=1&tq=SELECT%20*&t=' + Date.now();
+      document.body.appendChild(script);
+    }
+
+    function fallbackToLocal() {
+      var local = JSON.parse(localStorage.getItem('summerFeedbacks')) || [];
+      renderFeedbacks(local);
+    }
+
+    function initFeedbacks() {
+      var list = document.getElementById('feedbackList');
+      if (list) list.innerHTML = '<div style="text-align:center;padding:30px;color:rgba(255,255,255,0.4);"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem"></i></div>';
+      loadFeedbacksFromSheets();
+    }
+
+    function saveLocalFeedback(e) {
+      var name = document.getElementById('fbName').value;
+      var phone = document.getElementById('fbPhone').value;
+      var category = document.getElementById('fbCategory').value;
+      var content = document.getElementById('fbContent').value;
+      var btn = document.getElementById('fbSubmitBtn');
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+
+      var newFb = {
+        id: Date.now(),
+        name: name,
+        phone: phone,
+        category: category,
+        content: content,
+        time: new Date().toISOString()
+      };
+
+      var feedbacks = JSON.parse(localStorage.getItem('summerFeedbacks')) || [];
+      feedbacks.unshift(newFb);
+      localStorage.setItem('summerFeedbacks', JSON.stringify(feedbacks));
+
+      // Reset filter về Tất cả
+      document.querySelectorAll('.fb-tab').forEach(function (t) { t.classList.remove('active'); });
+      document.querySelector('.fb-tab').classList.add('active');
+    }
+
+    function handleFeedbackSuccess() {
+      var btn = document.getElementById('fbSubmitBtn');
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã gửi thành công!';
+      btn.style.background = '#28a745';
+      btn.style.boxShadow = '0 0 15px rgba(40, 167, 69, 0.4)';
+
+      document.getElementById('feedbackForm').reset();
+      initFeedbacks();
+
+      setTimeout(function () {
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Gửi Ý Kiến';
+        btn.style.background = '';
+        btn.style.boxShadow = '';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        submitted = false;
+      }, 3000);
+    }
+
+    function timeAgo(dateString) {
+      var now = new Date();
+      var date = new Date(dateString);
+      var seconds = Math.floor((now - date) / 1000);
+      if (seconds < 60) return "Vừa xong";
+      var minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return minutes + " phút trước";
+      var hours = Math.floor(minutes / 60);
+      if (hours < 24) return hours + " giờ trước";
+      var days = Math.floor(hours / 24);
+      return days + " ngày trước";
+    }
+
+    function renderFeedbacks(feedbacks) {
+      var list = document.getElementById('feedbackList');
+      if (!list) return;
+      if (!feedbacks || feedbacks.length === 0) {
+        list.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 40px 0; font-size: 0.9rem;"><i class="fa-regular fa-folder-open" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>Chưa có phản hồi nào trong danh mục này.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < feedbacks.length; i++) {
+        var fb = feedbacks[i];
+        // Che bớt tên để bảo mật
+        var parts = (fb.name || '').split(' ');
+        var maskedName = (fb.name || '?').substring(0, 1) + '***' + (parts.length > 1 ? ' ' + parts[parts.length - 1] : '');
+        var timeDisplay = fb.time ? timeAgo(fb.time) : '';
+        var catBorderColors = {
+          'Công tác tổ chức': '#00e5ff',
+          'Nội dung hoạt động': '#a78bfa',
+          'Cơ sở vật chất': '#34d399',
+          'Thái độ cán bộ quản lý': '#f59e0b',
+          'Khác': '#94a3b8'
+        };
+        var borderColor = catBorderColors[fb.category] || 'var(--cyan)';
+        html += '<div class="fb-item" style="border-left-color: ' + borderColor + ';">';
+        html += '<div class="fb-item-header">';
+        html += '<div class="fb-item-name"><i class="fa-solid fa-circle-user" style="color: var(--cyan)"></i> ' + maskedName + '</div>';
+        html += '<div class="fb-item-time">' + timeDisplay + '</div>';
+        html += '</div>';
+        html += '<div class="fb-item-cat" style="background: ' + borderColor + '22; color: ' + borderColor + ';">' + (fb.category || '') + '</div>';
+        html += '<div class="fb-item-content">' + (fb.content || '') + '</div>';
+        html += '</div>';
+      }
+      list.innerHTML = html;
+    }
+
+    var _allFeedbacks = [];
+
+    function filterFeedback(cat, btn) {
+      document.querySelectorAll('.fb-tab').forEach(function (t) { t.classList.remove('active'); });
+      btn.classList.add('active');
+      if (cat === 'all') {
+        renderFeedbacks(_allFeedbacks);
+      } else {
+        var filtered = _allFeedbacks.filter(function (fb) { return fb.category === cat; });
+        renderFeedbacks(filtered);
+      }
+    }
+
+    // Override renderFeedbacks to also cache
+    var _origRender = renderFeedbacks;
+    renderFeedbacks = function (feedbacks) {
+      _allFeedbacks = feedbacks || [];
+      _origRender(feedbacks);
+    };
+
+    // Khởi tạo khi DOM load xong
+    document.addEventListener('DOMContentLoaded', initFeedbacks);
+  </script>
 
   <div class="divider"></div>
 
