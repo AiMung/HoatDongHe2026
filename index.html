@@ -2429,6 +2429,305 @@
     }
 
     /* =======================================CSS */
+    /* ════ KHUNG SỰ KIỆN NỔI BẬT PHÁP LUẬT ════ */
+    /* ════ KHUNG SỰ KIỆN NỔI BẬT PHÁP LUẬT (TONE VÀNG ĐỒNG) ════ */
+    .law-event-banner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      background: linear-gradient(135deg, rgba(245, 200, 66, .10), rgba(212, 160, 23, .14));
+      border: 1px solid rgba(245, 200, 66, .32);
+      border-radius: 22px;
+      padding: 28px 30px;
+      margin: 10px auto 36px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .35), inset 0 1px 1px rgba(255, 255, 255, .05);
+    }
+
+    /* viền sáng chạy quanh khung (rotating border glow) */
+    .law-event-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px;
+      background: conic-gradient(from var(--border-angle, 0deg),
+          transparent 0deg,
+          rgba(245, 200, 66, 0) 0deg,
+          #f5c842 40deg,
+          #fff4d1 70deg,
+          #f5c842 100deg,
+          transparent 140deg,
+          transparent 360deg);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: lawBorderSpin 3.2s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @property --border-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+
+    @keyframes lawBorderSpin {
+      to {
+        --border-angle: 360deg;
+      }
+    }
+
+    /* lớp glow mờ phía sau, tạo cảm giác toả sáng vàng ấm */
+    .law-event-banner::after {
+      content: '';
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 15% 50%, rgba(245, 200, 66, .25), transparent 60%);
+      z-index: 0;
+      pointer-events: none;
+      animation: lawGlowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes lawGlowPulse {
+
+      0%,
+      100% {
+        opacity: .5;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .law-event-banner>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .law-event-icon {
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(245, 200, 66, .22), rgba(212, 160, 23, .3));
+      border: 1px solid rgba(245, 200, 66, .45);
+      font-size: 1.6rem;
+      color: var(--gold);
+      box-shadow: 0 0 24px rgba(245, 200, 66, .35);
+      animation: lawIconPulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes lawIconPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    .law-event-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .law-event-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      background: rgba(245, 200, 66, .12);
+      border: 1px solid rgba(245, 200, 66, .3);
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+    }
+
+    .law-event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, #fff, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .law-event-sub {
+      font-size: .85rem;
+      color: rgba(255, 255, 255, .62);
+      margin-bottom: 14px;
+    }
+
+    .law-event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .law-event-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .88);
+      background: rgba(245, 200, 66, .07);
+      border: 1px solid rgba(245, 200, 66, .22);
+      padding: 6px 13px;
+      border-radius: 8px;
+    }
+
+    .law-event-chip i {
+      color: var(--gold);
+    }
+
+    .law-event-countdown {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+      /* Tạo khoảng cách vừa phải với phần chữ phía trên */
+    }
+
+    .law-event-cd-item {
+      background: linear-gradient(135deg, rgba(40, 30, 5, .85), rgba(20, 15, 2, .95));
+      border: 1px solid rgba(245, 200, 66, .3);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      min-width: 60px;
+      /* Tăng nhẹ độ rộng để không bị vỡ chữ chữ "tháng/ngày" */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    /* Định dạng cho phần SỐ đếm ngược */
+    .law-event-cd-item .num {
+      display: block;
+      /* Ép số nằm riêng 1 dòng */
+      font-size: 1.3rem;
+      /* Tăng kích thước số lên chút cho nổi bật */
+      font-weight: 800;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(245, 200, 66, .6);
+      line-height: 1.1;
+    }
+
+    /* Định dạng cho phần CHỮ ĐƠN VỊ (Ngày, Giờ, Phút, Giây) */
+    .law-event-cd-item .unit {
+      display: block;
+      /* Ép chữ xuống dòng dưới số */
+      font-size: .65rem;
+      /* Kích cỡ chữ nhỏ vừa phải, tinh tế */
+      color: rgba(255, 255, 255, .7);
+      /* Tăng độ sáng chữ lên một chút cho dễ đọc */
+      text-transform: uppercase;
+      /* Biến chữ thành in hoa cho sang trọng */
+      letter-spacing: 1px;
+      /* Giãn cách các khoảng chữ */
+      margin-top: 5px;
+      /* Khoảng cách giữa Số và Chữ */
+      font-weight: 600;
+      /* Thêm độ đậm cho chữ rõ nét */
+    }
+
+    @media (max-width: 600px) {
+      .law-event-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px 20px;
+      }
+
+      .law-event-meta,
+      .law-event-countdown {
+        justify-content: center;
+      }
+    }
+
+    /* ════ COLLAPSE/EXPAND TABLE ════ */
+    .opening-table-container.collapsed .opening-table-wrapper {
+      max-height: 420px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .opening-table-container.collapsed .opening-table-wrapper::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, rgba(12, 26, 58, 0.95) 70%, var(--navy));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .opening-toggle-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      margin: 24px auto 0;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, rgba(26, 109, 216, 0.2), rgba(0, 210, 255, 0.12));
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      border-radius: 50px;
+      color: var(--cyan);
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      letter-spacing: 0.3px;
+    }
+
+    .opening-toggle-btn:hover {
+      background: linear-gradient(135deg, rgba(26, 109, 216, 0.35), rgba(0, 210, 255, 0.22));
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 210, 255, 0.2);
+    }
+
+    .opening-toggle-btn:active {
+      transform: translateY(0);
+    }
+
+    .opening-toggle-btn i {
+      font-size: 0.8rem;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .opening-toggle-btn.expanded i {
+      transform: rotate(180deg);
+    }
+
+    .opening-toggle-btn .toggle-count {
+      background: rgba(0, 210, 255, 0.15);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
   </style>
 </head>
 
@@ -2462,6 +2761,8 @@
     </div>
     <div class="nav-links">
       <a href="#map" class="nav-link">Bản đồ</a>
+
+      <a href="#weekly-meet" class="nav-link">Sinh hoạt định kỳ</a>
       <a href="#plan-opening" class="nav-link">Khai mạc</a>
       <a href="#schedule" class="nav-link">Lịch trình</a>
       <a href="#events" class="nav-link">Sự kiện</a>
@@ -2484,6 +2785,10 @@
       <button class="nav-drawer-close" id="drawerCloseBtn"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="nav-drawer-body">
+
+      <a href="#weekly-meet" class="nav-link" onclick="closeDrawer()">
+        <span class="di"><i class="fa-solid fa-people-group" style="color:var(--cyan)"></i></span>Sinh hoạt định kỳ
+      </a>
       <a href="#plan-opening" class="nav-link" onclick="closeDrawer()">
         <span class="di"><i class="fa-solid fa-calendar-plus" style="color:var(--cyan)"></i></span>Khai mạc hè
       </a>
@@ -2609,7 +2914,422 @@
       </div><!-- /.map-cta-wrap -->
     </div>
   </section>
+  <!-- ═══ LỊCH SINH HOẠT HÈ ĐỊNH KỲ CÁC TỔ ═══ -->
+  <section class="section" id="weekly-meet" style="padding: 0 20px 80px; position: relative; z-index: 1;">
+    <div class="section-inner" style="max-width: 1100px; margin: 0 auto;">
+      <div class="reveal">
+        <div class="section-label"><i class="fa-solid fa-people-group"></i> Sinh hoạt định kỳ</div>
+        <h2 class="section-title">Lịch Sinh Hoạt Hè Định Kỳ Các Tổ</h2>
+        <p class="section-desc">Tổng hợp lịch sinh hoạt/ra quân định kỳ do cán bộ phụ trách các cụm tổ cập nhật. Cụm
+          chưa báo lịch sẽ hiển thị "Đang chờ cập nhật".</p>
+      </div>
 
+
+      <!-- ═══ SỰ KIỆN NỔI BẬT: TUYÊN TRUYỀN PHÁP LUẬT & PHÒNG CHỐNG MA TÚY ═══ -->
+      <div class="law-event-banner reveal" data-date="2026-06-28T08:00:00">
+        <div class="law-event-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="law-event-body">
+          <div class="law-event-badge"><i class="fa-solid fa-bullhorn"></i> Sự kiện nổi bật · Toàn phường</div>
+          <h3 class="law-event-title">Tuyên Truyền Pháp Luật & Phòng Chống Ma Túy</h3>
+          <p class="law-event-sub">Dành cho học sinh Khối 8 đến Khối 12 trên toàn địa bàn Phường Xuân Hương</p>
+          <div class="law-event-meta">
+            <span class="law-event-chip"><i class="fa-regular fa-clock"></i> <span class="law-event-time">8h00 - Chủ
+                nhật, 28/6/2026</span></span>
+            <span class="law-event-chip"><i class="fa-solid fa-location-dot"></i> <span class="law-event-place">Cơ quan
+                UBMTTQ Việt Nam Phường Xuân Hương - Đà Lạt (238 Phan Đình Phùng)</span></span>
+          </div>
+          <div class="law-event-countdown"></div>
+        </div>
+      </div>
+      <div class="opening-search-wrapper reveal">
+        <input type="text" id="weeklySearchInput" onkeyup="filterWeeklyTable()"
+          placeholder="Tìm nhanh theo cụm, cán bộ phụ trách hoặc địa điểm...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <div class="opening-table-container reveal">
+        <div class="opening-table-wrapper">
+          <table class="opening-table" id="weeklyMeetTable">
+            <thead>
+              <tr>
+                <th style="width:6%;text-align:center;">Cụm</th>
+                <th style="width:24%;">Cán bộ phụ trách</th>
+                <th style="width:50%;">Lịch sinh hoạt / Ra quân định kỳ</th>
+                <th style="width:20%;">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- CỤM 1 -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">1</td>
+                <td><span class="manager-name">Nguyễn Tuấn</span><br><a href="tel:0979891194" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0979891194</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường trường Tiểu học Đoàn
+                    Kết</div>
+                  <div class="duty-text">Sinh hoạt định kỳ + ôn tập kỹ năng hè</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 2 -->
+              <tr data-date="2026-06-28T08:30:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">2</td>
+                <td><span class="manager-name">Nguyễn Thị Quỳnh</span><br><a href="tel:0797074391" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0797074391</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h30 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường cơ quan UBMTTQ phường
+                    (238 Phan Đình Phùng)</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 3 -->
+              <tr data-date="2026-06-28T14:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">3</td>
+                <td><span class="manager-name">Nguyễn Khải Hoàng</span><br><a href="tel:0799080195"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0799080195</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường liên tổ 7-8-9 (Đường
+                    Đinh Tiên Hoàng)</div>
+                  <div class="duty-text">Ra quân vệ sinh môi trường</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 4 -->
+              <tr data-date="2026-06-27T18:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">4</td>
+                <td><span class="manager-name">Nguyễn Phú Quý</span><br><a href="tel:0964978546" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0964978546</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 18h00 - Thứ bảy, 27/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Đình Nguyễn Thị Nghĩa (76 Nguyễn
+                    Thị Nghĩa)</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 5 — giữ nguyên -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">5</td>
+                <td><span class="manager-name">Hoàng Kiều Trinh</span><br><a href="tel:0363887598" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0363887598</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nguyễn Lương Bằng &
+                    khu vực công viên Nguyễn Lương Bằng</div>
+                  <div class="duty-text">Ra quân dọn vệ sinh môi trường</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 6 — giữ nguyên -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">6</td>
+                <td><span class="manager-name">Hàng Như Quỳnh</span><br><a href="tel:0332868784" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0332868784</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Tuyến đường ven suối TDP Phan Đình
+                    Phùng 2 (KQH Nguyễn Công Trứ)</div>
+                  <div class="duty-text">Ra quân vệ sinh môi trường</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 7 -->
+              <tr data-date="2026-06-28T19:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">7</td>
+                <td><span class="manager-name">Ka Thắm Thịu</span><br><a href="tel:0977796844" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0977796844</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 19h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Lê Đại Hành</div>
+                  <div class="duty-text">Sinh hoạt định kỳ + giao lưu văn nghệ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 8 -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">8</td>
+                <td><span class="manager-name">Ngô Thị Yến Mai</span><br><a href="tel:0949238614" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0949238614</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP An Lạc 1 + An Lạc 2
+                    (32 Đào Duy Từ)</div>
+                  <div class="duty-text">Tuyên truyền sức khỏe mùa hè</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 9 -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">9</td>
+                <td><span class="manager-name">Nguyễn Hoàng Đình Vũ</span><br><a href="tel:0357497469"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0357497469</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Trường THCS Quang Trung</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 10 — giữ nguyên -->
+              <tr data-date="2026-06-27T19:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">10</td>
+                <td><span class="manager-name">Nguyễn Thị Thuý</span><br><a href="tel:0988464101" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0988464101</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 19h00 - Thứ bảy, 27/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Trường Tiểu học Lê Quý Đôn</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 11 — giữ nguyên (định kỳ hàng tuần) -->
+              <tr>
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">11</td>
+                <td><span class="manager-name">Nguyễn Hoàng An Vinh</span><br><a href="tel:0949112870"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0949112870</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h30 - Chủ nhật hàng tuần</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP 3/4</div>
+                  <div class="duty-text">Sinh hoạt định kỳ hàng tuần</div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--gold);border-color:rgba(245,200,66,.3);background:rgba(245,200,66,.08);"><i
+                      class="fa-solid fa-repeat"></i> Định kỳ hàng tuần</span></td>
+              </tr>
+
+              <!-- CỤM 12 -->
+              <tr data-date="2026-06-27T18:30:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">12</td>
+                <td><span class="manager-name">Nguyễn Ái Mừng</span><br><a href="tel:0359910341" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0359910341</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 18h30 - Thứ bảy, 27/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nguyễn Trung Trực 2
+                  </div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 13 — giữ nguyên -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">13</td>
+                <td><span class="manager-name">Nguyễn Thị Thắm</span><br><a href="tel:0344300628" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0344300628</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Tổ Dân phố Tô Hiến Thành</div>
+                  <div class="duty-text">Sinh hoạt (bổ sung 10 đoàn viên)</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 14 -->
+              <tr data-date="2026-06-28T13:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">14</td>
+                <td><span class="manager-name">Phạm Thị Mai Quyên</span><br><a href="tel:0772069640"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0772069640</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 13h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Sở Lăng</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 15 — giữ nguyên -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">15</td>
+                <td><span class="manager-name">Nguyễn Hữu Cảnh</span><br><a href="tel:0916823306" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0916823306</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Chung cư Mạc Đĩnh Chi</div>
+                  <div class="duty-text">Ra quân "Chủ nhật xanh" - dọn vệ sinh ven suối MDC</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 16 -->
+              <tr data-date="2026-06-27T18:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">16</td>
+                <td><span class="manager-name">Lê Phạm Duy Thịnh</span><br><a href="tel:0325336026"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0325336026</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 18h00 - Thứ bảy, 27/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường khu phố 3 (17 Huyền
+                    Trân Công Chúa)</div>
+                  <div class="duty-text">Ra quân vệ sinh môi trường</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 17 -->
+              <tr data-date="2026-06-28T14:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">17</td>
+                <td><span class="manager-name">Lê Thị Minh Huyền</span><br><a href="tel:0342960930"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0342960930</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Trần Quang Diệu (D1
+                    Trần Quang Diệu)</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 18 -->
+              <tr data-date="2026-06-28T14:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">18</td>
+                <td><span class="manager-name">Nguyễn Đoàn Minh Thương</span><br><a href="tel:0797250803"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0797250803</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 14h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Trần Quang Diệu (D1
+                    Trần Quang Diệu)</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 19 -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">19</td>
+                <td><span class="manager-name">Lưu Vũ Phương Thảo</span><br><a href="tel:0387174668"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0387174668</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP KNBS - Trần Hưng
+                    Đạo</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 20 -->
+              <tr data-date="2026-06-28T13:30:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">20</td>
+                <td><span class="manager-name">Phan Hoàng Mai Trang</span><br><a href="tel:0917342878"
+                    class="phone-link"><i class="fa-solid fa-phone" style="font-size:.72rem"></i> 0917342878</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 13h30 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường Chung Cư Vàng 11 Khe
+                    Sanh</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 21 -->
+              <tr data-date="2026-06-30T08:30:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">21</td>
+                <td><span class="manager-name">Lê Nguyễn Bảo An</span><br><a href="tel:0786092104" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0786092104</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h30 - Thứ ba, 30/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nhất Thống</div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+              <!-- CỤM 22 — giữ nguyên -->
+              <tr data-date="2026-06-28T08:00:00">
+                <td style="text-align:center;font-weight:700;color:var(--cyan);">22</td>
+                <td><span class="manager-name">Hồ Đan Phượng</span><br><a href="tel:0919530003" class="phone-link"><i
+                      class="fa-solid fa-phone" style="font-size:.72rem"></i> 0919530003</a></td>
+                <td>
+                  <span class="time-badge"><i class="fa-regular fa-clock"></i> 8h00 - Chủ nhật, 28/6/2026</span>
+                  <div class="location-text"><i class="fa-solid fa-location-dot"></i> Hội trường TDP Nguyễn Trung Trực 1
+                  </div>
+                  <div class="duty-text">Sinh hoạt định kỳ</div>
+                  <div class="weekly-countdown"></div>
+                </td>
+                <td><span class="opening-expired-badge"
+                    style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);"><i
+                      class="fa-solid fa-check"></i> Đã có lịch</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- ═══ KẾ HOẠCH KHAI MẠC HÈ TỔ DÂN PHỐ ═══ -->
   <section class="section" id="plan-opening" style="padding: 0 20px 80px; position: relative; z-index: 1;">
     <div class="section-inner" style="max-width: 1100px; margin: 0 auto;">
@@ -3285,10 +4005,18 @@
           </table>
         </div>
       </div>
+
+      <button class="opening-toggle-btn reveal" id="openingToggleBtn" onclick="toggleOpeningTable()">
+        <i class="fa-solid fa-chevron-down"></i>
+        <span class="toggle-text">Xem chi tiết tất cả</span>
+        <span class="toggle-count">22 cụm</span>
+      </button>
     </div>
   </section>
 
   <div class="divider"></div>
+  <div class="divider"></div>
+
 
 
   <!-- ═══ LỊCH TRÌNH ═══ -->
@@ -4122,8 +4850,52 @@
     /* ── SEARCH & COUNTDOWN FOR OPENING SCHEDULE ── */
     function filterOpeningTable() {
       var input = document.getElementById("openingSearchInput");
-      var filter = input.value.toUpperCase();
+      var filter = input.value.trim().toUpperCase();
       var table = document.getElementById("openingSummerTable");
+      var container = document.querySelector('#plan-opening .opening-table-container');
+      var toggleBtn = document.getElementById('openingToggleBtn');
+      var tr = table.getElementsByTagName("tr");
+      var isSearching = filter.length > 0;
+
+      for (var i = 1; i < tr.length; i++) {
+        var found = false;
+        var tds = tr[i].getElementsByTagName("td");
+        for (var j = 0; j < tds.length; j++) {
+          if (tds[j]) {
+            var txtValue = tds[j].textContent || tds[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              found = true;
+              break;
+            }
+          }
+        }
+
+        if (isSearching) {
+          // Đang tìm kiếm → hiện/ẩn thuần theo kết quả khớp, bỏ qua giới hạn thu gọn
+          tr[i].style.display = found ? "" : "none";
+        } else {
+          // Không tìm kiếm → trả về đúng trạng thái thu gọn/mở rộng hiện tại
+          var rowIndex = i - 1; // bỏ header, index 0-based trong tbody
+          tr[i].style.display = (openingTableExpanded || rowIndex < OPENING_VISIBLE_ROWS) ? "" : "none";
+        }
+      }
+
+      if (container) {
+        if (isSearching || openingTableExpanded) {
+          container.classList.remove('collapsed'); // bỏ giới hạn max-height để thấy hết kết quả khớp
+        } else {
+          container.classList.add('collapsed');
+        }
+      }
+
+      if (toggleBtn) {
+        toggleBtn.style.display = isSearching ? 'none' : 'flex'; // ẩn nút khi đang tìm kiếm
+      }
+    }
+    function filterWeeklyTable() {
+      var input = document.getElementById("weeklySearchInput");
+      var filter = input.value.toUpperCase();
+      var table = document.getElementById("weeklyMeetTable");
       var tr = table.getElementsByTagName("tr");
 
       for (var i = 1; i < tr.length; i++) {
@@ -4181,10 +4953,119 @@
         }
       });
     }
+    function updateWeeklyCountdowns() {
+      var rows = document.querySelectorAll("#weeklyMeetTable tbody tr[data-date]");
+      var now = Date.now();
+      rows.forEach(function (row) {
+        var dateString = row.getAttribute("data-date");
+        if (!dateString) return;
+        var target = new Date(dateString).getTime();
+        var distance = target - now;
+        var box = row.querySelector(".weekly-countdown");
+        if (!box) return;
+        if (distance < 0) {
+          box.innerHTML = "<span class='opening-expired-badge'><i class='fa-solid fa-clock-rotate-left'></i> Đã diễn ra</span>";
+        } else {
+          var d = Math.floor(distance / 86400000);
+          var h = Math.floor(distance % 86400000 / 3600000);
+          var m = Math.floor(distance % 3600000 / 60000);
+          var s = Math.floor(distance % 60000 / 1000);
+          function pad(n) { return n < 10 ? "0" + n : n; }
+          box.innerHTML =
+            "<div class='opening-countdown-wrap'><div class='opening-countdown-boxes'>" +
+            "<div class='opening-countdown-item'><span class='num'>" + pad(d) + "</span><span class='unit'>ngày</span></div>" +
+            "<div class='opening-countdown-item'><span class='num'>" + pad(h) + "</span><span class='unit'>giờ</span></div>" +
+            "<div class='opening-countdown-item'><span class='num'>" + pad(m) + "</span><span class='unit'>phút</span></div>" +
+            "<div class='opening-countdown-item'><span class='num'>" + pad(s) + "</span><span class='unit'>giây</span></div>" +
+            "</div></div>";
+        }
+      });
+    }
+
+    function updateLawEventCountdown() {
+      var banner = document.querySelector('.law-event-banner');
+      if (!banner) return;
+      var dateStr = banner.getAttribute('data-date');
+      var timeEl = banner.querySelector('.law-event-time');
+      var box = banner.querySelector('.law-event-countdown');
+      if (!dateStr) {
+        if (timeEl) timeEl.textContent = 'Đang chờ cập nhật thời gian';
+        box.innerHTML = "<span class='opening-expired-badge'><i class='fa-solid fa-hourglass'></i> Chưa có lịch cụ thể</span>";
+        return;
+      }
+      var dt = formatDateTime(dateStr);
+      if (timeEl && dt) timeEl.textContent = dt.timeStr + ' - ' + dt.dateStr;
+      var target = new Date(dateStr).getTime();
+      var distance = target - Date.now();
+      if (distance < 0) {
+        box.innerHTML = "<span class='opening-expired-badge'><i class='fa-solid fa-clock-rotate-left'></i> Đã diễn ra</span>";
+        return;
+      }
+      var d = Math.floor(distance / 86400000);
+      var h = Math.floor(distance % 86400000 / 3600000);
+      var m = Math.floor(distance % 3600000 / 60000);
+      var s = Math.floor(distance % 60000 / 1000);
+      function pad(n) { return n < 10 ? "0" + n : n; }
+      box.innerHTML =
+        "<div class='law-event-cd-item'><span class='num'>" + pad(d) + "</span><span class='unit'>ngày</span></div>" +
+        "<div class='law-event-cd-item'><span class='num'>" + pad(h) + "</span><span class='unit'>giờ</span></div>" +
+        "<div class='law-event-cd-item'><span class='num'>" + pad(m) + "</span><span class='unit'>phút</span></div>" +
+        "<div class='law-event-cd-item'><span class='num'>" + pad(s) + "</span><span class='unit'>giây</span></div>";
+    }
+    /* ── COLLAPSE/EXPAND OPENING TABLE ── */
+    var OPENING_VISIBLE_ROWS = 3;
+    var openingTableExpanded = false;
+
+    function initOpeningTableCollapse() {
+      var container = document.querySelector('#plan-opening .opening-table-container');
+      var table = document.getElementById('openingSummerTable');
+      if (!container || !table) return;
+      container.classList.add('collapsed');
+      var rows = table.querySelectorAll('tbody tr');
+      for (var i = OPENING_VISIBLE_ROWS; i < rows.length; i++) {
+        rows[i].style.display = 'none';
+      }
+    }
+
+    function toggleOpeningTable() {
+      var container = document.querySelector('#plan-opening .opening-table-container');
+      var table = document.getElementById('openingSummerTable');
+      var btn = document.getElementById('openingToggleBtn');
+      if (!container || !table || !btn) return;
+
+      openingTableExpanded = !openingTableExpanded;
+      var rows = table.querySelectorAll('tbody tr');
+      var textEl = btn.querySelector('.toggle-text');
+
+      if (openingTableExpanded) {
+        container.classList.remove('collapsed');
+        btn.classList.add('expanded');
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].style.display = '';
+        }
+        textEl.textContent = 'Thu gọn';
+      } else {
+        container.classList.add('collapsed');
+        btn.classList.remove('expanded');
+        for (var i = OPENING_VISIBLE_ROWS; i < rows.length; i++) {
+          rows[i].style.display = 'none';
+        }
+        textEl.textContent = 'Xem chi tiết tất cả';
+        // Scroll lên bảng khi thu gọn
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Khởi tạo bảng thu gọn
+    initOpeningTableCollapse();
 
     // Kích hoạt countdown cho lịch khai mạc ngay lập tức
     updateOpeningCountdowns();
     setInterval(updateOpeningCountdowns, 1000);
+    updateWeeklyCountdowns();
+    setInterval(updateWeeklyCountdowns, 1000);
+    updateLawEventCountdown();
+    setInterval(updateLawEventCountdown, 1000);
   </script>
 
   <script>
