@@ -296,7 +296,7 @@
       background: #fff;
       border: 1.5px solid #378ADD;
       border-radius: var(--radius-sm);
-      max-height: 210px;
+      max-height: 320px;
       overflow-y: auto;
       z-index: 100;
       box-shadow: 0 12px 32px rgba(0, 0, 0, .13);
@@ -315,15 +315,16 @@
 
     .dd-item {
       padding: 10px 14px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--text);
       cursor: pointer;
       border-bottom: 1px solid #f1f5f9;
       transition: all .15s;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
+      line-height: 1.55;
     }
 
     .dd-item:last-child {
@@ -630,7 +631,7 @@
           đoàn <span class="req">*</span></div>
         <div class="inp-wrap dropdown-wrap">
           <i class="inp-icon fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="prChiDoanSearch" class="inp-field" placeholder="Gõ tên để tìm trong 77 chi đoàn..."
+          <input type="text" id="prChiDoanSearch" class="inp-field" placeholder="Gõ tên để tìm trong 22 cụm..."
             autocomplete="off">
           <input type="hidden" id="prChiDoan">
           <div id="chiDoanDropdownList" class="dropdown-list"></div>
@@ -675,86 +676,129 @@
   <script>
     (function () {
 
-      const LIST_CHI_DOAN_LOCAL = [
-        "Chi đoàn Thanh niên Tổ dân phố Đồng Tâm",
-        "Chi đoàn Thanh niên Tổ dân phố Đồi Dinh",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Văn Trỗi",
-        "Chi đoàn Thanh niên Tổ dân phố Phan Bội Châu",
-        "Chi đoàn Thanh niên Tổ dân phố Đoàn Kết",
-        "Chi đoàn Thanh niên Tổ dân phố Hòa Bình",
-        "Chi đoàn Thanh niên Tổ dân phố Nam Kỳ Khởi Nghĩa",
-        "Chi đoàn Thanh niên Tổ dân phố Ánh Sáng",
-        "Chi đoàn Thanh niên Tổ dân phố Đa Hòa",
-        "Chi đoàn Thanh niên Tổ dân phố Mimosa",
-        "Chi đoàn Thanh niên Tổ dân phố Hàm Nghi",
-        "Chi đoàn Thanh niên Tổ dân phố Trưng Vương",
-        "Chi đoàn Thanh niên Tổ dân phố Bùi Thị Xuân 1",
-        "Chi đoàn Thanh niên Tổ dân phố Lý Tự Trọng",
-        "Chi đoàn Thanh niên Tổ dân phố Võ Thị Sáu",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Thị Nghĩa",
-        "Chi đoàn Thanh niên Tổ dân phố Bùi Thị Xuân 2",
-        "Chi đoàn Thanh niên Tổ dân phố Tô Ngọc Vân",
-        "Chi đoàn Thanh niên Tổ dân phố Phan Đình Phùng 1",
-        "Chi đoàn Thanh niên Tổ dân phố Phan Đình Phùng 2",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Công Trứ",
-        "Chi đoàn Thanh niên Tổ dân phố An Dương Vương",
-        "Chi đoàn Thanh niên Tổ dân phố Mỹ Lộc",
-        "Chi đoàn Thanh niên Tổ dân phố Cổ Loa",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Lương Bằng",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Du",
-        "Chi đoàn Thanh niên Tổ dân phố Phạm Ngũ Lão",
-        "Chi đoàn Thanh niên Tổ dân phố Lê Đại Hành",
-        "Chi đoàn Thanh niên Tổ dân phố Trần Phú",
-        "Chi đoàn Thanh niên Tổ dân phố Suối Cát",
-        "Chi đoàn Thanh niên Tổ dân phố Xuân An",
-        "Chi đoàn Thanh niên Tổ dân phố Nhà Chung",
-        "Chi đoàn Thanh niên Tổ dân phố Hà Huy Tập 1",
-        "Chi đoàn Thanh niên Tổ dân phố Tân Bình",
-        "Chi đoàn Thanh niên Tổ dân phố Hà Huy Tập 2",
-        "Chi đoàn Thanh niên Tổ dân phố Lương Thế Vinh",
-        "Chi đoàn Thanh niên Tổ dân phố Ba Tháng Tư",
-        "Chi đoàn Thanh niên Tổ dân phố Đặng Thái Thân",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Tri Phương",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2",
-        "Chi đoàn Thanh niên Tổ dân phố An Bình 1",
-        "Chi đoàn Thanh niên Tổ dân phố An Bình 2",
-        "Chi đoàn Thanh niên Tổ dân phố Tô Hiến Thành",
-        "Chi đoàn Thanh niên Tổ dân phố Tân Lạc",
-        "Chi đoàn Thanh niên Tổ dân phố Prenn",
-        "Chi đoàn Thanh niên Tổ dân phố Trường Chinh",
-        "Chi đoàn Thanh niên Tổ dân phố Thiên Thành",
-        "Chi đoàn Thanh niên Tổ dân phố Mạc Đĩnh Chi 1",
-        "Chi đoàn Thanh niên Tổ dân phố Mạc Đĩnh Chi 2",
-        "Chi đoàn Thanh niên Tổ dân phố Trần Lê",
-        "Chi đoàn Thanh niên Tổ dân phố Thiện Mỹ",
-        "Chi đoàn Thanh niên Tổ dân phố Đồng Thiện",
-        "Chi đoàn Thanh niên Ngô Thì Nhậm",
-        "Chi đoàn Thanh niên Tổ dân phố Nam Thiên",
-        "Chi đoàn Thanh niên Tổ dân phố Huyền Trân Công Chúa",
-        "Chi đoàn Thanh niên Tổ dân phố Ngô Thì Sỹ",
-        "Chi đoàn Thanh niên Tổ dân phố Lê Hồng Phong",
-        "Chi đoàn Thanh niên Tổ dân phố Huỳnh Thúc Kháng",
-        "Chi đoàn Thanh niên Tổ dân phố An Lạc 1",
-        "Chi đoàn Thanh niên Tổ dân phố An Lạc 2",
-        "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 1",
-        "Chi đoàn Thanh niên Tổ dân phố An Sơn 1",
-        "Chi đoàn Thanh niên Tổ dân phố An Sơn 2",
-        "Chi đoàn Thanh niên Tổ dân phố Trần Thái Tông",
-        "Chi đoàn Thanh niên Tổ dân phố Yên Thế",
-        "Chi đoàn Thanh niên Tổ dân phố Hoàng Hoa Thám",
-        "Chi đoàn Thanh niên Tổ dân phố Đa Lợi",
-        "Chi đoàn Thanh niên Tổ dân phố Lê Văn Tám",
-        "Chi đoàn Thanh niên Tổ dân phố Khe Sanh",
-        "Chi đoàn Thanh niên Tổ dân phố Sở Lăng",
-        "Chi đoàn Thanh niên Tổ dân phố Trần Quý Cáp",
-        "Chi đoàn Thanh niên Tổ dân phố Hồng Lạc",
-        "Chi đoàn Thanh niên Tổ dân phố Phạm Hồng Thái",
-        "Chi đoàn Thanh niên Tổ dân phố Trần Hưng Đạo",
-        "Chi đoàn Thanh niên Tổ dân phố Khởi Nghĩa Bắc Sơn",
-        "Chi đoàn Thanh niên Tổ dân phố Nhất Thống",
-        "Chi đoàn Thanh niên Tổ dân phố Yersin",
-        "Chi đoàn Thanh niên Tổ dân phố Trần Quang Diệu"
-      ];
+      const LIST_CHI_DOAN_LOCAL = {
+        "Cụm 1": [
+          "Chi đoàn Thanh niên Tổ dân phố Đồi Dinh",
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Văn Trỗi",
+          "Chi đoàn Thanh niên Tổ dân phố Phan Bội Châu",
+          "Chi đoàn Thanh niên Tổ dân phố Đoàn Kết",
+          "Chi đoàn Thanh niên Tổ dân phố Hòa Bình",
+          "Chi đoàn Thanh niên Tổ dân phố Nam Kỳ Khởi Nghĩa",
+          "Chi đoàn Thanh niên Tổ dân phố Ánh Sáng"
+        ],
+        "Cụm 2": [
+          "Chi đoàn Thanh niên Tổ dân phố Đa Hòa",
+          "Chi đoàn Thanh niên Tổ dân phố Mimosa",
+          "Chi đoàn Thanh niên Tổ dân phố Hàm Nghi",
+          "Chi đoàn Thanh niên Tổ dân phố Trưng Vương",
+          "Chi đoàn Thanh niên Tổ dân phố Tô Ngọc Vân"
+        ],
+        "Cụm 3": [
+          "Chi đoàn Thanh niên Tổ dân phố Bùi Thị Xuân 1",
+          "Chi đoàn Thanh niên Tổ dân phố Võ Thị Sáu",
+          "Chi đoàn Thanh niên Tổ dân phố Lý Tự Trọng"
+        ],
+        "Cụm 4": [
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Thị Nghĩa",
+          "Chi đoàn Thanh niên Tổ dân phố Bùi Thị Xuân 2"
+        ],
+        "Cụm 5": [
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Lương Bằng",
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Du",
+          "Chi đoàn Thanh niên Tổ dân phố Mỹ Lộc",
+          "Chi đoàn Thanh niên Tổ dân phố Cổ Loa"
+        ],
+        "Cụm 6": [
+          "Chi đoàn Thanh niên Tổ dân phố An Dương Vương",
+          "Chi đoàn Thanh niên Tổ dân phố Phan Đình Phùng 1",
+          "Chi đoàn Thanh niên Tổ dân phố Phan Đình Phùng 2",
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Công Trứ"
+        ],
+        "Cụm 7": [
+          "Chi đoàn Thanh niên Tổ dân phố Phạm Ngũ Lão",
+          "Chi đoàn Thanh niên Tổ dân phố Lê Đại Hành"
+        ],
+        "Cụm 8": [
+          "Chi đoàn Thanh niên Tổ dân phố Lê Hồng Phong",
+          "Chi đoàn Thanh niên Tổ dân phố An Lạc 1",
+          "Chi đoàn Thanh niên Tổ dân phố An Lạc 2",
+          "Chi đoàn Thanh niên Tổ dân phố Trần Phú"
+        ],
+        "Cụm 9": [
+          "Chi đoàn Thanh niên Tổ dân phố Xuân An",
+          "Chi đoàn Thanh niên Tổ dân phố Suối Cát"
+        ],
+        "Cụm 10": [
+          "Chi đoàn Thanh niên Tổ dân phố Nhà Chung",
+          "Chi đoàn Thanh niên Tổ dân phố Hà Huy Tập 1",
+          "Chi đoàn Thanh niên Tổ dân phố Hà Huy Tập 2",
+          "Chi đoàn Thanh niên Tổ dân phố Tân Bình",
+          "Chi đoàn Thanh niên Tổ dân phố Lương Thế Vinh"
+        ],
+        "Cụm 11": [
+          "Chi đoàn Thanh niên Tổ dân phố Ba Tháng Tư",
+          "Chi đoàn Thanh niên Tổ dân phố Đặng Thái Thân",
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Tri Phương"
+        ],
+        "Cụm 12": [
+          "Chi đoàn Thanh niên Tổ dân phố An Bình 1",
+          "Chi đoàn Thanh niên Tổ dân phố An Bình 2",
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 2"
+        ],
+        "Cụm 13": [
+          "Chi đoàn Thanh niên Tổ dân phố Tô Hiến Thành",
+          "Chi đoàn Thanh niên Tổ dân phố Tân Lạc"
+        ],
+        "Cụm 14": [
+          "Chi đoàn Thanh niên Tổ dân phố Prenn",
+          "Chi đoàn Thanh niên Tổ dân phố Sở Lăng"
+        ],
+        "Cụm 15": [
+          "Chi đoàn Thanh niên Tổ dân phố Trường Chinh",
+          "Chi đoàn Thanh niên Tổ dân phố Thiên Thành",
+          "Chi đoàn Thanh niên Tổ dân phố Mạc Đĩnh Chi 1",
+          "Chi đoàn Thanh niên Tổ dân phố Mạc Đĩnh Chi 2",
+          "Chi đoàn Thanh niên Tổ dân phố Huỳnh Thúc Kháng",
+          "Chi đoàn Thanh niên Tổ dân phố Trần Lê"
+        ],
+        "Cụm 16": [
+          "Chi đoàn Thanh niên Tổ dân phố Thiện Mỹ",
+          "Chi đoàn Thanh niên Tổ dân phố Đồng Thiện",
+          "Chi đoàn Thanh niên Tổ dân phố Ngô Thì Nhậm",
+          "Chi đoàn Thanh niên Tổ dân phố Nam Thiên",
+          "Chi đoàn Thanh niên Tổ dân phố Huyền Trân Công Chúa",
+          "Chi đoàn Thanh niên Tổ dân phố Ngô Thì Sỹ"
+        ],
+        "Cụm 17": [
+          "Chi đoàn Thanh niên Tổ dân phố Đa Lợi",
+          "Chi đoàn Thanh niên Tổ dân phố Hoàng Hoa Thám"
+        ],
+        "Cụm 18": [
+          "Chi đoàn Thanh niên Tổ dân phố Yên Thế",
+          "Chi đoàn Thanh niên Tổ dân phố Trần Quang Diệu",
+          "Chi đoàn Thanh niên Tổ dân phố Trần Thái Tông"
+        ],
+        "Cụm 19": [
+          "Chi đoàn Thanh niên Tổ dân phố Trần Hưng Đạo",
+          "Chi đoàn Thanh niên Tổ dân phố Khởi Nghĩa Bắc Sơn",
+          "Chi đoàn Thanh niên Tổ dân phố Trần Quý Cáp",
+          "Chi đoàn Thanh niên Tổ dân phố Hồng Lạc"
+        ],
+        "Cụm 20": [
+          "Chi đoàn Thanh niên Tổ dân phố Lê Văn Tám",
+          "Chi đoàn Thanh niên Tổ dân phố Khe Sanh"
+        ],
+        "Cụm 21": [
+          "Chi đoàn Thanh niên Tổ dân phố Nhất Thống",
+          "Chi đoàn Thanh niên Tổ dân phố Phạm Hồng Thái",
+          "Chi đoàn Thanh niên Tổ dân phố Yersin"
+        ],
+        "Cụm 22": [
+          "Chi đoàn Thanh niên Tổ dân phố Nguyễn Trung Trực 1",
+          "Chi đoàn Thanh niên Tổ dân phố An Sơn 1",
+          "Chi đoàn Thanh niên Tổ dân phố An Sơn 2"
+        ]
+      };
 
       const qs = new URLSearchParams(window.location.search);
       const eventId = qs.get('eventId') || '';
@@ -806,17 +850,21 @@
 
       function renderDropdown(filter) {
         const q = (filter || '').trim().toLowerCase();
-        const filtered = q
-          ? LIST_CHI_DOAN_LOCAL.filter(x => x.toLowerCase().includes(q))
-          : LIST_CHI_DOAN_LOCAL;
+        const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const hl = item => q ? item.replace(new RegExp('(' + esc(q) + ')', 'gi'), '<strong>$1</strong>') : item;
+
+        const cumNames = Object.keys(LIST_CHI_DOAN_LOCAL);
+        const filtered = q ? cumNames.filter(x => x.toLowerCase().includes(q)) : cumNames;
 
         if (!filtered.length) {
-          dropdownList.innerHTML = `<div class="dd-item empty"><i class="fa-regular fa-face-frown"></i> Không tìm thấy chi đoàn nào</div>`;
+          dropdownList.innerHTML = `<div class="dd-item empty"><i class="fa-regular fa-face-frown"></i> Không tìm thấy cụm nào</div>`;
           return;
         }
-        dropdownList.innerHTML = filtered.map(item => {
-          const hl = q ? item.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<strong>$1</strong>') : item;
-          return `<div class="dd-item" data-val="${item}"><i class="fa-regular fa-circle-dot"></i> ${hl}</div>`;
+
+        dropdownList.innerHTML = filtered.map(cum => {
+          const tenTo = LIST_CHI_DOAN_LOCAL[cum].map(x => x.replace('Chi đoàn Thanh niên ', ''));
+          const label = `${cum} (${tenTo.join(', ')})`;
+          return `<div class="dd-item" data-val="${cum}"><i class="fa-solid fa-layer-group"></i> <span>${hl(label)}</span></div>`;
         }).join('');
 
         dropdownList.querySelectorAll('.dd-item:not(.empty)').forEach(div => {
@@ -846,7 +894,9 @@
         if (!e.target.closest('.dropdown-wrap')) {
           dropdownList.style.display = 'none';
           if (!hiddenInput.value) {
-            const exact = LIST_CHI_DOAN_LOCAL.find(x => x.toLowerCase() === searchInput.value.trim().toLowerCase());
+            const typed = searchInput.value.trim().toLowerCase();
+            const cumNames = Object.keys(LIST_CHI_DOAN_LOCAL);
+            const exact = cumNames.find(x => x.toLowerCase() === typed);
             if (exact) { searchInput.value = exact; hiddenInput.value = exact; }
             else { searchInput.value = ''; }
           }
