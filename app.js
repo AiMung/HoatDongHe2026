@@ -995,6 +995,13 @@ const LIST_CHI_DOAN = [
 ];
 
 function initPublicEventRegister() {
+  // Đã ngưng dùng: logic chọn chi đoàn + tải thông tin sự kiện + gửi đăng ký
+  // giờ được xử lý trực tiếp trong <script> nội tuyến của event-register.html
+  // (danh sách 22 cụm mới). Hàm này được giữ lại nhưng return sớm để tránh
+  // gắn trùng dropdown/listener lên cùng các phần tử #prChiDoanSearch,
+  // #prChiDoan, #chiDoanDropdownList, gây ghi đè lẫn nhau.
+  return;
+
   const form = document.getElementById("publicRegisterForm");
   if (!form) return;
 
