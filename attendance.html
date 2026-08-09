@@ -353,19 +353,23 @@
     }
 
     .att-tbl th:nth-child(5) {
-      width: 200px
+      width: 160px
     }
 
     .att-tbl th:nth-child(6) {
-      min-width: 90px
+      width: 150px
     }
 
     .att-tbl th:nth-child(7) {
+      min-width: 90px
+    }
+
+    .att-tbl th:nth-child(8) {
       width: 114px;
       text-align: center
     }
 
-    .att-tbl th:nth-child(8) {
+    .att-tbl th:nth-child(9) {
       width: 40px;
       text-align: center
     }
@@ -943,6 +947,7 @@
     let activeWeek = 0;
     let nextRid = 1;
     let syncTimer = null;
+    let dirty = false; // ✅ FIX: đánh dấu có thay đổi chưa lưu (đang trong 1.5s debounce)
     let weekCount = 10;
     let liveQuery = '';
 
@@ -976,19 +981,44 @@
       el.innerHTML = `<i class="fa-solid ${ic[type] || 'fa-circle-check'}"></i> ${text}`;
     }
     function scheduleSync() {
+      dirty = true;
       setSyncBadge('syncing', 'Đang lưu...');
       clearTimeout(syncTimer);
       syncTimer = setTimeout(syncToServer, 1500);
     }
-
+    let quickTimers = {};
+    function scheduleQuickSync(rec) {
+      setSyncBadge('syncing', 'Đang lưu...');
+      clearTimeout(quickTimers[rec.id]);
+      quickTimers[rec.id] = setTimeout(() => {
+        const user = getUser();
+        const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
+        if (!user || !apiUrl) { setSyncBadge('saved', 'Lưu cục bộ'); return; }
+        fetch(apiUrl, {
+          method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'updateRosterStatus',
+            week: 'Tuần ' + (activeWeek + 1),
+            chiDoan: rec.group || user.chiDoan,
+            hoTen: rec.name,
+            trangThai: S_TEXT[rec.attendance[activeWeek]] || 'Chưa điểm danh',
+            ghiChu: rec.notes || ''
+          })
+        }).then(r => r.json()).then(res => {
+          if (res.success) setSyncBadge('saved', 'Đã lưu ✓');
+          else syncToServer(); // dòng chưa tồn tại (VD người mới) → lưu đầy đủ 1 lần
+        }).catch(() => setSyncBadge('error', 'Mất kết nối'));
+      }, 800);
+    }
     function syncToServer() {
+      dirty = false;
       const user = getUser();
       if (!user) { setSyncBadge('saved', 'Lưu cục bộ'); return; }
       const apiUrl = (typeof CONFIG_API_URL !== 'undefined') ? CONFIG_API_URL : '';
       if (!apiUrl) { setSyncBadge('saved', 'Offline — đã lưu cục bộ'); return; }
       const weekLabel = 'Tuần ' + (activeWeek + 1);
       const rows = rosterData.map(r => ({
-        hoTen: r.name, gioiTinh: r.gioiTinh || '',
+        hoTen: r.name, chiDoan: r.group || user.chiDoan, gioiTinh: r.gioiTinh || '',
         namSinh: r.namSinh || '', donVi: r.donVi || '',
         trangThai: S_TEXT[r.attendance[activeWeek]] || 'Chưa điểm danh',
         ghiChu: r.notes || ''
@@ -1060,9 +1090,10 @@
       });
 
       const q = liveQuery;
+      const qTrimmed = q.trim();
       const filtered = rosterData.filter(r => {
         if (!q) return true;
-        const hay = (r.name + ' ' + (r.group || '') + (r.gioiTinh || '') + (r.namSinh || '')).toLowerCase();
+        const hay = (r.name + ' ' + (r.group || '') + (r.donVi || '') + (r.gioiTinh || '') + (r.namSinh || '')).toLowerCase();
         return hay.includes(q.toLowerCase());
       });
       const st = computeStats(filtered);
@@ -1074,7 +1105,7 @@
 
       let rowsHtml = '';
       if (filtered.length === 0) {
-        rowsHtml = `<tr><td colspan="8" class="att-skeleton">
+        rowsHtml = `<tr><td colspan="9" class="att-skeleton">
       <i class="fa-regular fa-clipboard" style="opacity:.35;"></i>
       ${q ? 'Không tìm thấy kết quả cho "<strong>' + esc(q) + '</strong>"' : 'Chưa có đoàn viên. Nhấn + Thêm để bắt đầu.'}
     </td></tr>`;
@@ -1102,6 +1133,7 @@
           ${r.namSinh ? `<span class="year-badge">${esc(String(r.namSinh))}</span>` : '<span style="color:var(--text-muted);font-size:11px;">—</span>'}
         </td>
         <td style="font-size:12px;color:var(--text-muted);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(r.group)}">${esc(r.group) || '—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(r.donVi)}">${esc(r.donVi) || '—'}</td>
         <td><input class="att-note" data-rid="${r.id}" value="${esc(r.notes)}" placeholder="Ghi chú..."></td>
         <td style="text-align:center;">
           <span class="att-badge ${s || 'empty'}" data-rid="${r.id}" title="${S_TEXT[s]}">${S_LABEL[s]}</span>
@@ -1147,7 +1179,7 @@
         <thead>
           <tr>
             <th>#</th><th>Họ và tên</th><th>Giới tính</th><th>Năm sinh</th>
-            <th>Chi đoàn</th><th>Ghi chú</th>
+            <th>Chi đoàn</th><th>Trường / Đơn vị</th><th>Ghi chú</th>
             <th style="text-align:center;">Trạng thái</th><th></th>
           </tr>
         </thead>
@@ -1164,6 +1196,9 @@
         tab.addEventListener('click', () => {
           const w = parseInt(tab.dataset.w);
           if (w === activeWeek) return;
+          // ✅ FIX: lưu ngay thay đổi đang chờ debounce của tuần đang xem TRƯỚC KHI đổi tuần
+          // (nếu không, thay đổi trạng thái vừa bấm sẽ bị gửi nhầm sang tuần mới hoặc mất luôn)
+          if (dirty) { clearTimeout(syncTimer); syncToServer(); }
           activeWeek = w;
           showLoading();
           loadFromServer('Tuần ' + (activeWeek + 1), rows => {
@@ -1177,7 +1212,7 @@
       if (searchEl) {
         searchEl.focus();
         searchEl.addEventListener('input', function () {
-          liveQuery = this.value.trim();
+          liveQuery = this.value;
           renderWidget();
           const el = document.getElementById('attSearch');
           if (el) { const len = el.value.length; el.focus(); el.setSelectionRange(len, len); }
@@ -1197,14 +1232,14 @@
           b.title = S_TEXT[s];
           updateStatsOnly();
           saveLocal();
-          scheduleSync();
+          scheduleQuickSync(rec)
         });
       });
 
       document.getElementById('attTbody')?.querySelectorAll('.att-note').forEach(inp => {
         inp.addEventListener('change', () => {
           const rec = rosterData.find(x => x.id === parseInt(inp.dataset.rid));
-          if (rec) { rec.notes = inp.value; saveLocal(); scheduleSync(); }
+          if (rec) { rec.notes = inp.value; saveLocal(); scheduleQuickSync(rec); }
         });
       });
 
@@ -1267,7 +1302,7 @@
 
     function showLoading() {
       const tb = document.getElementById('attTbody');
-      if (tb) tb.innerHTML = `<tr><td colspan="8" class="att-skeleton">
+      if (tb) tb.innerHTML = `<tr><td colspan="9" class="att-skeleton">
     <i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu tuần ${activeWeek + 1}...
   </td></tr>`;
     }
