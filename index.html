@@ -12,6 +12,7 @@
     href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     :root {
       --navy: #0c1a3a;
@@ -2728,6 +2729,338 @@
       font-size: 0.75rem;
       color: rgba(255, 255, 255, 0.7);
     }
+
+    /* ════ CSS TRA CỨU GIẤY CHỨNG NHẬN SINH HOẠT HÈ ════ */
+    .cert-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .cert-stat-card {
+      background: linear-gradient(135deg, rgba(22, 36, 71, 0.8), rgba(12, 26, 58, 0.9));
+      border: 1px solid rgba(0, 210, 255, 0.18);
+      border-radius: 16px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .cert-stat-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 210, 255, 0.4);
+      box-shadow: 0 12px 36px rgba(0, 210, 255, 0.15);
+    }
+
+    .cert-stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .cert-stat-icon.gold {
+      background: rgba(245, 200, 66, 0.12);
+      color: var(--gold);
+      border: 1px solid rgba(245, 200, 66, 0.3);
+    }
+
+    .cert-stat-icon.cyan {
+      background: rgba(0, 210, 255, 0.12);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    .cert-stat-icon.green {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .cert-stat-num {
+      font-size: 1.7rem;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+      display: block;
+    }
+
+    .cert-stat-label {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .cert-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+
+    .cert-search-box {
+      position: relative;
+      flex: 2;
+      min-width: 260px;
+    }
+
+    .cert-search-box i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--cyan);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+
+    .cert-search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(12, 26, 58, 0.9);
+      border: 1px solid rgba(0, 210, 255, 0.22);
+      border-radius: 50px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.25s;
+    }
+
+    .cert-search-box input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.25);
+    }
+
+    .cert-filter-box {
+      position: relative;
+      flex: 1.5;
+      min-width: 240px;
+    }
+
+    .cert-filter-box i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .cert-filter-box select {
+      width: 100%;
+      padding: 12px 36px 12px 42px;
+      background: rgba(12, 26, 58, 0.9);
+      border: 1px solid rgba(245, 200, 66, 0.25);
+      border-radius: 50px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.25s;
+    }
+
+    .cert-filter-box select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(245, 200, 66, 0.25);
+    }
+
+    .cert-filter-box select option {
+      background: #0c1a3a;
+      color: #fff;
+      padding: 8px;
+    }
+
+    .cert-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-cert-drive {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
+      transition: all 0.25s;
+      border: none;
+    }
+
+    .btn-cert-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--blue), #2563eb);
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(26, 109, 216, 0.35);
+      transition: all 0.25s;
+      border: none;
+    }
+
+    .btn-cert-drive:hover,
+    .btn-cert-download:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+
+    .cert-table-container {
+      background: rgba(16, 28, 60, 0.75);
+      border: 1px solid rgba(0, 210, 255, 0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .cert-table-wrapper {
+      overflow-x: auto;
+    }
+
+    .cert-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .cert-table th {
+      background: rgba(12, 26, 58, 0.95);
+      color: var(--cyan);
+      padding: 16px 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1.2px;
+      border-bottom: 2px solid rgba(0, 210, 255, 0.2);
+    }
+
+    .cert-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.85);
+      vertical-align: middle;
+    }
+
+    .cert-table tbody tr {
+      transition: background-color 0.2s ease;
+    }
+
+    .cert-table tbody tr:hover {
+      background: rgba(0, 210, 255, 0.06);
+    }
+
+    .cert-stt-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: rgba(0, 210, 255, 0.12);
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .cert-badge-loc {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 50px;
+      background: rgba(245, 200, 66, 0.14);
+      border: 1px solid rgba(245, 200, 66, 0.3);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    .cert-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 20px;
+      padding: 12px 4px;
+    }
+
+    .cert-page-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .cert-page-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cert-page-btn {
+      min-width: 36px;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .cert-page-btn:hover:not(:disabled) {
+      background: rgba(0, 210, 255, 0.2);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .cert-page-btn.active {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+    }
+
+    .cert-page-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 
@@ -2767,6 +3100,8 @@
       <a href="#schedule" class="nav-link">Lịch trình</a>
       <a href="#events" class="nav-link">Sự kiện</a>
       <a href="#contest" class="nav-link">Cuộc thi</a>
+      <a href="#cert-lookup" class="nav-link"><i class="fa-solid fa-award"
+          style="color:var(--gold);margin-right:4px;"></i>Tra cứu GCN</a>
 
       <a href="#gallery" class="nav-link">Hình ảnh</a>
       <a href="#feedback" class="nav-link">Góp ý</a>
@@ -2800,6 +3135,9 @@
       </a>
       <a href="#contest" class="nav-link" onclick="closeDrawer()">
         <span class="di"><i class="fa-solid fa-medal" style="color:var(--gold-dark)"></i></span>Cuộc thi
+      </a>
+      <a href="#cert-lookup" class="nav-link" onclick="closeDrawer()">
+        <span class="di"><i class="fa-solid fa-award" style="color:var(--gold)"></i></span>Tra cứu Giấy chứng nhận
       </a>
 
       <a href="#gallery" class="nav-link" onclick="closeDrawer()">
@@ -4099,7 +4437,7 @@
 
   <div class="divider"></div>
 
- <!-- ═══ CUỘC THI & HOẠT ĐỘNG ═══ -->
+  <!-- ═══ CUỘC THI & HOẠT ĐỘNG ═══ -->
   <section class="section" id="contest">
     <div class="section-inner">
 
@@ -4128,6 +4466,7 @@
 
         </div>
       </div>
+
       <!-- ─── PHẦN 2: RUNG CHUÔNG VÀNG (ẨN CHỮ ĐỂ HIỆN ẢNH GỐC SẠCH ĐẸP) ─── -->
       <div class="contest-banner reveal"
         style="margin-top: 40px; position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid #0056b3; box-shadow: 0 15px 40px rgba(9, 36, 122, 0.3); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-height: 450px; background: url('public/rung_chuong_vang.webp') center/cover no-repeat;">
@@ -4169,7 +4508,7 @@
         </div>
       </div>
 
-      <!-- ─── PHẦN 2: GIẢI BƠI (NẰM DƯỚI) ─── -->
+      <!-- ─── PHẦN 0: GIẢI BƠI (NẰM DƯỚI) ─── -->
       <div class="contest-banner reveal"
         style="margin-top: 40px; position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(0, 210, 255, 0.3); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; background: linear-gradient(180deg, rgba(9, 18, 44, 0.5) 0%, rgba(9, 18, 44, 0.7) 100%), url('public/swimming_hero_bg.png') center/cover no-repeat;">
         <div style="position: relative; z-index: 2; padding: 40px 20px;">
@@ -4192,9 +4531,36 @@
             <i class="fa-solid fa-person-swimming" style="margin-right: 8px;"></i> Xem chi tiết
           </a>
         </div>
+
+
+      </div>
+      <!--PHẦN -1: HÀO KHÍ 30/4-->
+      <div class="contest-banner reveal"
+        style="margin-top: 40px; position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(0, 210, 255, 0.3); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; background: linear-gradient(180deg, rgba(9, 18, 44, 0.5) 0%, rgba(9, 18, 44, 0.7) 100%), url('public/swimming_hero_bg.png') center/cover no-repeat;">
+        <div style="position: relative; z-index: 2; padding: 40px 20px;">
+          <div
+            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 229, 255, 0.08); border: 1px solid rgba(0, 229, 255, 0.35); color: #00e5ff; font-size: 0.75rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; padding: 8px 20px; border-radius: 30px; margin-bottom: 24px; box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);">
+            🏊 Phường Xuân Hương · Đà Lạt · 2026</div>
+          <h3
+            style="font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; line-height: 1.15; margin-bottom: 18px;">
+            Hào Khí 30/4 <span
+              style="background: linear-gradient(90deg, #00e5ff, #00a8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thiếu
+              Niên</span> &<br><span
+              style="background: linear-gradient(90deg, #00e5ff, #00a8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Nhi
+              Đồng 2026</span></h3>
+          <p
+            style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; max-width: 600px; line-height: 1.65; margin: 0 auto 30px; font-weight: 400;">
+            Sân chơi thể thao lành mạnh – phát triển toàn diện kỹ năng bơi lội an toàn và tích cực phòng chống đuối
+            nước
+            cho trẻ em phường Xuân Hương</p>
+          <a href="aimung.github.io/Thong_Nhat_Dat_Nuoc" target="_blank" class="btn-primary"
+            style="background: linear-gradient(135deg, #ffc107, #ffb300); color: #09122c; box-shadow: 0 6px 25px rgba(255, 193, 7, 0.45); padding: 14px 32px;">
+            <i class="fa-solid fa-person-swimming" style="margin-right: 8px;"></i> Xem chi tiết
+          </a>
+        </div>
+
       </div>
 
-    </div>
   </section>
 
   <div class="divider"></div>
@@ -4217,6 +4583,107 @@
           style="font-size:.8rem;color:var(--cyan);text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở Padlet đầy đủ
         </a>
+      </div>
+    </div>
+  </section>
+  <!-- ════════════ SECTION TRA CỨU GIẤY CHỨNG NHẬN ════════════ -->
+  <section id="cert-lookup" class="section reveal">
+    <div class="section-inner">
+      <div class="section-label">
+        <i class="fa-solid fa-award"></i> Tra Cứu Chứng Nhận
+      </div>
+      <h2 class="section-title">Danh Sách Cấp Giấy Chứng Nhận Sinh Hoạt Hè</h2>
+      <p class="section-desc">
+        Tra cứu số thứ tự (STT), vị trí lưu trữ file và tải xuống danh sách chứng nhận sinh hoạt hè 2026.
+      </p>
+
+      <!-- Thống Kê Nhanh -->
+      <div class="cert-stats-grid">
+        <div class="cert-stat-card">
+          <div class="cert-stat-icon gold">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <span class="cert-stat-num" id="cert-stat-total">0</span>
+            <span class="cert-stat-label">TỔNG HỌC SINH CẤP GCN</span>
+          </div>
+        </div>
+
+        <div class="cert-stat-card">
+          <div class="cert-stat-icon cyan">
+            <i class="fa-solid fa-school"></i>
+          </div>
+          <div>
+            <span class="cert-stat-num" id="cert-stat-schools">0</span>
+            <span class="cert-stat-label">TRƯỜNG/ ĐƠN VỊ</span>
+          </div>
+        </div>
+
+        <div class="cert-stat-card">
+          <div class="cert-stat-icon green">
+            <i class="fa-solid fa-filter"></i>
+          </div>
+          <div>
+            <span class="cert-stat-num" id="cert-stat-filtered">0</span>
+            <span class="cert-stat-label">KẾT QUẢ SAU KHI LỌC</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thanh Công Cụ Lọc - Tìm Kiếm - Action Buttons -->
+      <div class="cert-toolbar">
+        <div class="cert-search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="cert-search-input" placeholder="Tìm theo tên học sinh, STT, trường, cụm..." />
+        </div>
+
+        <div class="cert-filter-box">
+          <i class="fa-solid fa-school"></i>
+          <select id="cert-school-select">
+            <option value="">-- Tất cả các trường --</option>
+          </select>
+        </div>
+
+        <div class="cert-actions">
+          <a href="https://drive.google.com/drive/u/2/folders/1RBInsN62ykaYPl43er-fKMfZBFsC7ILE" target="_blank"
+            rel="noopener noreferrer" class="btn-cert-drive">
+            <i class="fa-brands fa-google-drive"></i> Xem Thư Mục Drive
+          </a>
+          <button id="btn-export-excel" class="btn-cert-download">
+            <i class="fa-solid fa-file-excel"></i> Tải Dữ Liệu Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- Bảng Hiển Thị Dữ Liệu Tra Cứu -->
+      <div class="cert-table-container">
+        <div class="cert-table-wrapper">
+          <table class="cert-table" id="certTable">
+            <thead>
+              <tr>
+                <th style="width: 80px; text-align: center;">STT</th>
+                <th>Họ Và Tên</th>
+                <th>Trường / Đơn Vị</th>
+                <th>Thư Mục Cụm</th>
+                <th>Vị Trí File Giấy Chứng Nhận</th>
+                <th style="width: 140px; text-align: center;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="cert-table-body">
+              <tr>
+                <td colspan="6" style="text-align:center; padding:30px; color:var(--cyan);">
+                  <i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Đang tải dữ liệu danh sách...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Phân trang & Thông tin kết quả -->
+      <div class="cert-pagination">
+        <span class="cert-page-info" id="cert-page-info">Hiển thị 0 / 0 kết quả</span>
+        <div class="cert-page-btns" id="cert-page-btns"></div>
       </div>
     </div>
   </section>
@@ -4646,6 +5113,8 @@
     // Khởi tạo khi DOM load xong
     document.addEventListener('DOMContentLoaded', initFeedbacks);
   </script>
+
+
 
   <div class="divider"></div>
 
@@ -5150,6 +5619,234 @@
     setInterval(updateWeeklyCountdowns, 1000);
     updateLawEventCountdown();
     setInterval(updateLawEventCountdown, 1000);
+
+    /* ════════════ LOGIC TRA CỨU GIẤY CHỨNG NHẬN SINH HOẠT HÈ ════════════ */
+    var certMasterData = [];
+    var certFilteredData = [];
+    var certCurrentPage = 1;
+    var CERT_PAGE_SIZE = 80;
+
+    async function initCertLookup() {
+      var tbody = document.getElementById('cert-table-body');
+      try {
+        var response = await fetch('public/documents/DANH SÁCH THAM CHIẾU.xlsx');
+        if (!response.ok) {
+          throw new Error('HTTP status ' + response.status);
+        }
+        var arrayBuffer = await response.arrayBuffer();
+        var workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        var firstSheetName = workbook.SheetNames[0];
+        var sheet = workbook.Sheets[firstSheetName];
+        var rawJson = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+        certMasterData = rawJson.map(function (row) {
+          var stt = parseInt(row['STT']) || 0;
+          var location = (row['VỊ TRÍ CỦA FILE GIẤY CHỨNG NHẬN'] || '').trim();
+          if (!location && stt > 0) {
+            var part = Math.floor((stt - 1) / 80) + 1;
+            location = 'FOLDER GIẤY CHỨNG NHẬN PHẦN ' + part;
+          }
+          return {
+            stt: stt,
+            name: (row['HỌ VÀ TÊN'] || '').trim(),
+            school: (row['TRƯỜNG / ĐƠN VỊ'] || '').trim(),
+            folder: (row['TÊN FOLDER'] || '').trim(),
+            location: location,
+            fileName: (row['TÊN FILE'] || '').trim()
+          };
+        });
+
+        populateSchoolSelect();
+        applyCertFilter();
+      } catch (err) {
+        console.error('Lỗi nạp file Excel danh sách chứng nhận:', err);
+        if (tbody) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:#e11d48;">Không thể nạp dữ liệu từ public/documents/DANH SÁCH THAM CHIẾU.xlsx</td></tr>';
+        }
+      }
+    }
+
+    function populateSchoolSelect() {
+      var select = document.getElementById('cert-school-select');
+      if (!select) return;
+      var schoolSet = {};
+      certMasterData.forEach(function (d) {
+        if (d.school) schoolSet[d.school] = true;
+      });
+      var schools = Object.keys(schoolSet).sort();
+
+      select.innerHTML = '<option value="">-- Tất cả các trường (' + schools.length + ' trường) --</option>';
+      schools.forEach(function (s) {
+        var opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        select.appendChild(opt);
+      });
+
+      var totalEl = document.getElementById('cert-stat-total');
+      var schoolStatEl = document.getElementById('cert-stat-schools');
+      if (totalEl) totalEl.textContent = certMasterData.length.toLocaleString('vi-VN');
+      if (schoolStatEl) schoolStatEl.textContent = schools.length;
+    }
+
+    function applyCertFilter() {
+      var searchInput = document.getElementById('cert-search-input');
+      var select = document.getElementById('cert-school-select');
+      var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      var selectedSchool = select ? select.value : '';
+
+      certFilteredData = certMasterData.filter(function (item) {
+        var matchSchool = !selectedSchool || item.school === selectedSchool;
+        var matchQuery = !query ||
+          item.name.toLowerCase().indexOf(query) !== -1 ||
+          item.school.toLowerCase().indexOf(query) !== -1 ||
+          item.folder.toLowerCase().indexOf(query) !== -1 ||
+          item.location.toLowerCase().indexOf(query) !== -1 ||
+          String(item.stt).indexOf(query) !== -1;
+        return matchSchool && matchQuery;
+      });
+
+      certCurrentPage = 1;
+      renderCertTable();
+    }
+
+    function renderCertTable() {
+      var tbody = document.getElementById('cert-table-body');
+      var filteredStatEl = document.getElementById('cert-stat-filtered');
+      if (filteredStatEl) filteredStatEl.textContent = certFilteredData.length.toLocaleString('vi-VN');
+
+      if (!tbody) return;
+
+      if (certFilteredData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">Không tìm thấy dữ liệu phù hợp với từ khóa/bộ lọc</td></tr>';
+        document.getElementById('cert-page-info').textContent = 'Hiển thị 0 / 0 kết quả';
+        document.getElementById('cert-page-btns').innerHTML = '';
+        return;
+      }
+
+      var totalItems = certFilteredData.length;
+      var totalPages = Math.ceil(totalItems / CERT_PAGE_SIZE);
+      if (certCurrentPage > totalPages) certCurrentPage = totalPages;
+
+      var start = (certCurrentPage - 1) * CERT_PAGE_SIZE;
+      var end = Math.min(start + CERT_PAGE_SIZE, totalItems);
+      var pageItems = certFilteredData.slice(start, end);
+
+      var html = pageItems.map(function (item) {
+        return '<tr>' +
+          '<td style="text-align:center;"><span class="cert-stt-badge">' + item.stt + '</span></td>' +
+          '<td style="font-weight:700; color:#fff;">' + item.name + '</td>' +
+          '<td style="color:var(--cyan); font-weight:600;">' + item.school + '</td>' +
+          '<td>' + (item.folder || '---') + '</td>' +
+          '<td><span class="cert-badge-loc">' + item.location + '</span></td>' +
+          '<td style="text-align:center;">' +
+          '<a href="https://drive.google.com/drive/u/2/folders/1RBInsN62ykaYPl43er-fKMfZBFsC7ILE" target="_blank" class="btn-cert-drive" style="padding:5px 12px; font-size:0.75rem;">' +
+          '<i class="fa-brands fa-google-drive"></i> Mở Drive' +
+          '</a>' +
+          '</td>' +
+          '</tr>';
+      }).join('');
+
+      tbody.innerHTML = html;
+
+      var infoEl = document.getElementById('cert-page-info');
+      if (infoEl) {
+        infoEl.textContent = 'Hiển thị ' + (start + 1) + ' - ' + end + ' / ' + totalItems.toLocaleString('vi-VN') + ' kết quả (Trang ' + certCurrentPage + '/' + totalPages + ')';
+      }
+
+      renderPaginationControls(totalPages);
+    }
+
+    function renderPaginationControls(totalPages) {
+      var container = document.getElementById('cert-page-btns');
+      if (!container) return;
+      if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      var html = '';
+      // Nut Prev
+      html += '<button class="cert-page-btn" ' + (certCurrentPage === 1 ? 'disabled' : '') + ' onclick="changeCertPage(' + (certCurrentPage - 1) + ')"><i class="fa-solid fa-chevron-left"></i></button>';
+
+      var maxShow = 5;
+      var startPage = Math.max(1, certCurrentPage - Math.floor(maxShow / 2));
+      var endPage = Math.min(totalPages, startPage + maxShow - 1);
+      if (endPage - startPage + 1 < maxShow) {
+        startPage = Math.max(1, endPage - maxShow + 1);
+      }
+
+      if (startPage > 1) {
+        html += '<button class="cert-page-btn" onclick="changeCertPage(1)">1</button>';
+        if (startPage > 2) html += '<span style="color:var(--text-muted);padding:0 4px;">...</span>';
+      }
+
+      for (var p = startPage; p <= endPage; p++) {
+        html += '<button class="cert-page-btn ' + (p === certCurrentPage ? 'active' : '') + '" onclick="changeCertPage(' + p + ')">' + p + '</button>';
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) html += '<span style="color:var(--text-muted);padding:0 4px;">...</span>';
+        html += '<button class="cert-page-btn" onclick="changeCertPage(' + totalPages + ')">' + totalPages + '</button>';
+      }
+
+      // Nut Next
+      html += '<button class="cert-page-btn" ' + (certCurrentPage === totalPages ? 'disabled' : '') + ' onclick="changeCertPage(' + (certCurrentPage + 1) + ')"><i class="fa-solid fa-chevron-right"></i></button>';
+
+      container.innerHTML = html;
+    }
+
+    window.changeCertPage = function (newPage) {
+      certCurrentPage = newPage;
+      renderCertTable();
+      var section = document.getElementById('cert-lookup');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    function exportCertExcel() {
+      if (!certFilteredData || certFilteredData.length === 0) {
+        alert('Không có dữ liệu nào để xuất!');
+        return;
+      }
+
+      var select = document.getElementById('cert-school-select');
+      var selectedSchool = select ? select.value : '';
+
+      var cleanSchoolName = selectedSchool
+        ? selectedSchool.replace(/[^a-zA-Z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ\s]/g, '').trim().replace(/\s+/g, '_')
+        : 'Tat_Ca';
+
+      var fileName = 'Danh_Sach_Giay_Chung_Nhan_' + cleanSchoolName + '.xlsx';
+
+      var exportRows = certFilteredData.map(function (item) {
+        return {
+          'STT': item.stt,
+          'HỌ VÀ TÊN': item.name,
+          'TRƯỜNG / ĐƠN VỊ': item.school,
+          'TÊN FOLDER': item.folder,
+          'VỊ TRÍ CỦA FILE GIẤY CHỨNG NHẬN': item.location
+        };
+      });
+
+      var worksheet = XLSX.utils.json_to_sheet(exportRows);
+      var workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'GCN_SinhHoatHe');
+      XLSX.writeFile(workbook, fileName);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      initCertLookup();
+
+      var searchInput = document.getElementById('cert-search-input');
+      var schoolSelect = document.getElementById('cert-school-select');
+      var exportBtn = document.getElementById('btn-export-excel');
+
+      if (searchInput) searchInput.addEventListener('input', applyCertFilter);
+      if (schoolSelect) schoolSelect.addEventListener('change', applyCertFilter);
+      if (exportBtn) exportBtn.addEventListener('click', exportCertExcel);
+    });
   </script>
 
   <script>
