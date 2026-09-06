@@ -2944,10 +2944,12 @@
 
     .cert-table-wrapper {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .cert-table {
       width: 100%;
+      min-width: 720px;
       border-collapse: collapse;
       text-align: left;
       font-size: 0.88rem;
@@ -4587,7 +4589,7 @@
     </div>
   </section>
   <!-- ════════════ SECTION TRA CỨU GIẤY CHỨNG NHẬN ════════════ -->
-  <section id="cert-lookup" class="section reveal">
+  <section id="cert-lookup" class="section">
     <div class="section-inner">
       <div class="section-label">
         <i class="fa-solid fa-award"></i> Tra Cứu Chứng Nhận
@@ -5628,11 +5630,36 @@
 
     async function initCertLookup() {
       var tbody = document.getElementById('cert-table-body');
+
+      // Kiểm tra nếu thư viện XLSX chưa nạp xong (mạng yếu trên di động) -> thử lại sau 500ms
+      if (typeof XLSX === 'undefined') {
+        setTimeout(initCertLookup, 500);
+        return;
+      }
+
       try {
-        var response = await fetch('public/documents/DANH SÁCH THAM CHIẾU.xlsx');
-        if (!response.ok) {
-          throw new Error('HTTP status ' + response.status);
+        var filePaths = [
+          'public/documents/DANH_SACH_THAM_CHIEU.xlsx',
+          'public/documents/DANH%20S%C3%81CH%20THAM%20CHI%E1%BA%BEU.xlsx',
+          encodeURI('public/documents/DANH SÁCH THAM CHIẾU.xlsx'),
+          'public/documents/DANH SÁCH THAM CHIẾU.xlsx'
+        ];
+
+        var response = null;
+        for (var i = 0; i < filePaths.length; i++) {
+          try {
+            var res = await fetch(filePaths[i]);
+            if (res && res.ok) {
+              response = res;
+              break;
+            }
+          } catch (e) { }
         }
+
+        if (!response) {
+          throw new Error('HTTP status - Không thể tải file Excel từ các đường dẫn');
+        }
+
         var arrayBuffer = await response.arrayBuffer();
         var workbook = XLSX.read(arrayBuffer, { type: 'array' });
         var firstSheetName = workbook.SheetNames[0];
